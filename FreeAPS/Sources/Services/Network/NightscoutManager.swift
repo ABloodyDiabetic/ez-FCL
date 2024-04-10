@@ -41,6 +41,9 @@ final class BaseNightscoutManager: NightscoutManager, Injectable {
     @Injected() private var reachabilityManager: ReachabilityManager!
     @Injected() var healthkitManager: HealthKitManager!
 
+    private var glucoseCalibrationSlope: Double = 1
+    private var glucoseCalibrationIntercept: Double = 0
+
     let overrideStorage = OverrideStorage()
 
     private let processQueue = DispatchQueue(label: "BaseNetworkManager.processQueue")
@@ -73,6 +76,18 @@ final class BaseNightscoutManager: NightscoutManager, Injectable {
     init(resolver: Resolver) {
         injectServices(resolver)
         subscribe()
+        loadCalibrationSettings()
+    }
+
+    private func loadCalibrationSettings() {
+        guard let preferences = storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self) else {
+            debug(.nightscout, "Error loading preferences in loadCalibrationSettings")
+            glucoseCalibrationSlope = 1.0 // Default value if preferences are not loaded
+            glucoseCalibrationIntercept = 0.0 // Default value if preferences are not loaded
+            return
+        }
+        glucoseCalibrationSlope = Double(truncating: preferences.glucoseCalibrationSlope as NSNumber)
+        glucoseCalibrationIntercept = Double(truncating: preferences.glucoseCalibrationIntercept as NSNumber)
     }
 
     private func subscribe() {
@@ -132,6 +147,18 @@ final class BaseNightscoutManager: NightscoutManager, Injectable {
                 return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
             })
             .replaceError(with: [])
+            .map { glucoseArray -> [BloodGlucose] in
+                // Apply calibration here
+                glucoseArray.map { bg -> BloodGlucose in
+                    var calibratedBG = bg
+                    calibratedBG
+                        .glucose = Int(
+                            (Double(bg.glucose ?? 0) * self.glucoseCalibrationSlope) + self
+                                .glucoseCalibrationIntercept
+                        )
+                    return calibratedBG
+                }
+            }
             .handleEvents(receiveOutput: { value in
                 guard value.isNotEmpty else { return }
                 self.ping = Date().timeIntervalSince(startDate)
