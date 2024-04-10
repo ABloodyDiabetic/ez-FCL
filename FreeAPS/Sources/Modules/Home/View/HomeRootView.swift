@@ -23,11 +23,11 @@ extension Home {
         }
 
         @State var timeButtons: [Buttons] = [
-            Buttons(label: "2h", number: "2", active: false, hours: 2),
-            Buttons(label: "4h", number: "4", active: false, hours: 4),
             Buttons(label: "6h", number: "6", active: false, hours: 6),
-            Buttons(label: "12h", number: "12", active: false, hours: 12),
-            Buttons(label: "24h", number: "24", active: false, hours: 24)
+            Buttons(label: "7h", number: "7", active: false, hours: 7),
+            Buttons(label: "8h", number: "8", active: false, hours: 8),
+            Buttons(label: "15h", number: "15", active: false, hours: 15),
+            Buttons(label: "30h", number: "30", active: false, hours: 30)
         ]
 
         let buttonFont = Font.custom("TimeButtonFont", size: 14)
