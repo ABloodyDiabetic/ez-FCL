@@ -4,7 +4,7 @@ import Intents
 
 @available(iOS 16.0,*) struct BolusIntent: AppIntent {
     static var title: LocalizedStringResource = "Bolus"
-    static var description = IntentDescription("Allow to send a bolus command to iAPS.")
+    static var description = IntentDescription("Allow to send a bolus command to ezFCL.")
 
     @Parameter(
         title: "Amount",
@@ -63,7 +63,7 @@ import Intents
 @available(iOS 16.0,*) final class BolusIntentRequest: BaseIntentsRequest {
     func bolus(_ bolusAmount: Double) throws -> String {
         guard settingsManager.settings.allowBolusShortcut else {
-            return NSLocalizedString("Bolus Shortcuts are disabled in iAPS settings", comment: "")
+            return NSLocalizedString("Bolus Shortcuts are disabled in ezFCL settings", comment: "")
         }
         guard bolusAmount >= Double(settingsManager.preferences.bolusIncrement) else {
             return NSLocalizedString("too small bolus amount", comment: "")
@@ -82,7 +82,7 @@ import Intents
 
         let resultDisplay: String =
             NSLocalizedString("A bolus command of ", comment: "") + bolus.formatted() + NSLocalizedString(
-                " U of insulin was sent to iAPS. Verify in iAPS app or in Nightscout if the bolus was delivered.",
+                " U of insulin was sent to ezFCL. Verify in ezFCL app or in Nightscout if the bolus was delivered.",
                 comment: ""
             )
 

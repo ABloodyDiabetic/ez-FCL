@@ -458,7 +458,10 @@ extension BaseWatchManager: WCSessionDelegate {
                     targetBottom: 0,
                     duration: 0,
                     enteredBy: TempTarget.manual,
-                    reason: TempTarget.cancel
+                    reason: TempTarget.cancel,
+                    lowCarbProfile: true,
+                    mediumCarbProfile: false,
+                    highCarbProfile: false
                 )
                 tempTargetsStorage.storeTempTargets([entry])
                 replyHandler(["confirmation": true])

@@ -37,8 +37,8 @@ extension NightscoutAPI {
     func checkConnection() -> AnyPublisher<Void, Swift.Error> {
         struct Check: Codable, Equatable {
             var eventType = "Note"
-            var enteredBy = "iAPS"
-            var notes = "iAPS connected"
+            var enteredBy = "ezFCL"
+            var notes = "ezFCL connected"
         }
         let check = Check()
         var request = URLRequest(url: url.appendingPathComponent(Config.treatmentsPath))
@@ -350,7 +350,7 @@ extension NightscoutAPI {
         components.queryItems = [
             URLQueryItem(name: "find[eventType]", value: "Exercise"),
             URLQueryItem(name: "count", value: "\(1)"), // Delete latest
-            URLQueryItem(name: "find[enteredBy]", value: "iAPS") // Don't delete entries created in NS
+            URLQueryItem(name: "find[enteredBy]", value: "ezFCL") // Don't delete entries created in NS
         ]
         var request = URLRequest(url: components.url!)
         request.allowsConstrainedNetworkAccess = false

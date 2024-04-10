@@ -31,19 +31,35 @@ extension Settings {
             Form {
                 Section {
                     Toggle("Closed loop", isOn: $state.closedLoop)
+                    // Toggle("Activate ezFCL", isOn: $state.autoisf)
                 }
                 header: {
                     if let expirationDate = Bundle.main.profileExpiration {
                         Text(
-                            "iAPS v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)" +
+                            "ezFCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)" +
                                 "\nBuild Expires: " + expirationDate
                         ).textCase(nil)
                     } else {
                         Text(
-                            "iAPS v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)"
+                            "ezFCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)"
                         )
                     }
                 }
+
+                Section {
+                    Text("ezFCL").navigationLink(to: .autoISFConf, from: self)
+                    Text("Oref1").navigationLink(to: .preferencesEditor, from: self)
+//                    Text("Dynamic ISF").navigationLink(to: .dynamicISF, from: self)
+//                    Text("Autotune").navigationLink(to: .autotuneConfig, from: self)
+                } header: { Text("Algorithm") }
+
+                Section {
+                    Text("Target Glucose").navigationLink(to: .targetsEditor, from: self)
+                    Text("Pump Settings").navigationLink(to: .pumpSettingsEditor, from: self)
+                    Text("Basal Profile").navigationLink(to: .basalProfileEditor, from: self)
+                    Text("Insulin Sensitivities").navigationLink(to: .isfEditor, from: self)
+                    Text("Carb Ratios").navigationLink(to: .crEditor, from: self)
+                } header: { Text("Configuration") }
 
                 Section {
                     Text("Pump").navigationLink(to: .pumpConfig, from: self)
@@ -52,36 +68,26 @@ extension Settings {
                 } header: { Text("Devices") }
 
                 Section {
-                    Text("Oref1").navigationLink(to: .preferencesEditor, from: self)
-                    Text("autoISF").navigationLink(to: .autoISFConf, from: self)
-//                    Text("Dynamic ISF").navigationLink(to: .dynamicISF, from: self)
-                    Text("Autotune").navigationLink(to: .autotuneConfig, from: self)
-                } header: { Text("Algorithm") }
-
-                Section {
-                    Text("UI/UX Settings").navigationLink(to: .statisticsConfig, from: self)
+//                    Text("Contact Image").navigationLink(to: .contactTrick, from: self)
                     Text("Bolus Calculator").navigationLink(to: .bolusCalculatorConfig, from: self)
+                    Text("Fat And Protein Conversion").navigationLink(to: .fpuConfig, from: self)
+                    Text("Notifications").navigationLink(to: .notificationsConfig, from: self)
+                    Text("UI/UX Settings").navigationLink(to: .statisticsConfig, from: self)
                     Text("Nightscout").navigationLink(to: .nighscoutConfig, from: self)
                     if HKHealthStore.isHealthDataAvailable() {
                         Text("Apple Health").navigationLink(to: .healthkit, from: self)
                     }
-                    Text("Fat And Protein Conversion").navigationLink(to: .fpuConfig, from: self)
-                    Text("Middleware")
-                        .navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
-                    Text("Notifications").navigationLink(to: .notificationsConfig, from: self)
-                    Text("App Icons").navigationLink(to: .iconConfig, from: self)
+                    Text("Preferences").navigationLink(to: .configEditor(file: OpenAPS.Settings.preferences), from: self)
+//                    Text("App Icons").navigationLink(to: .iconConfig, from: self)
                 } header: { Text("Features") }
 
                 Section {
-                    Text("Pump Settings").navigationLink(to: .pumpSettingsEditor, from: self)
-                    Text("Basal Profile").navigationLink(to: .basalProfileEditor, from: self)
-                    Text("Insulin Sensitivities").navigationLink(to: .isfEditor, from: self)
-                    Text("Carb Ratios").navigationLink(to: .crEditor, from: self)
-                    Text("Target Glucose").navigationLink(to: .targetsEditor, from: self)
-                } header: { Text("Configuration") }
+                    Toggle("Enable", isOn: $state.enableMiddleware)
+                    Text("Middleware").navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
+                } header: { Text("Middleware") }
 
                 Section {
-                    Toggle("Debug options", isOn: $state.debugOptions)
+                    Toggle("Advanced options", isOn: $state.debugOptions)
                     if state.debugOptions {
                         Group {
                             HStack {
@@ -108,8 +114,6 @@ extension Settings {
                              } */
                         }
                         Group {
-                            Text("Preferences")
-                                .navigationLink(to: .configEditor(file: OpenAPS.Settings.preferences), from: self)
                             Text("Pump Settings")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Settings.settings), from: self)
                             Text("Autosense")
@@ -160,9 +164,9 @@ extension Settings {
                     }
                 } header: { Text("Developer") }
 
-                Section {
-                    Toggle("Animated Background", isOn: $state.animatedBackground)
-                }
+//                Section {
+//                    Toggle("Animated Background", isOn: $state.animatedBackground)
+//                }
 
                 Section {
                     Text("Share logs")
@@ -185,7 +189,10 @@ extension Settings {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onDisappear(perform: { state.uploadProfileAndSettings(false) })
+            .onDisappear(perform: {
+                state.saveIfChanged()
+                state.uploadProfileAndSettings(false)
+            })
         }
     }
 }

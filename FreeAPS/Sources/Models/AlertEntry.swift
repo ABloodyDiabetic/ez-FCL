@@ -15,7 +15,7 @@ struct AlertEntry: JSON, Codable, Hashable {
     let contentBody: String?
     var errorMessage: String?
 
-    static let manual = "iAPS"
+    static let manual = "ezFCL"
 
     static func == (lhs: AlertEntry, rhs: AlertEntry) -> Bool {
         lhs.issuedDate == rhs.issuedDate

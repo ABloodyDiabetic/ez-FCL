@@ -1,23 +1,35 @@
 import Foundation
 
 struct Preferences: JSON {
+    var carbProfileDuration: Decimal = 210
+    var enableMiddleware: Bool = false
+    var disableMBDuringSleep: Bool = true
+    var basalMultiplier: Decimal = 1
+    var automaticSleepMode: Bool = false
+    var sleepMode: Bool = false
+    var enableMaxIobDeadbands: Bool = true
+    var maxIobTightDeadband: Decimal = 1.25
+    var maxIobLooseDeadband: Decimal = 2.5
+    var tightDeadbandRange: Decimal = 5
+    var looseDeadbandRange: Decimal = 10
+    var calculateIsfFromTddNumeratorDivisor: Decimal = 0.75
     var adjustBasalInverselyToAutosensIsf: Bool = false
-    var useAutosensIsfToCalculateAutoIsfSens: Bool = false
-    var flatGlucoseCheck: Bool = true
+    var useAutosensIsfToCalculateAutoIsfSens: Bool = true
+    var flatGlucoseCheck: Bool = false
     var glucoseCalibrationSlope: Decimal = 1
     var glucoseCalibrationIntercept: Decimal = 0
-    var maxIOB: Decimal = 0
+    var maxIOB: Decimal = 33.33
     var maxDailySafetyMultiplier: Decimal = 3
     var currentBasalSafetyMultiplier: Decimal = 4
     var enableAutosens = true
-    var autosensMax: Decimal = 1.3
-    var autosensMin: Decimal = 0.7
-    var smbDeliveryRatio: Decimal = 0.5
-    var rewindResetsAutosens: Bool = true
+    var autosensMax: Decimal = 5
+    var autosensMin: Decimal = 0.1
+    var smbDeliveryRatio: Decimal = 0.85
+    var rewindResetsAutosens: Bool = false
     var highTemptargetRaisesSensitivity: Bool = false
     var lowTemptargetLowersSensitivity: Bool = false
-    var sensitivityRaisesTarget: Bool = false
-    var resistanceLowersTarget: Bool = false
+    var sensitivityRaisesTarget: Bool = true
+    var resistanceLowersTarget: Bool = true
     var advTargetAdjustments: Bool = false
     var exerciseMode: Bool = false
     var halfBasalExerciseTarget: Decimal = 160
@@ -29,27 +41,27 @@ struct Preferences: JSON {
     var autotuneISFAdjustmentFraction: Decimal = 1.0
     var remainingCarbsFraction: Decimal = 1.0
     var remainingCarbsCap: Decimal = 90
-    var enableUAM: Bool = false
+    var enableUAM: Bool = true
     var a52RiskEnable: Bool = false
     var enableSMBWithCOB: Bool = false
     var enableSMBWithTemptarget: Bool = false
-    var enableSMBAlways: Bool = false
+    var enableSMBAlways: Bool = true
     var enableSMB_high_bg: Bool = false
-    var enableSMB_high_bg_target: Decimal = 110
-    var enableSMBAfterCarbs: Bool = true
+    var enableSMB_high_bg_target: Decimal = 90
+    var enableSMBAfterCarbs: Bool = false
     var allowSMBWithHighTemptarget: Bool = false
-    var maxSMBBasalMinutes: Decimal = 30
-    var maxUAMSMBBasalMinutes: Decimal = 30
+    var maxSMBBasalMinutes: Decimal = 120
+    var maxUAMSMBBasalMinutes: Decimal = 120
     var smbInterval: Decimal = 3
     var bolusIncrement: Decimal = 0.1
-    var curve: InsulinCurve = .rapidActing
-    var useCustomPeakTime: Bool = false
-    var insulinPeakTime: Decimal = 75
+    var curve: InsulinCurve = .ultraRapid
+    var useCustomPeakTime: Bool = true
+    var insulinPeakTime: Decimal = 35
     var carbsReqThreshold: Decimal = 1.0
     var noisyCGMTargetMultiplier: Decimal = 1.3
     var suspendZerosIOB: Bool = false
     var timestamp: Date?
-    var maxDeltaBGthreshold: Decimal = 0.2
+    var maxDeltaBGthreshold: Decimal = 0.3
     // start dynISF config for oref variables
     var adjustmentFactor: Decimal = 0.5
     var sigmoid: Bool = false
@@ -61,29 +73,41 @@ struct Preferences: JSON {
     var threshold_setting: Decimal = 65
     var updateInterval: Decimal = 20
     // start autoISF config
-    var floatingcarbs: Bool = false
-    var autoisf: Bool = false
-    var autoISFmax: Decimal = 1.3
-    var autoISFmin: Decimal = 0.7
-    var smbMaxRangeExtension: Decimal = 1
-    var smbThresholdRatio: Decimal = 0.5
+//    var profiles: DefaultezFCLProfile = .lowCarbezFCLProfile
+    var profileDuration: Decimal = 6
+    var ezFCLAccelerationMultiplier: Decimal = 1
+    var ezFCLDeltaMultiplier: Decimal = 1
+    var ezFCLPlateauMultiplier: Decimal = 1
+    var ezFCLWeight: Decimal = 0.25
+    var lowCarbezFCLProfile: Bool = true
+    var moderateCarbezFCLProfile: Bool = false
+    var highCarbezFCLProfile: Bool = false
+    var lowCarbezFCLProfileMultiplier: Decimal = 0.14
+    var moderateCarbezFCLProfileMultiplier: Decimal = 0.666
+    var highCarbezFCLProfileMultiplier: Decimal = 1
+    var floatingcarbs: Bool = true
+    var autoisf: Bool = true
+    var autoISFmax: Decimal = 8
+    var autoISFmin: Decimal = 0.65
+    var smbMaxRangeExtension: Decimal = 3.5
+    var smbThresholdRatio: Decimal = 0.75
     var smbDeliveryRatioBGrange: Decimal = 0
-    var smbDeliveryRatioMin: Decimal = 0.65
-    var smbDeliveryRatioMax: Decimal = 0.80
-    var enableautoISFwithCOB: Bool = true
-    var autoISFhourlyChange: Decimal = 0
+    var smbDeliveryRatioMin: Decimal = 0.85
+    var smbDeliveryRatioMax: Decimal = 0.85
+    var enableautoISFwithCOB: Bool = false
+    var autoISFhourlyChange: Decimal = 3.61
     var higherISFrangeWeight: Decimal = 0
     var lowerISFrangeWeight: Decimal = 0
     var deltaISFrangeWeight: Decimal = 0
-    var postMealISFalways: Bool = false
-    var postMealISFweight: Decimal = 0
+    var postMealISFalways: Bool = true
+    var postMealISFweight: Decimal = 0.29
     var postMealISFduration: Decimal = 3
     var enableBGacceleration: Bool = true
-    var bgAccelISFweight: Decimal = 0
-    var bgBrakeISFweight: Decimal = 0
+    var bgAccelISFweight: Decimal = 0.875
+    var bgBrakeISFweight: Decimal = 0.569
     var iobThresholdPercent: Decimal = 100
-    var enableSMBEvenOnOddOff: Bool = true
-    var enableSMBEvenOnOddOffalways: Bool = true
+    var enableSMBEvenOnOddOff: Bool = false
+    var enableSMBEvenOnOddOffalways: Bool = false
     var autoISFoffSport: Bool = false
     // start B30 config
     var enableB30: Bool = false
@@ -97,6 +121,18 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case carbProfileDuration
+        case enableMiddleware
+        case disableMBDuringSleep = "disable_mb_during_sleep"
+        case basalMultiplier = "basal_multiplier"
+        case automaticSleepMode = "automatic_sleep_mode"
+        case sleepMode = "sleep_mode"
+        case enableMaxIobDeadbands = "enable_max_iob_deadbands"
+        case maxIobTightDeadband = "max_iob_tight_deadband"
+        case maxIobLooseDeadband = "max_iob_loose_deadband"
+        case tightDeadbandRange = "tight_deadband_range"
+        case looseDeadbandRange = "loose_deadband_range"
+        case calculateIsfFromTddNumeratorDivisor = "calculate_isf_from_tdd_numerator_divisor"
         case adjustBasalInverselyToAutosensIsf = "adjust_basal_inversely_to_autosens_isf"
         case useAutosensIsfToCalculateAutoIsfSens = "use_autosens_isf_to_calculate_auto_isf_sens"
         case flatGlucoseCheck = "flat_glucose_check"
@@ -113,7 +149,7 @@ extension Preferences {
         case highTemptargetRaisesSensitivity = "high_temptarget_raises_sensitivity"
         case lowTemptargetLowersSensitivity = "low_temptarget_lowers_sensitivity"
         case sensitivityRaisesTarget = "sensitivity_raises_target"
-        case resistanceLowersTarget
+        case resistanceLowersTarget = "resistance_lowers_target"
         case advTargetAdjustments = "adv_target_adjustments"
         case exerciseMode = "exercise_mode"
         case halfBasalExerciseTarget = "half_basal_exercise_target"
@@ -157,6 +193,18 @@ extension Preferences {
         case threshold_setting
         case updateInterval
         // start autoISF config for oref variables
+//        case profiles
+        case profileDuration = "profile_duration"
+        case ezFCLAccelerationMultiplier = "ez_fcl_acceleration_multiplier"
+        case ezFCLDeltaMultiplier = "ez_fcl_delta_multiplier"
+        case ezFCLPlateauMultiplier = "ez_fcl_plateau_multiplier"
+        case ezFCLWeight = "ez_fcl_weight"
+        case lowCarbezFCLProfile = "low_carb_ez_fcl_profile"
+        case moderateCarbezFCLProfile = "moderate_carb_ez_fcl_profile"
+        case highCarbezFCLProfile = "high_carb_ez_fcl_profile"
+        case lowCarbezFCLProfileMultiplier = "low_carb_ez_fcl_profile_multiplier"
+        case moderateCarbezFCLProfileMultiplier = "moderate_carb_ez_fcl_profile_multiplier"
+        case highCarbezFCLProfileMultiplier = "high_carb_ez_fcl_profile_multiplier"
         case autoisf = "use_autoisf"
         case autoISFhourlyChange = "dura_ISF_weight"
         case autoISFmax = "autoISF_max"
@@ -194,7 +242,15 @@ extension Preferences {
 enum InsulinCurve: String, JSON, Identifiable, CaseIterable {
     case rapidActing = "rapid-acting"
     case ultraRapid = "ultra-rapid"
-    case bilinear
+    //	    case bilinear
 
     var id: InsulinCurve { self }
 }
+
+// enum DefaultezFCLProfile: String, JSON, Identifiable, CaseIterable {
+//    case lowCarbezFCLProfile = "low-carb-ez-fcl-profile"
+//    case moderateCarbezFCLProfile = "moderate-carb-ez-fcl-profile"
+//    case highCarbezFCLProfile = "high-carb-ez-fcl-profile"
+
+//    var id: DefaultezFCLProfile { self }
+// }

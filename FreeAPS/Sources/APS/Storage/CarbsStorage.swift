@@ -63,7 +63,7 @@ final class BaseCarbsStorage: CarbsStorage, Injectable {
                 // Round to 1 fraction digit
                 equivalent = Decimal(round(Double(equivalent * 10)) / 10)
                 // Round up to 1 or done to 0 as oref0 only accepts carbs >= 1
-                equivalent = equivalent > IAPSconfig.minimumCarbEquivalent ? max(equivalent, 1) : 0
+                equivalent = equivalent > ezFCLconfig.minimumCarbEquivalent ? max(equivalent, 1) : 0
                 // Number of equivalents
                 var numberOfEquivalents = equivalent > 0 ? carbEquivalents / equivalent : 0
                 // Only use delay in first loop

@@ -57,7 +57,7 @@
 "The time on your pump is different from the current time. You can review the pump time and and sync to current time in settings." = "De pomptijd verschilt van de huidige tijd. Je kunt de pomptijd bekijken en synchroniseren met de huidige tijd in instellingen.";
 
 /* Alert notification body for suspendEnded pod alert user notification */
-"Suspension time is up. Open the app and resume." = "Opschortingstijd is voorbij. Open iAPS en hervat.";
+"Suspension time is up. Open the app and resume." = "Opschortingstijd is voorbij. Open ezFCL en hervat.";
 
 /* Action button default text for PodAlerts */
 "Ok" = "OK";
@@ -369,7 +369,7 @@
 "Suspend Delivery" = "Onderbreek toediening";
 
 /* Message for suspend duration selection action sheet */
-"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "De insulinetoediening wordt gestopt totdat je de toediening handmatig hervat. Wanneer wil je dat iAPS je eraan herinnert om de toediening te hervatten?";
+"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "De insulinetoediening wordt gestopt totdat je de toediening handmatig hervat. Wanneer wil je dat ezFCL je eraan herinnert om de toediening te hervatten?";
 
 /* Button text for 30 minute suspend duration */
 "30 minutes" = "30 minuten";
@@ -565,7 +565,7 @@
 "Omnipod Reminders" = "Omnipod herinneringen";
 
 /* Footer text for omnipod reminders section */
-"The app configures a reminder on the pod to notify you in advance of Pod expiration. Set the number of hours advance notice you would like to configure when pairing a new Pod." = "iAPS configureert melding op de Pod om je op de hoogte te stellen wanneer de Pod verloopt. Stel het aantal uren vooraf in dat je standaard wilt instellen als je een nieuwe Pod koppelt.";
+"The app configures a reminder on the pod to notify you in advance of Pod expiration. Set the number of hours advance notice you would like to configure when pairing a new Pod." = "ezFCL configureert melding op de Pod om je op de hoogte te stellen wanneer de Pod verloopt. Stel het aantal uren vooraf in dat je standaard wilt instellen als je een nieuwe Pod koppelt.";
 
 /* Footer text for scheduled reminder area */
 "This is a reminder that you scheduled when you paired your current Pod." = "Dit is een herinnering die je hebt gepland toen je je huidige Pod koppelde.";
@@ -574,7 +574,7 @@
 "Scheduled Reminder" = "Geplande herinnering";
 
 /* Footer text for low reservoir value row */
-"The App notifies you when the amount of insulin in the Pod reaches this level." = "iAPS geeft een melding als de hoeveelheid insuline in de Pod dit niveau bereikt.";
+"The App notifies you when the amount of insulin in the Pod reaches this level." = "ezFCL geeft een melding als de hoeveelheid insuline in de Pod dit niveau bereikt.";
 
 /* Description text for critical alerts */
 "Critical Alerts" = "Kritieke waarschuwingen";
@@ -611,10 +611,10 @@
 "No confidence reminders are used." = "Er worden geen bevestigingsmeldingen gebruikt.";
 
 /* Description for BeepPreference.manualCommands */
-"Confidence reminders will sound for commands you initiate, like bolus, cancel bolus, suspend, resume, save notification reminders, etc. When the app automatically adjusts delivery, no confidence reminders are used." = "Bevestigingsmeldingen zullen klinken voor opdrachten die je zelf geeft zoals bolus, annulering, geschorst, hervatten, opslaan van meldingen etc. Als iAPS de toediening automatisch wijzigt dan worden geen bevestigingsmeldingen gegeven.";
+"Confidence reminders will sound for commands you initiate, like bolus, cancel bolus, suspend, resume, save notification reminders, etc. When the app automatically adjusts delivery, no confidence reminders are used." = "Bevestigingsmeldingen zullen klinken voor opdrachten die je zelf geeft zoals bolus, annulering, geschorst, hervatten, opslaan van meldingen etc. Als ezFCL de toediening automatisch wijzigt dan worden geen bevestigingsmeldingen gegeven.";
 
 /* Description for BeepPreference.extended */
-"Confidence reminders will sound when the app automatically adjusts delivery as well as for commands you initiate." = "Bevestigingsmeldingen zullen klinken als iAPS de levering automatisch aanpast en bij opdrachten die je zelf geeft.";
+"Confidence reminders will sound when the app automatically adjusts delivery as well as for commands you initiate." = "Bevestigingsmeldingen zullen klinken als ezFCL de levering automatisch aanpast en bij opdrachten die je zelf geeft.";
 
 /* Label text for temporary basal rate summary */
 "Rate" = "Waarde";
@@ -626,7 +626,7 @@
 "%1$@ for %2$@" = "%1$@ voor %2$@";
 
 /* Description text on manual temp basal action sheet */
-"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "iAPS zal niet automatisch jouw insulinetoediening aanpassen tot de tijdelijke basaalstand is beëindigd of is geannuleerd.";
+"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "ezFCL zal niet automatisch jouw insulinetoediening aanpassen tot de tijdelijke basaalstand is beëindigd of is geannuleerd.";
 /* Button text for setting manual temporary basal rate*/
 "Set Temporary Basal" = "Tijdelijke basaal instellen";
 
@@ -706,7 +706,7 @@
 "Skip Omnipod Onboarding?" = "Omnipod onboarding overslaan?";
 
 /* Description text on ExpirationReminderSetupView */
-"The App notifies you in advance of Pod expiration.\n\nScroll to set the number of hours advance notice you would like to have." = "iAPS geeft een melding voordat de Pod vervalt.\n\nScroll om in te stellen hoeveel uren, voordat de Pod verloopt, je een kennisgeving wilt hebben.";
+"The App notifies you in advance of Pod expiration.\n\nScroll to set the number of hours advance notice you would like to have." = "ezFCL geeft een melding voordat de Pod vervalt.\n\nScroll om in te stellen hoeveel uren, voordat de Pod verloopt, je een kennisgeving wilt hebben.";
 
 /* Text of continue button on ExpirationReminderSetupView" */
 "Next" = "Volgende";
@@ -715,7 +715,7 @@
 "Expiration Reminder" = "Let op je Pod vervalt";
 
 /* Description text on LowReservoirReminderSetupView */
-"The App notifies you when the amount of insulin in the Pod reaches this level (50-10 U).\n\nScroll to set the number of units at which you would like to be reminded." = "iAPS geeft een melding als de hoeveelheid insuline in de Pod dit niveau bereikt (50-10 E).\n\nScroll om in te stellen bij welk aantal eenheden je wilt worden herinnerd.";
+"The App notifies you when the amount of insulin in the Pod reaches this level (50-10 U).\n\nScroll to set the number of units at which you would like to be reminded." = "ezFCL geeft een melding als de hoeveelheid insuline in de Pod dit niveau bereikt (50-10 E).\n\nScroll om in te stellen bij welk aantal eenheden je wilt worden herinnerd.";
 
 /* Label text for low reservoir value row */
 "Low Reservoir" = "Laag reservoir niveau";

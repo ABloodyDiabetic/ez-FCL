@@ -8,7 +8,7 @@ struct NigtscoutExercise: JSON, Hashable, Equatable {
     var notes: String?
     // var mills: Int
 
-    static let local = "iAPS"
+    static let local = "ezFCL"
 
     static let empty = NigtscoutExercise(from: "{}")!
 

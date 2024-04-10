@@ -54,7 +54,7 @@
 "Last Reading" = "Posledná hodnota";
 
 /* Descriptive text on G7StartupView */
-"iAPS can read G7 CGM data, but you must still use the Dexcom G7 App for pairing, calibration, and other sensor management." = "iAPS dokáže čítať dáta z G7 CGM, ale stále musíte používať aplikáciu Dexcom G7 na párovanie, kalibráciu a ďalšiu správu senzora.";
+"ezFCL can read G7 CGM data, but you must still use the Dexcom G7 App for pairing, calibration, and other sensor management." = "ezFCL dokáže čítať dáta z G7 CGM, ale stále musíte používať aplikáciu Dexcom G7 na párovanie, kalibráciu a ďalšiu správu senzora.";
 
 /* String displayed instead of a glucose value below the CGM range */
 "LOW" = "NÍZKE";

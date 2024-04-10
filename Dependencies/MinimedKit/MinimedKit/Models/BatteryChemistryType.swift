@@ -16,6 +16,8 @@ public enum BatteryChemistryType: Int, CustomStringConvertible, Identifiable, Ca
     
     case alkaline = 0
     case lithium
+    case rechargeableLithium
+    case duracellRechargeable
 
     public var description: String {
         switch self {
@@ -23,6 +25,10 @@ public enum BatteryChemistryType: Int, CustomStringConvertible, Identifiable, Ca
             return LocalizedString("Alkaline", comment: "Describing the battery chemistry as Alkaline")
         case .lithium:
             return LocalizedString("Lithium", comment: "Describing the battery chemistry as Lithium")
+        case .rechargeableLithium:
+            return LocalizedString("Rechargeable Lithium", comment: "Describing the battery chemistry as Rechargeable Lithium")
+        case .duracellRechargeable:
+            return LocalizedString("Duracell NiMH 1.2V/850mAH", comment: "Describing the battery chemistry as Duracell Rechargeable")
         }
     }
 
@@ -32,6 +38,10 @@ public enum BatteryChemistryType: Int, CustomStringConvertible, Identifiable, Ca
             return 1.47
         case .lithium:
             return 1.58
+        case .rechargeableLithium:
+            return 1.49
+        case .duracellRechargeable:
+            return 1.39
         }
     }
 
@@ -41,6 +51,10 @@ public enum BatteryChemistryType: Int, CustomStringConvertible, Identifiable, Ca
             return 1.18
         case .lithium:
             return 1.32
+        case .rechargeableLithium:
+            return 1.32
+        case .duracellRechargeable:
+            return 1.18
         }
     }
 

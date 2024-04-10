@@ -69,7 +69,7 @@ final class BaseUserNotificationsManager: NSObject, UserNotificationsManager, In
     private func subscribeOnLoop() {
         apsManager.lastLoopDateSubject
             .sink { [weak self] date in
-                self?.scheduleMissingLoopNotifiactions(date: date)
+                self?.scheduleMissingLoopNotifications(date: date)
             }
             .store(in: &lifetime)
     }
@@ -124,7 +124,7 @@ final class BaseUserNotificationsManager: NSObject, UserNotificationsManager, In
         }
     }
 
-    private func scheduleMissingLoopNotifiactions(date _: Date) {
+    private func scheduleMissingLoopNotifications(date _: Date) {
         ensureCanSendNotification {
             let title = NSLocalizedString("iAPS not active", comment: "iAPS not active")
             let body = NSLocalizedString("Last loop was more than %d min ago", comment: "Last loop was more than %d min ago")
@@ -358,7 +358,7 @@ final class BaseUserNotificationsManager: NSObject, UserNotificationsManager, In
     static let soundID: UInt32 = 1336
     private static var stopPlaying = false
 
-    private func playSound(times: Int = 1) {
+    private func playSound(times: Int = 80) {
         guard times > 0, !Self.stopPlaying else {
             return
         }
@@ -398,6 +398,12 @@ extension BaseUserNotificationsManager: GlucoseObserver {
     func glucoseDidUpdate(_: [BloodGlucose]) {
         sendGlucoseNotification()
     }
+}
+
+func stopAllNotifications() {
+    let center = UNUserNotificationCenter.current()
+    center.removeAllDeliveredNotifications() // Removes all displayed notifications
+    center.removeAllPendingNotificationRequests() // Cancels all scheduled notifications
 }
 
 extension BaseUserNotificationsManager: pumpNotificationObserver {
@@ -460,6 +466,7 @@ extension BaseUserNotificationsManager: UNUserNotificationCenterDelegate {
         switch action {
         case .snooze:
             router.mainModalScreen.send(.snooze)
+            stopAllNotifications() // Stop all notifications when snoozed
         }
     }
 }

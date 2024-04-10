@@ -1,6 +1,6 @@
 /*
   Localizable.strings
-  iAPS
+  ezFCL
 */
 /* -------------------------------- */
 /* Bolus screen when adding insulin */
@@ -393,10 +393,10 @@ Enact a temp Basal or a temp target */
 "Remote control" = "Afstandsbediening";
 
 /* Allow remote control from NS */
-"Allow Remote control of iAPS" = "Toestaan dat iAPS op afstand beheerd wordt";
+"Allow Remote control of ezFCL" = "Toestaan dat ezFCL op afstand beheerd wordt";
 
 /* Imported Profiles Alert */
-"\nNow please verify all of your new settings thoroughly:\n\n* Basal Settings\n * Carb Ratios\n * Glucose Targets\n * Insulin Sensitivities\n * DIA\n\n in iAPS Settings > Configuration.\n\nBad or invalid profile settings could have disatrous effects." = "\nCheck nu al je nieuwe instellingen:\n\n* Basaal instellingen\n * Koolhydraat ratio's\n * Doel glucose waarde\n * Insuline sensitiviteit\n * DIA\n\n in iAPS instellingen > Configuratie.\n\nSlechte of ongeldige profielinstellingen kunnen  desastreuze effecten hebben!";
+"\nNow please verify all of your new settings thoroughly:\n\n* Basal Settings\n * Carb Ratios\n * Glucose Targets\n * Insulin Sensitivities\n * DIA\n\n in ezFCL Settings > Configuration.\n\nBad or invalid profile settings could have disatrous effects." = "\nCheck nu al je nieuwe instellingen:\n\n* Basaal instellingen\n * Koolhydraat ratio's\n * Doel glucose waarde\n * Insuline sensitiviteit\n * DIA\n\n in ezFCL instellingen > Configuratie.\n\nSlechte of ongeldige profielinstellingen kunnen  desastreuze effecten hebben!";
 
 /* Profile Import Alert */
 "This will replace some or all of your current pump settings. Are you sure you want to import profile settings from Nightscout?" = "Dit zal enkele of al je huidige pomp instellingen vervangen. Weet je zeker dat je de profielinstellingen uit Nightscout wilt importeren?";
@@ -558,7 +558,7 @@ Enact a temp Basal or a temp target */
 "ISF" = "ISF";
 
 /* */
-"The app Garmin Connect must be installed to use for iAPS.\n Go to App Store to download it" = "De app Garmin Connect moet geïnstalleerd zijn om iAPS te kunnen gebruiken. \nGa naar de App Store om deze te downloaden.";
+"The app Garmin Connect must be installed to use for ezFCL.\n Go to App Store to download it" = "De app Garmin Connect moet geïnstalleerd zijn om ezFCL te kunnen gebruiken. \nGa naar de App Store om deze te downloaden.";
 
 /* */
 "Garmin is not available" = "Garmin is niet beschikbaar";
@@ -741,7 +741,7 @@ Enact a temp Basal or a temp target */
 "Phone NFC required!" = "iPhone NFC vereist!";
 
 /* */
-"Your phone or app is not enabled for NFC communications, which is needed to pair to libre2 sensors" = "Je iPhone of iAPS is niet ingeschakeld voor NFC communicatie, wat nodig is om te koppelen met Libre2 sensoren";
+"Your phone or app is not enabled for NFC communications, which is needed to pair to libre2 sensors" = "Je iPhone of ezFCL is niet ingeschakeld voor NFC communicatie, wat nodig is om te koppelen met Libre2 sensoren";
 
 /* Bluetooth Power Off */
 "Bluetooth Power Off" = "Bluetooth uitschakelen";
@@ -990,13 +990,13 @@ Enact a temp Basal or a temp target */
 "A bolus command of " = "Een bolus commando van ";
 
 /* Bolus shortcut */
-" U of insulin was sent to iAPS. Verify in iAPS app or in Nightscout if the bolus was delivered." = " E van insuline is verzonden naar iAPS. Verifieer in de iAPS app of in Nightscout zodra de bolus is afgeleverd.";
+" U of insulin was sent to ezFCL. Verify in ezFCL app or in Nightscout if the bolus was delivered." = " E van insuline is verzonden naar ezFCL. Verifieer in de ezFCL app of in Nightscout zodra de bolus is afgeleverd.";
 
 /* Bolus shortcut. Error */
 "too small bolus amount" = "te kleine bolus hoeveelheid";
 
 /* Bolus shortcut. Error */
-"Bolus Shortcuts are disabled in iAPS settings" = "Bolus snelkoppelingen zijn uitgeschakeld in de iAPS instellingen";
+"Bolus Shortcuts are disabled in ezFCL settings" = "Bolus snelkoppelingen zijn uitgeschakeld in de ezFCL instellingen";
 
 /* Bolus shortcut */
 "Bolus Amount in U" = "Bolus hoeveelheid in E";
@@ -1005,7 +1005,7 @@ Enact a temp Basal or a temp target */
 "Allow iOS Bolus Shortcuts" = "iOS bolus snelkoppelingen toestaan";
 
 /* Bolus shortcut. Pop-up */
-"If you enable this setting you will be able to use iOS shortcuts and its automations to trigger a bolus in iAPS.\n\nObserve that the iOS shortuts also works with Siri!\n\nIf you need to use Bolus Shorcuts, please make sure to turn off the listen for 'Hey Siri' setting in iPhone Siri settings, to avoid any inadvertant activaton of a bolus with Siri.\nIf you don't disable 'Hey Siri' the iAPS bolus shortcut can be triggered with the utterance 'Hey Siri, iAPS Bolus'.\n\nWhen triggered with Siri you will be asked for an amount and a confirmation before the bolus command can be sent to iAPS." = "Als je deze instelling aanzet kun je iOS sneltoetsen en de bijbehorende automatiseringen gebruiken om een bolus te activeren in iAPS.\n\nLet op: iOS sneltoetsen werken ook met Siri!\n\nAls je bolus snelkoppelingen wilt gebruiken, zorg er dan voor dat je 'Hey Siri' uitzet in de iPhone Siri instellingen, om te voorkomen dat je per ongeluk een bolus activeert met Siri.\n\nAls je 'Hey Siri' niet uitschakelt, kan de iAPS bolussnelkoppeling worden geactiveerd met de uitspraak 'Hey Siri, iAPS Bolus'. Als je de bolus snelkoppeling met Siri activeert, word je gevraagd om een hoeveelheid en een bevestiging voordat het bolus commando naar iAPS kan worden gestuurd.";
+"If you enable this setting you will be able to use iOS shortcuts and its automations to trigger a bolus in ezFCL.\n\nObserve that the iOS shortuts also works with Siri!\n\nIf you need to use Bolus Shorcuts, please make sure to turn off the listen for 'Hey Siri' setting in iPhone Siri settings, to avoid any inadvertant activaton of a bolus with Siri.\nIf you don't disable 'Hey Siri' the ezFCL bolus shortcut can be triggered with the utterance 'Hey Siri, ezFCL Bolus'.\n\nWhen triggered with Siri you will be asked for an amount and a confirmation before the bolus command can be sent to ezFCL." = "Als je deze instelling aanzet kun je iOS sneltoetsen en de bijbehorende automatiseringen gebruiken om een bolus te activeren in ezFCL.\n\nLet op: iOS sneltoetsen werken ook met Siri!\n\nAls je bolus snelkoppelingen wilt gebruiken, zorg er dan voor dat je 'Hey Siri' uitzet in de iPhone Siri instellingen, om te voorkomen dat je per ongeluk een bolus activeert met Siri.\n\nAls je 'Hey Siri' niet uitschakelt, kan de ezFCL bolussnelkoppeling worden geactiveerd met de uitspraak 'Hey Siri, ezFCL Bolus'. Als je de bolus snelkoppeling met Siri activeert, word je gevraagd om een hoeveelheid en een bevestiging voordat het bolus commando naar ezFCL kan worden gestuurd.";
 
 /* Bolus shortcut. Setting */
 "Max allowed bolus amount using shortcuts " = "Max toegestane bolus hoeveelheid met snelkoppelingen ";
@@ -1146,7 +1146,7 @@ Enact a temp Basal or a temp target */
 "To prevent LOW required %d g of carbs" = "Om LAAG te voorkomen zijn %d g koolhydraten nodig";
 
 /* */
-"iAPS not active" = "iAPS is niet actief!";
+"ezFCL not active" = "ezFCL is niet actief!";
 
 /* */
 "Last loop was more than %d min ago" = "Laatste loop was meer dan %d min geleden";
@@ -1210,7 +1210,7 @@ Enact a temp Basal or a temp target */
 "Glucose Simulator" = "Glucose simulator";
 
 /* Restored state message */
-"Bluetooth State restored (APS restarted?). Found %d peripherals, and connected to %@ with identifier %@" = "Herstelde Bluetooth-status (iAPS opnieuw opgestart?). %d randapparatuur gevonden en verbonden met %@ met de identificatie %@";
+"Bluetooth State restored (APS restarted?). Found %d peripherals, and connected to %@ with identifier %@" = "Herstelde Bluetooth-status (ezFCL opnieuw opgestart?). %d randapparatuur gevonden en verbonden met %@ met de identificatie %@";
 
 /* Shared app group xDrip4iOS */
 "Using shared app group with external CGM app xDrip4iOS" = "Gedeelde app-groep wordt gebruikt met externe CGM app xDrip4iOS";
@@ -1312,7 +1312,7 @@ Enact a temp Basal or a temp target */
 "For write data to Apple Health you must give permissions in Settings > Health > Data Access" = "Als je gegevens wilt opslaan met Apple Gezondheid, moet je de juiste machtigingen verlenen in Instellingen > Gezondheid > Gegevenstoegang en apparaten";
 
 /* */
-"This allows iAPS to read from and write to Apple Heath. You must also give permissions in Settings > Health > Data Access. If you enter a glucose value into Apple Health, open iAPS to confirm it shows up." = "Hiermee kan iAPS lezen van en schrijven naar Apple Heath. Je moet ook machtigingen geven in Instellingen > Gezondheid > Gegevenstoegang. Als je een glucosewaarde invoert in Apple Health, open je iAPS om te bevestigen dat deze wordt weergegeven.";
+"This allows ezFCL to read from and write to Apple Heath. You must also give permissions in Settings > Health > Data Access. If you enter a glucose value into Apple Health, open ezFCL to confirm it shows up." = "Hiermee kan ezFCL lezen van en schrijven naar Apple Heath. Je moet ook machtigingen geven in Instellingen > Gezondheid > Gegevenstoegang. Als je een glucosewaarde invoert in Apple Health, open je ezFCL om te bevestigen dat deze wordt weergegeven.";
 
 /* New ALerts ------------------------- */
 /* Info title */
@@ -1485,7 +1485,7 @@ Enact a temp Basal or a temp target */
 "App Icons" = "App iconen";
 
 /* */
-"iAPS Icon" = "iAPS icoon";
+"ezFCL Icon" = "ezFCL icoon";
 
 /* Service Section */
 "Statistics and Home View" = "Statistieken en Home View";
@@ -1650,10 +1650,10 @@ Enact a temp Basal or a temp target */
 "No confidence reminders are used." = "Er worden geen meldingen met piepjes gebruikt.";
 
 /* Description for BeepPreference.manualCommands */
-"Confidence reminders will sound for commands you initiate, like bolus, cancel bolus, suspend, resume, save notification reminders, etc. When the app automatically adjusts delivery, no confidence reminders are used." = "Piepjes uit de Pod zullen klinken voor commando's die je hebt geïnitieerd, zoals bolus, annulering, geschorst, hervatten, opslaan van meldingen etc. Als iAPS automatisch de levering wijzigt, worden er geen piepjes gebruikt.";
+"Confidence reminders will sound for commands you initiate, like bolus, cancel bolus, suspend, resume, save notification reminders, etc. When the app automatically adjusts delivery, no confidence reminders are used." = "Piepjes uit de Pod zullen klinken voor commando's die je hebt geïnitieerd, zoals bolus, annulering, geschorst, hervatten, opslaan van meldingen etc. Als ezFCL automatisch de levering wijzigt, worden er geen piepjes gebruikt.";
 
 /* Description for BeepPreference.extended */
-"Confidence reminders will sound when the app automatically adjusts delivery as well as for commands you initiate." = "Piepjes zullen klinken als iAPS de levering automatisch aanpast evenals voor commando's die je initieert.";
+"Confidence reminders will sound when the app automatically adjusts delivery as well as for commands you initiate." = "Piepjes zullen klinken als ezFCL de levering automatisch aanpast evenals voor commando's die je initieert.";
 
 /* Label text for expiration reminder default row */
 "Expiration Reminder Default" = "Herinnering vervaldatum ingeschakeld";
@@ -1685,7 +1685,7 @@ Enact a temp Basal or a temp target */
 "%1$@ for %2$@" = "%1$@ voor %2$@";
 
 /* Description text on manual temp basal action sheet */
-"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "iAPS zal niet automatisch veranderingen aanbrengen in de hoeveelheid insuline die je krijgt, totdat de tijdelijke basaalstand is gestopt of geannuleerd.";
+"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "ezFCL zal niet automatisch veranderingen aanbrengen in de hoeveelheid insuline die je krijgt, totdat de tijdelijke basaalstand is gestopt of geannuleerd.";
 /* Button text for setting manual temporary basal rate*/
 "Set Temporary Basal" = "Tijdelijke basaal instellen";
 
@@ -1923,7 +1923,7 @@ Enact a temp Basal or a temp target */
 /* -----------------------------------------------------------------------------------------------------------
 
   Infotexts from openaps.docs and androidaps.docs
-  iAPS
+  ezFCL
 */
 /* Headline Rewind Resets Autosens */
 
@@ -1978,19 +1978,19 @@ Enact a temp Basal or a temp target */
 "Skip Neutral Temps" = "Sla neutrale temps over";
 
 /* "Skip Neutral Temps" */
-"Defaults to false, so that iAPS will set temps whenever it can, so it will be easier to see if the system is working, even when you are offline. This means iAPS will set a “neutral” temp (same as your default basal) if no adjustments are needed. This is an old setting for OpenAPS to have the options to minimise sounds and notifications from the 'rig', that may wake you up during the night." = "Standaard ingesteld op uit, zodat iAPS tijdelijke basaal waardes zal instellen wanneer dat maar kan. Het zal dus makkelijker zijn om te zien of het systeem werkt, zelfs als je offline bent. Dit betekent dat OpenAPS een \"neutraal\" basaal (hetzelfde als jouw standaard basaal) zal instellen als er geen aanpassingen nodig zijn. Dit is een oude instelling van OpenAPS om de optie te hebben om geluiden en meldingen te beperken waarvan je 's nachts misschien wakker kan worden. ";
+"Defaults to false, so that ezFCL will set temps whenever it can, so it will be easier to see if the system is working, even when you are offline. This means ezFCL will set a “neutral” temp (same as your default basal) if no adjustments are needed. This is an old setting for OpenAPS to have the options to minimise sounds and notifications from the 'rig', that may wake you up during the night." = "Standaard ingesteld op uit, zodat ezFCL tijdelijke basaal waardes zal instellen wanneer dat maar kan. Het zal dus makkelijker zijn om te zien of het systeem werkt, zelfs als je offline bent. Dit betekent dat OpenAPS een \"neutraal\" basaal (hetzelfde als jouw standaard basaal) zal instellen als er geen aanpassingen nodig zijn. Dit is een oude instelling van OpenAPS om de optie te hebben om geluiden en meldingen te beperken waarvan je 's nachts misschien wakker kan worden. ";
 
 /* Headline "Unsuspend If No Temp” */
 "Unsuspend If No Temp" = "Schorsing opheffen als geen tijdelijk doel is ingesteld";
 
 /* "Unsuspend If No Temp” */
-"Many people occasionally forget to resume / unsuspend their pump after reconnecting it. If you’re one of them, and you are willing to reliably set a zero temp basal whenever suspending and disconnecting your pump, this feature has your back. If enabled, it will automatically resume / unsuspend the pump if you forget to do so before your zero temp expires. As long as the zero temp is still running, it will leave the pump suspended." = "Veel mensen vergeten af en toe hun pomp te hervatten nadat ze opnieuw zijn aangesloten. Herken je jezelf hierin en ben je bereid voordat je je afkoppelt een tijdelijk basaal van 0 in te stellen kan deze instelling helpen. Indien ingeschakeld zal de pomp automatisch hervatten, als je dit zelf vergeet te doen voordat het tijdelijk 0 basaal verloopt. Zolang het tijdelijk 0 basaal nog actief is, laat iAPS de pomp opgeschort.";
+"Many people occasionally forget to resume / unsuspend their pump after reconnecting it. If you’re one of them, and you are willing to reliably set a zero temp basal whenever suspending and disconnecting your pump, this feature has your back. If enabled, it will automatically resume / unsuspend the pump if you forget to do so before your zero temp expires. As long as the zero temp is still running, it will leave the pump suspended." = "Veel mensen vergeten af en toe hun pomp te hervatten nadat ze opnieuw zijn aangesloten. Herken je jezelf hierin en ben je bereid voordat je je afkoppelt een tijdelijk basaal van 0 in te stellen kan deze instelling helpen. Indien ingeschakeld zal de pomp automatisch hervatten, als je dit zelf vergeet te doen voordat het tijdelijk 0 basaal verloopt. Zolang het tijdelijk 0 basaal nog actief is, laat ezFCL de pomp opgeschort.";
 
 /* Headline "Enable UAM" */
 "Enable UAM" = "UAM inschakelen";
 
 /* "Enable UAM" */
-"With this option enabled, the SMB algorithm can recognize unannounced meals. This is helpful, if you forget to tell iAPS about your carbs or estimate your carbs wrong and the amount of entered carbs is wrong or if a meal with lots of fat and protein has a longer duration than expected. Without any carb entry, UAM can recognize fast glucose increasments caused by carbs, adrenaline, etc, and tries to adjust it with SMBs. This also works the opposite way: if there is a fast glucose decreasement, it can stop SMBs earlier." = "Als deze functie is ingeschakeld, kan het SMB-algoritme onverwachte maaltijden herkennen. Dit is handig als je vergeet om koolhydraten in te voeren, je de koolhydraten verkeerd inschat, de hoeveelheid ingevoerde koolhydraten onjuist is, of als een maaltijd met veel vet en eiwit langer duurt dan verwacht. Zonder koolhydraten in te voeren, kan deze functie snel stijgende bloedsuikersignalen veroorzaakt door koolhydraten, adrenaline, enzovoort herkennen en proberen te corrigeren met SMB's. Het werkt ook andersom: als er een snelle daling van de bloedsuiker is, kan het eerder stoppen met SMB's.";
+"With this option enabled, the SMB algorithm can recognize unannounced meals. This is helpful, if you forget to tell ezFCL about your carbs or estimate your carbs wrong and the amount of entered carbs is wrong or if a meal with lots of fat and protein has a longer duration than expected. Without any carb entry, UAM can recognize fast glucose increasments caused by carbs, adrenaline, etc, and tries to adjust it with SMBs. This also works the opposite way: if there is a fast glucose decreasement, it can stop SMBs earlier." = "Als deze functie is ingeschakeld, kan het SMB-algoritme onverwachte maaltijden herkennen. Dit is handig als je vergeet om koolhydraten in te voeren, je de koolhydraten verkeerd inschat, de hoeveelheid ingevoerde koolhydraten onjuist is, of als een maaltijd met veel vet en eiwit langer duurt dan verwacht. Zonder koolhydraten in te voeren, kan deze functie snel stijgende bloedsuikersignalen veroorzaakt door koolhydraten, adrenaline, enzovoort herkennen en proberen te corrigeren met SMB's. Het werkt ook andersom: als er een snelle daling van de bloedsuiker is, kan het eerder stoppen met SMB's.";
 
 /* Headline "Enable SMB With COB" */
 "Enable SMB With COB" = "Activeer SMB met COB";
@@ -2041,7 +2041,7 @@ Enact a temp Basal or a temp target */
 "Max IOB" = "Max IOB";
 
 /* "Max IOB" */
-"Max IOB is the maximum amount of insulin on board from all sources – both basal (or SMB correction) and bolus insulin – that your loop is allowed to accumulate to treat higher-than-target BG. Unlike the other two OpenAPS safety settings (max_daily_safety_multiplier and current_basal_safety_multiplier), max_iob is set as a fixed number of units of insulin. As of now manual boluses are NOT limited by this setting. \n\n To test your basal rates during nighttime, you can modify the Max IOB setting to zero while in Closed Loop. This will enable low glucose suspend mode while testing your basal rates settings\n\n(Tip from https://www.loopandlearn.org/freeaps-x/#open-loop)." = "De Max IOB is de maximale hoeveelheid insuline aan boord van alle bronnen - zowel basaal (of SMB correcties) en bolus insuline die door iAPS gegeven mag worden om alles hoger dan de streefwaarde te behandelen. Anders dan de andere twee veiligheid instelingen (max_daily_safety_multiplier and current_basal_safety_multiplier) wordt bij deze instelling een vaste aantal eenheden insuline opgegeven. Voorlopig worden handmatige bolussen NIET beperkt door deze instelling. \n\n Om je basaal waarden te testen gedurende de nacht kun je deze instelling op 0 zetten tijdens een actieve Loop. Dit zorgt er voor dat stop voor laag geactiveerd worden wanneer je je instelling aan het testen bent. \n\n(Tip van https://www.loopandlearn.org/freeaps-x/#open-loop).";
+"Max IOB is the maximum amount of insulin on board from all sources – both basal (or SMB correction) and bolus insulin – that your loop is allowed to accumulate to treat higher-than-target BG. Unlike the other two OpenAPS safety settings (max_daily_safety_multiplier and current_basal_safety_multiplier), max_iob is set as a fixed number of units of insulin. As of now manual boluses are NOT limited by this setting. \n\n To test your basal rates during nighttime, you can modify the Max IOB setting to zero while in Closed Loop. This will enable low glucose suspend mode while testing your basal rates settings\n\n(Tip from https://www.loopandlearn.org/freeaps-x/#open-loop)." = "De Max IOB is de maximale hoeveelheid insuline aan boord van alle bronnen - zowel basaal (of SMB correcties) en bolus insuline die door ezFCL gegeven mag worden om alles hoger dan de streefwaarde te behandelen. Anders dan de andere twee veiligheid instelingen (max_daily_safety_multiplier and current_basal_safety_multiplier) wordt bij deze instelling een vaste aantal eenheden insuline opgegeven. Voorlopig worden handmatige bolussen NIET beperkt door deze instelling. \n\n Om je basaal waarden te testen gedurende de nacht kun je deze instelling op 0 zetten tijdens een actieve Loop. Dit zorgt er voor dat stop voor laag geactiveerd worden wanneer je je instelling aan het testen bent. \n\n(Tip van https://www.loopandlearn.org/freeaps-x/#open-loop).";
 
 /* Headline "Max Daily Safety Multiplier" */
 "Max Daily Safety Multiplier" = "Maximale dagelijkse veiligheidsvermenigvuldiger";
@@ -2077,7 +2077,7 @@ Enact a temp Basal or a temp target */
 "Max COB" = "Max COB";
 
 /* "Max COB" */
-"The default of maxCOB is 120. (If someone enters more carbs in one or multiple entries, iAPS will cap COB to maxCOB and keep it at maxCOB until the carbs entered above maxCOB have shown to be absorbed. Essentially, this just limits UAM as a safety cap against weird COB calculations due to fluky data.)" = "De standaardwaarde van maxCOB is 120. (Als iemand meer koolhydraten invoert in één of meerdere items, zal iAPS de COB begrenzen tot maxCOB en deze op maxCOB houden totdat is aangetoond dat de koolhydraten die boven maxCOB zijn ingevoerd, worden geabsorbeerd. In wezen beperkt dit alleen UAM als een veiligheidslimiet tegen rare COB-berekeningen als gevolg van onnauwkeurige gegevens)";
+"The default of maxCOB is 120. (If someone enters more carbs in one or multiple entries, ezFCL will cap COB to maxCOB and keep it at maxCOB until the carbs entered above maxCOB have shown to be absorbed. Essentially, this just limits UAM as a safety cap against weird COB calculations due to fluky data.)" = "De standaardwaarde van maxCOB is 120. (Als iemand meer koolhydraten invoert in één of meerdere items, zal ezFCL de COB begrenzen tot maxCOB en deze op maxCOB houden totdat is aangetoond dat de koolhydraten die boven maxCOB zijn ingevoerd, worden geabsorbeerd. In wezen beperkt dit alleen UAM als een veiligheidslimiet tegen rare COB-berekeningen als gevolg van onnauwkeurige gegevens)";
 
 /* Headline "Bolus Snooze DIA Divisor" */
 "Bolus Snooze DIA Divisor" = "Bolus snooze DIA deler";
@@ -2137,7 +2137,7 @@ Enact a temp Basal or a temp target */
 "Insulin Peak Time" = "Insuline piektijd";
 
 /* "Insulin Peak Time" */
-"Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-rapid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with iAPS, longer loop calculations and possible red loops." = "Tijd van maximale bloedglucose verlagend effect van insuline in hele minuten (insuline piek tijd). Let op: Oref gaat er van uit dat ultra-snelle (Lyumjev) & snelle werking (Fiasp) curves minimaal (35 & 50 min) en maximaal (100 en 120 min) hebben als insulinPeakTimes. Het gebruik van een aangepaste insulinPeakTime buiten deze grenzen leidt tot problemen met iAPS, langere loopberekeningen en mogelijke een rode Loop.";
+"Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-rapid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with ezFCL, longer loop calculations and possible red loops." = "Tijd van maximale bloedglucose verlagend effect van insuline in hele minuten (insuline piek tijd). Let op: Oref gaat er van uit dat ultra-snelle (Lyumjev) & snelle werking (Fiasp) curves minimaal (35 & 50 min) en maximaal (100 en 120 min) hebben als insulinPeakTimes. Het gebruik van een aangepaste insulinPeakTime buiten deze grenzen leidt tot problemen met ezFCL, langere loopberekeningen en mogelijke een rode Loop.";
 
 /* Headline "Carbs Req Threshold" */
 "Carbs Req Threshold" = "Koolhydraten vereist drempel";
@@ -2242,7 +2242,7 @@ Eenvoudig gezegd, de Dynamische Carb Ratio past de koolhydraatverhouding aan op 
 "Apply factor for fatty meals" = "Pas factor toe voor vette maaltijden";
 
 /* Bolus Calculator Footer */
-"The new alternate bolus calculator is another approach to the default bolus calculator in iAPS. If the toggle is on you use this bolus calculator and not the original iAPS calculator. At the end of the calculation a custom factor is applied as it is supposed to be when using smbs (default 0.8).\n\nYou can also add the option in your bolus calculator to apply another (!) customizable factor at the end of the calculation which could be useful for fatty meals, e.g Pizza (default 0.7)." = "De nieuwe alternatieve boluscalculator is een andere benadering van de standaard boluscalculator in iAPS. Als de knop aan staat, gebruik je deze boluscalculator en niet de originele iAPS-calculator. Aan het einde van de berekening wordt een aangepaste factor toegepast, zoals het hoort bij het gebruik van smbs (standaard 0,8).\n\nJe kunt ook de optie toevoegen in je boluscalculator om een andere (!) aanpasbare factor toe te passen aan het einde van de berekening, wat handig kan zijn voor vette maaltijden, zoals pizza (standaard 0,7).";
+"The new alternate bolus calculator is another approach to the default bolus calculator in ezFCL. If the toggle is on you use this bolus calculator and not the original ezFCL calculator. At the end of the calculation a custom factor is applied as it is supposed to be when using smbs (default 0.8).\n\nYou can also add the option in your bolus calculator to apply another (!) customizable factor at the end of the calculation which could be useful for fatty meals, e.g Pizza (default 0.7)." = "De nieuwe alternatieve boluscalculator is een andere benadering van de standaard boluscalculator in ezFCL. Als de knop aan staat, gebruik je deze boluscalculator en niet de originele ezFCL-calculator. Aan het einde van de berekening wordt een aangepaste factor toegepast, zoals het hoort bij het gebruik van smbs (standaard 0,8).\n\nJe kunt ook de optie toevoegen in je boluscalculator om een andere (!) aanpasbare factor toe te passen aan het einde van de berekening, wat handig kan zijn voor vette maaltijden, zoals pizza (standaard 0,7).";
 
 /* UI/UX option */
 "Display Predictions" = "Geef voorspellingen weer";
@@ -2307,7 +2307,7 @@ Eenvoudig gezegd, de Dynamische Carb Ratio past de koolhydraatverhouding aan op 
 "Live activity displays blood glucose live on the lock screen and on the dynamic island (if available)" = "De 'Live activiteit' toont bloedglucose op het vergrendelscherm en op het Dynamische Island (indien beschikbaar).\n\nDynamic Island vervangt de traditionele statische 'notch' (inkeping) aan de bovenkant van de iPhone-schermen";
 
 /* Live Activity Footer when off */
-"Live activities are turned OFF in system settings. To enable live activities, go to Settings app -> iAPS -> Turn live Activities ON.\n\n" = "Live activiteiten zijn uitgeschakeld in systeem instellingen. Ga naar Instellingen -> iAPS -> Live activiteiten\n\n om live activiteiten in te schakelen.";
+"Live activities are turned OFF in system settings. To enable live activities, go to Settings app -> ezFCL -> Turn live Activities ON.\n\n" = "Live activiteiten zijn uitgeschakeld in systeem instellingen. Ga naar Instellingen -> ezFCL -> Live activiteiten\n\n om live activiteiten in te schakelen.";
 
 /* Headline "Weighted Average of TDD. Weight of past 24 hours:" */
 "Weighted Average of TDD. Weight of past 24 hours:" = "Gewogen gemiddelde van TDD van afgelopen 24 uur:";

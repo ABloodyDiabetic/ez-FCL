@@ -222,20 +222,64 @@ extension Home {
                 return nil
             }
             let target = tempTarget.targetBottom ?? 0
-            let unitString = targetFormatter.string(from: (tempTarget.targetBottom?.asMmolL ?? 0) as NSNumber) ?? ""
-            let rawString = (tirFormatter.string(from: (tempTarget.targetBottom ?? 0) as NSNumber) ?? "") + " " + state.units
-                .rawValue
+            let unitString: String
+            if let targetBottom = tempTarget.targetBottom, targetBottom.asMmolL != 0 {
+                unitString = targetFormatter.string(from: targetBottom.asMmolL as NSNumber) ?? ""
+            } else {
+                unitString = "" // Return an empty string if targetBottom is 0
+            }
+
+            let rawString: String
+            if let targetBottom = tempTarget.targetBottom, targetBottom != 0 {
+                rawString = (tirFormatter.string(from: targetBottom as NSNumber) ?? "") + " " + state.units.rawValue
+            } else {
+                rawString = "" // Or any other placeholder if needed
+            }
 
             var string = ""
             if sliderTTpresets.first?.active ?? false {
                 let hbt = sliderTTpresets.first?.hbt ?? 0
-                string = ", " + (tirFormatter.string(from: state.infoPanelTTPercentage(hbt, target) as NSNumber) ?? "") + " %"
+                let percentage = state.infoPanelTTPercentage(hbt, target) as NSNumber
+                // Correctly comparing NSNumber with an integer value
+                if percentage.intValue != -150 { // Ensure to use intValue for comparison
+                    let formattedPercentage = tirFormatter.string(from: percentage) ?? ""
+                    if !formattedPercentage.isEmpty {
+                        string = ", " + formattedPercentage + " %"
+                    }
+                }
             }
+
+//            var string = ""
+//            if sliderTTpresets.first?.active ?? false {
+//                let hbt = sliderTTpresets.first?.hbt ?? 0
+//                string = ", " + (tirFormatter.string(from: state.infoPanelTTPercentage(hbt, target) as NSNumber) ?? "") + " %"
+//            }
 
             let percentString = state
                 .units == .mmolL ? (unitString + " mmol/L" + string) : (rawString + (string == "0" ? "" : string))
             return tempTarget.displayName + " " + percentString
         }
+
+//        Original var tempTargetString
+//        var tempTargetString: String? {
+//            guard let tempTarget = state.tempTarget else {
+//                return nil
+//            }
+//            let target = tempTarget.targetBottom ?? 0
+//            let unitString = targetFormatter.string(from: (tempTarget.targetBottom?.asMmolL ?? 0) as NSNumber) ?? ""
+//            let rawString = (tirFormatter.string(from: (tempTarget.targetBottom ?? 0) as NSNumber) ?? "") + " " + state.units
+//                .rawValue
+
+//            var string = ""
+//            if sliderTTpresets.first?.active ?? false {
+//                let hbt = sliderTTpresets.first?.hbt ?? 0
+//                string = ", " + (tirFormatter.string(from: state.infoPanelTTPercentage(hbt, target) as NSNumber) ?? "") + " %"
+//            }
+
+//            let percentString = state
+//                .units == .mmolL ? (unitString + " mmol/L" + string) : (rawString + (string == "0" ? "" : string))
+//            return tempTarget.displayName + " " + percentString
+//        }
 
         var overrideString: String? {
             guard fetchedPercent.first?.enabled ?? false else {
@@ -354,8 +398,147 @@ extension Home {
                     }
                 }
 
-                if state.closedLoop, state.settingsManager.preferences.maxIOB == 0 {
-                    Text("Max IOB: 0").font(.callout).foregroundColor(.orange).padding(.trailing, 20)
+                if let targetBGString = state.suggestion?.current_target?.description,
+                   let targetBG = Decimal(string: targetBGString)
+                {
+                    if state.closedLoop {
+                        if let latestGlucose = state.glucose.last {
+                            let latestGlucoseValue = Decimal(latestGlucose.value)
+                            // Calculate tight and loose deadband upper limits as per the new logic
+                            let targetBGmmol = targetBG * 0.0555
+                            let tightBandUpperLimitmgdL = targetBG * state.settingsManager.preferences
+                                .tightDeadbandRange / 100 + targetBG
+                            let looseBandUpperLimitmgdL = targetBG * state.settingsManager.preferences
+                                .looseDeadbandRange / 100 + targetBG
+                            let tightBandUpperLimitmmol = targetBGmmol * state.settingsManager.preferences
+                                .tightDeadbandRange / 100 + targetBGmmol
+                            let looseBandUpperLimitmmol = targetBGmmol * state.settingsManager.preferences
+                                .looseDeadbandRange / 100 + targetBGmmol
+                            let defaultMaxIOB = String(
+                                format: "%.2f",
+                                NSDecimalNumber(
+                                    decimal: state.settingsManager.preferences.maxIOB * (state.suggestion?.tdd7d ?? 0) / 100
+                                )
+                                .doubleValue
+                            )
+                            let tightDeadbandMaxIOB = String(
+                                format: "%.2f",
+                                NSDecimalNumber(
+                                    decimal: state.settingsManager.preferences
+                                        .maxIobTightDeadband * (state.suggestion?.tdd ?? 0) / 100
+                                ).doubleValue
+                            )
+                            let looseDeadbandMaxIOB = String(
+                                format: "%.2f",
+                                NSDecimalNumber(
+                                    decimal: state.settingsManager.preferences
+                                        .maxIobLooseDeadband * (state.suggestion?.tdd ?? 0) / 100
+                                ).doubleValue
+                            )
+
+                            if state.settingsManager.preferences.enableMaxIobDeadbands {
+                                if latestGlucoseValue >= 0 && latestGlucoseValue < tightBandUpperLimitmgdL && !state
+                                    .settingsManager.preferences
+                                    .moderateCarbezFCLProfile && !state.settingsManager.preferences
+                                    .highCarbezFCLProfile && state
+                                    .settingsManager.settings.units == .mgdL
+                                {
+                                    // Display max_iob_tight_deadband if within tight deadband range and units = mgdL
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue * 0.0555 >= 0 && latestGlucoseValue * 0.0555 <
+                                    tightBandUpperLimitmgdL && !state.settingsManager.preferences
+                                    .moderateCarbezFCLProfile && !state.settingsManager.preferences
+                                    .highCarbezFCLProfile &&
+                                    state
+                                    .settingsManager.settings.units == .mmolL
+                                {
+                                    // Display max_iob_tight_deadband if within tight deadband range and units = mmol
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue >= tightBandUpperLimitmgdL && latestGlucoseValue <=
+                                    looseBandUpperLimitmgdL && !state.settingsManager.preferences
+                                    .moderateCarbezFCLProfile && !state.settingsManager.preferences
+                                    .highCarbezFCLProfile && state.settingsManager.settings.units == .mgdL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
+                                    Text("Max IOB: \(looseDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue * 0.0555 >= tightBandUpperLimitmgdL && latestGlucoseValue * 0.0555 <=
+                                    looseBandUpperLimitmgdL && !state.settingsManager.preferences
+                                    .moderateCarbezFCLProfile && !state.settingsManager.preferences
+                                    .highCarbezFCLProfile && state.settingsManager.settings.units == .mmolL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mmol
+                                    Text("Max IOB: \(looseDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue >= 0 && state.settingsManager.preferences
+                                    .sleepMode && state.settingsManager.settings.units == .mgdL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue * 0.0555 >= 0 && state.settingsManager
+                                    .preferences.sleepMode && state.settingsManager.settings.units == .mmolL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mmol
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue >= 0 && state.settingsManager.preferences
+                                    .automaticSleepMode && state.settingsManager.settings.units == .mgdL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else if latestGlucoseValue * 0.0555 >= 0 && state.settingsManager
+                                    .preferences.automaticSleepMode && state.settingsManager.settings.units == .mmolL
+                                {
+                                    // Display max_iob_loose_deadband if within loose deadband range and units = mmol
+                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                } else {
+                                    // Display the default max IOB if not within any deadband range
+                                    Text("Max IOB: \(defaultMaxIOB)")
+                                        .font(.callout)
+                                        .foregroundColor(.orange)
+                                        .padding(.trailing, 20)
+                                }
+                            } else if state.settingsManager.preferences.maxIOB == 0 {
+                                // Display empty text if deadbands are disabled and maxIOB is 0
+                                Text(" ")
+                            } else {
+                                // Display the default max IOB when deadbands are disabled
+                                Text("Max IOB: \(defaultMaxIOB)")
+                                    .font(.callout)
+                                    .foregroundColor(.orange)
+                                    .padding(.trailing, 20)
+                            }
+                        } else {
+                            Text("").font(.callout) // No recent glucose data available
+                                .foregroundColor(.orange)
+                                .padding(.trailing, 20)
+                        }
+                    }
+                } else {
+                    Text("Invalid target BG").font(.callout)
+                        .foregroundColor(.red)
+                        .padding(.trailing, 20)
                 }
 
 //                if let progress = state.bolusProgress {

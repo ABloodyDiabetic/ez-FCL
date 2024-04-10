@@ -8,7 +8,7 @@ import Swinject
     static var title: LocalizedStringResource = "Add carbs"
 
     // Description of the action in the Shortcuts app
-    static var description = IntentDescription("Allow to add carbs in iAPS.")
+    static var description = IntentDescription("Allow to add carbs in ezFCL.")
 
     internal var carbRequest: CarbPresetIntentRequest
 

@@ -12,7 +12,7 @@ struct DateFilter {
     var fourteen = Date().addingTimeInterval(-14.days.timeInterval) as NSDate
 }
 
-public enum IAPSconfig {
+public enum ezFCLconfig {
     static let padding: CGFloat = 60
     static let iconSize: CGFloat = 20
     static let backgroundOpacity: Double = 0.1

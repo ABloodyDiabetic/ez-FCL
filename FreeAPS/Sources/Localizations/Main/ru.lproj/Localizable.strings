@@ -1,6 +1,6 @@
 /*
   Localizable.strings
-  iAPS
+  ezFCL
 */
 /* -------------------------------- */
 /* Bolus screen when adding insulin */
@@ -393,10 +393,10 @@ Enact a temp Basal or a temp target */
 "Remote control" = "Удаленное управление";
 
 /* Allow remote control from NS */
-"Allow Remote control of iAPS" = "Разрешить дистанционное управление iAPS";
+"Allow Remote control of ezFCL" = "Разрешить дистанционное управление ezFCL";
 
 /* Imported Profiles Alert */
-"\nNow please verify all of your new settings thoroughly:\n\n* Basal Settings\n * Carb Ratios\n * Glucose Targets\n * Insulin Sensitivities\n * DIA\n\n in iAPS Settings > Configuration.\n\nBad or invalid profile settings could have disatrous effects." = "\nПожалуйста, проверьте все ваши новые настройки:\n\n* Настройки базала\n * Углеводные коэффициенты\n * Целевой диапазон\n * Чувствительность к инсулину\n\n в настройках iAPS Настройки > Конфигурация.\n\nНекорректные настройки профиля могут привести к катастрофическим последствиям.";
+"\nNow please verify all of your new settings thoroughly:\n\n* Basal Settings\n * Carb Ratios\n * Glucose Targets\n * Insulin Sensitivities\n * DIA\n\n in ezFCL Settings > Configuration.\n\nBad or invalid profile settings could have disatrous effects." = "\nПожалуйста, проверьте все ваши новые настройки:\n\n* Настройки базала\n * Углеводные коэффициенты\n * Целевой диапазон\n * Чувствительность к инсулину\n\n в настройках ezFCL Настройки > Конфигурация.\n\nНекорректные настройки профиля могут привести к катастрофическим последствиям.";
 
 /* Profile Import Alert */
 "This will replace some or all of your current pump settings. Are you sure you want to import profile settings from Nightscout?" = "Это заменит некоторые или все ваши текущие настройки помпы. Вы уверены, что хотите импортировать настройки профиля из Nightscout?";
@@ -558,7 +558,7 @@ Enact a temp Basal or a temp target */
 "ISF" = "ФЧИ (ISF)";
 
 /* */
-"The app Garmin Connect must be installed to use for iAPS.\n Go to App Store to download it" = "Необходимо установить приложение Garmin Connect, для использования с iAPS.\n Перейдите в App Store для его загрузки";
+"The app Garmin Connect must be installed to use for ezFCL.\n Go to App Store to download it" = "Необходимо установить приложение Garmin Connect, для использования с ezFCL.\n Перейдите в App Store для его загрузки";
 
 /* */
 "Garmin is not available" = "Garmin недоступен";
@@ -990,13 +990,13 @@ Enact a temp Basal or a temp target */
 "A bolus command of " = "Команда болюса из ";
 
 /* Bolus shortcut */
-" U of insulin was sent to iAPS. Verify in iAPS app or in Nightscout if the bolus was delivered." = " ед. инсулина была отправлена в iAPS. Проверьте в приложении iAPS или в Nightscout, был ли доставлен болюс.";
+" U of insulin was sent to ezFCL. Verify in ezFCL app or in Nightscout if the bolus was delivered." = " ед. инсулина была отправлена в ezFCL. Проверьте в приложении ezFCL или в Nightscout, был ли доставлен болюс.";
 
 /* Bolus shortcut. Error */
 "too small bolus amount" = "слишком маленький размер болюса";
 
 /* Bolus shortcut. Error */
-"Bolus Shortcuts are disabled in iAPS settings" = "Команды для болюса отключены в настройках iAPS";
+"Bolus Shortcuts are disabled in ezFCL settings" = "Команды для болюса отключены в настройках ezFCL";
 
 /* Bolus shortcut */
 "Bolus Amount in U" = "Болюс в размере ед.";
@@ -1005,7 +1005,7 @@ Enact a temp Basal or a temp target */
 "Allow iOS Bolus Shortcuts" = "Разрешить iOS команды для болюса";
 
 /* Bolus shortcut. Pop-up */
-"If you enable this setting you will be able to use iOS shortcuts and its automations to trigger a bolus in iAPS.\n\nObserve that the iOS shortuts also works with Siri!\n\nIf you need to use Bolus Shorcuts, please make sure to turn off the listen for 'Hey Siri' setting in iPhone Siri settings, to avoid any inadvertant activaton of a bolus with Siri.\nIf you don't disable 'Hey Siri' the iAPS bolus shortcut can be triggered with the utterance 'Hey Siri, iAPS Bolus'.\n\nWhen triggered with Siri you will be asked for an amount and a confirmation before the bolus command can be sent to iAPS." = "Если включить, то появится возможность использовать приложение \"Команды\" iOS и ее автоматизацию для запуска болюсного введения в iAPS\n\nОбратите внимание, что команды iOS также работают с Siri!\n\nЕсли вам необходимо использовать болюсные команды, пожалуйста, не забудьте отключить настройку прослушивания \"Привет, Сири\" в настройках iPhone Siri, чтобы избежать случайной активации болюса с помощью Siri.\nЕсли вы не отключите \"Привет, Сири\", ярлык \"iAPS болюс\" может быть активирован произнесением \"Привет, Сири, iAPS болюс\".\n\nПри запуске с помощью Siri у вас будет запрошен размер болюса и подтверждение, прежде чем команда на ввод болюса будет отправлена в iAPS.";
+"If you enable this setting you will be able to use iOS shortcuts and its automations to trigger a bolus in ezFCL.\n\nObserve that the iOS shortuts also works with Siri!\n\nIf you need to use Bolus Shorcuts, please make sure to turn off the listen for 'Hey Siri' setting in iPhone Siri settings, to avoid any inadvertant activaton of a bolus with Siri.\nIf you don't disable 'Hey Siri' the ezFCL bolus shortcut can be triggered with the utterance 'Hey Siri, ezFCL Bolus'.\n\nWhen triggered with Siri you will be asked for an amount and a confirmation before the bolus command can be sent to ezFCL." = "Если включить, то появится возможность использовать приложение \"Команды\" iOS и ее автоматизацию для запуска болюсного введения в ezFCL\n\nОбратите внимание, что команды iOS также работают с Siri!\n\nЕсли вам необходимо использовать болюсные команды, пожалуйста, не забудьте отключить настройку прослушивания \"Привет, Сири\" в настройках iPhone Siri, чтобы избежать случайной активации болюса с помощью Siri.\nЕсли вы не отключите \"Привет, Сири\", ярлык \"ezFCL болюс\" может быть активирован произнесением \"Привет, Сири, ezFCL болюс\".\n\nПри запуске с помощью Siri у вас будет запрошен размер болюса и подтверждение, прежде чем команда на ввод болюса будет отправлена в ezFCL.";
 
 /* Bolus shortcut. Setting */
 "Max allowed bolus amount using shortcuts " = "Максимальный размер болюса через команды ";
@@ -1140,7 +1140,7 @@ Enact a temp Basal or a temp target */
 "To prevent LOW required %d g of carbs" = "Для избежания ГИПО необходимо %d г углеводов";
 
 /* */
-"iAPS not active" = "iAPS неактивен";
+"ezFCL not active" = "ezFCL неактивен";
 
 /* */
 "Last loop was more than %d min ago" = "Последний цикл был более %d минут назад";
@@ -1306,7 +1306,7 @@ Enact a temp Basal or a temp target */
 "For write data to Apple Health you must give permissions in Settings > Health > Data Access" = "Чтобы записывать данные в Apple Health вам необходимо дать соответствующие разрешения, перейдя к меню Настройки > Здоровье > Доступ к данным";
 
 /* */
-"This allows iAPS to read from and write to Apple Heath. You must also give permissions in Settings > Health > Data Access. If you enter a glucose value into Apple Health, open iAPS to confirm it shows up." = "Это позволяет iAPS считывать данные из Apple Health и записывать их в Apple Health. Вы также должны предоставить разрешения в разделе Настройки > Здоровье > Доступ к данным. Если вы вводите значение глюкозы в Apple Health, откройте iAPS, чтобы подтвердить его отображение.";
+"This allows ezFCL to read from and write to Apple Heath. You must also give permissions in Settings > Health > Data Access. If you enter a glucose value into Apple Health, open ezFCL to confirm it shows up." = "Это позволяет ezFCL считывать данные из Apple Health и записывать их в Apple Health. Вы также должны предоставить разрешения в разделе Настройки > Здоровье > Доступ к данным. Если вы вводите значение глюкозы в Apple Health, откройте ezFCL, чтобы подтвердить его отображение.";
 
 /* New ALerts ------------------------- */
 /* Info title */
@@ -1479,7 +1479,7 @@ Enact a temp Basal or a temp target */
 "App Icons" = "Иконки приложения";
 
 /* */
-"iAPS Icon" = "iAPS иконка";
+"ezFCL Icon" = "ezFCL иконка";
 
 /* Service Section */
 "Statistics and Home View" = "Статистика и экран";
@@ -1917,7 +1917,7 @@ Enact a temp Basal or a temp target */
 /* -----------------------------------------------------------------------------------------------------------
 
   Infotexts from openaps.docs and androidaps.docs
-  iAPS
+  ezFCL
 */
 /* Headline Rewind Resets Autosens */
 
@@ -1972,7 +1972,7 @@ Enact a temp Basal or a temp target */
 "Skip Neutral Temps" = "Возвращаться на нейтральный базал";
 
 /* "Skip Neutral Temps" */
-"Defaults to false, so that iAPS will set temps whenever it can, so it will be easier to see if the system is working, even when you are offline. This means iAPS will set a “neutral” temp (same as your default basal) if no adjustments are needed. This is an old setting for OpenAPS to have the options to minimise sounds and notifications from the 'rig', that may wake you up during the night." = "По умолчанию значение false, так что OpenAPS будет устанавливать временные цели когда это возможно,  так будет проще увидеть, работает ли система даже в автономном режиме. Эта настройка означает, что OpenAPS установит «нейтральную» ВБС (такую же, как и исходная база по умолчанию), если изменения не нужны. Это старая настройка OpenAPS для минимизации звуков и уведомлений на помпе.";
+"Defaults to false, so that ezFCL will set temps whenever it can, so it will be easier to see if the system is working, even when you are offline. This means ezFCL will set a “neutral” temp (same as your default basal) if no adjustments are needed. This is an old setting for OpenAPS to have the options to minimise sounds and notifications from the 'rig', that may wake you up during the night." = "По умолчанию значение false, так что OpenAPS будет устанавливать временные цели когда это возможно,  так будет проще увидеть, работает ли система даже в автономном режиме. Эта настройка означает, что OpenAPS установит «нейтральную» ВБС (такую же, как и исходная база по умолчанию), если изменения не нужны. Это старая настройка OpenAPS для минимизации звуков и уведомлений на помпе.";
 
 /* Headline "Unsuspend If No Temp” */
 "Unsuspend If No Temp" = "Возобновлять подачу, если нет ВБС";
@@ -1984,7 +1984,7 @@ Enact a temp Basal or a temp target */
 "Enable UAM" = "Включить определение необъявленных углеводов UAM";
 
 /* "Enable UAM" */
-"With this option enabled, the SMB algorithm can recognize unannounced meals. This is helpful, if you forget to tell iAPS about your carbs or estimate your carbs wrong and the amount of entered carbs is wrong or if a meal with lots of fat and protein has a longer duration than expected. Without any carb entry, UAM can recognize fast glucose increasments caused by carbs, adrenaline, etc, and tries to adjust it with SMBs. This also works the opposite way: if there is a fast glucose decreasement, it can stop SMBs earlier." = "Режим не объявленных углеводов. При включенной опции алгоритм SMB может распознавать не объявленные углеводы. Это полезно, если вы забыли сообщить о приеме пищи или оценили ваши углеводы неправильно. Так же, если еда с большим количеством жира и белка всасывание углеводов дольше, чем ожидалось. Без ввода количества углеводов механизм UAM может распознавать быстрые увеличения глюкозы, вызванные углеводами, адреналином и т. д., и нейтрализовать их с помощью SMB. Это также работает наоборот: если есть быстрое снижение глюкозы, то это может остановить SMB раньше.";
+"With this option enabled, the SMB algorithm can recognize unannounced meals. This is helpful, if you forget to tell ezFCL about your carbs or estimate your carbs wrong and the amount of entered carbs is wrong or if a meal with lots of fat and protein has a longer duration than expected. Without any carb entry, UAM can recognize fast glucose increasments caused by carbs, adrenaline, etc, and tries to adjust it with SMBs. This also works the opposite way: if there is a fast glucose decreasement, it can stop SMBs earlier." = "Режим не объявленных углеводов. При включенной опции алгоритм SMB может распознавать не объявленные углеводы. Это полезно, если вы забыли сообщить о приеме пищи или оценили ваши углеводы неправильно. Так же, если еда с большим количеством жира и белка всасывание углеводов дольше, чем ожидалось. Без ввода количества углеводов механизм UAM может распознавать быстрые увеличения глюкозы, вызванные углеводами, адреналином и т. д., и нейтрализовать их с помощью SMB. Это также работает наоборот: если есть быстрое снижение глюкозы, то это может остановить SMB раньше.";
 
 /* Headline "Enable SMB With COB" */
 "Enable SMB With COB" = "Включить SMB при положительном COB";
@@ -2071,7 +2071,7 @@ Enact a temp Basal or a temp target */
 "Max COB" = "Максимум углеводов в крови";
 
 /* "Max COB" */
-"The default of maxCOB is 120. (If someone enters more carbs in one or multiple entries, iAPS will cap COB to maxCOB and keep it at maxCOB until the carbs entered above maxCOB have shown to be absorbed. Essentially, this just limits UAM as a safety cap against weird COB calculations due to fluky data.)" = "Значение max COB по-умолчанию равно 120. (Если кто-то вводит больше углеводов в одной или нескольких записях, IAPs ограничит количество углеводов до maxCOB и сохранит его на maxCOB до тех пор, пока не будет показано, что углеводы, введенные выше maxCOB, усваиваются. По сути, это просто ограничивает UAM в качестве защитного предела от странных вычислений COB из-за случайных данных.)";
+"The default of maxCOB is 120. (If someone enters more carbs in one or multiple entries, ezFCL will cap COB to maxCOB and keep it at maxCOB until the carbs entered above maxCOB have shown to be absorbed. Essentially, this just limits UAM as a safety cap against weird COB calculations due to fluky data.)" = "Значение max COB по-умолчанию равно 120. (Если кто-то вводит больше углеводов в одной или нескольких записях, ezFCL ограничит количество углеводов до maxCOB и сохранит его на maxCOB до тех пор, пока не будет показано, что углеводы, введенные выше maxCOB, усваиваются. По сути, это просто ограничивает UAM в качестве защитного предела от странных вычислений COB из-за случайных данных.)";
 
 /* Headline "Bolus Snooze DIA Divisor" */
 "Bolus Snooze DIA Divisor" = "Делитель DIA откладывания болюсов";
@@ -2131,7 +2131,7 @@ Enact a temp Basal or a temp target */
 "Insulin Peak Time" = "Пик действия инсулина";
 
 /* "Insulin Peak Time" */
-"Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-rapid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with iAPS, longer loop calculations and possible red loops." = "Пиковое время инсулина в минутах. Время необходимое инсулину для достижения максимального воздействия";
+"Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-rapid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with ezFCL, longer loop calculations and possible red loops." = "Пиковое время инсулина в минутах. Время необходимое инсулину для достижения максимального воздействия";
 
 /* Headline "Carbs Req Threshold" */
 "Carbs Req Threshold" = "Порог необходимых углеводов";
@@ -2232,7 +2232,7 @@ Enact a temp Basal or a temp target */
 "Apply factor for fatty meals" = "Применить фактор для жирной пищи";
 
 /* Bolus Calculator Footer */
-"The new alternate bolus calculator is another approach to the default bolus calculator in iAPS. If the toggle is on you use this bolus calculator and not the original iAPS calculator. At the end of the calculation a custom factor is applied as it is supposed to be when using smbs (default 0.8).\n\nYou can also add the option in your bolus calculator to apply another (!) customizable factor at the end of the calculation which could be useful for fatty meals, e.g Pizza (default 0.7)." = "Альтернативный калькулятор болюса использует другой алгоритм расчета болюса. Для индивидуальной настройки вы можете изменить поправочный коэффициент (значение по умолчанию 0.8) в зависимости от того, хотите ли вы более высокие (выше 1) или меньшие (ниже 1) рекомендации по болюсу.\n\nДля особо жирных блюд, таких как пицца, существует возможность уменьшить рекомендуемый болюс еще на один коэффициент (стандартно 0.7).";
+"The new alternate bolus calculator is another approach to the default bolus calculator in ezFCL. If the toggle is on you use this bolus calculator and not the original ezFCL calculator. At the end of the calculation a custom factor is applied as it is supposed to be when using smbs (default 0.8).\n\nYou can also add the option in your bolus calculator to apply another (!) customizable factor at the end of the calculation which could be useful for fatty meals, e.g Pizza (default 0.7)." = "Альтернативный калькулятор болюса использует другой алгоритм расчета болюса. Для индивидуальной настройки вы можете изменить поправочный коэффициент (значение по умолчанию 0.8) в зависимости от того, хотите ли вы более высокие (выше 1) или меньшие (ниже 1) рекомендации по болюсу.\n\nДля особо жирных блюд, таких как пицца, существует возможность уменьшить рекомендуемый болюс еще на один коэффициент (стандартно 0.7).";
 
 /* UI/UX option */
 "Display Predictions" = "Отображать прогнозы";
@@ -2297,7 +2297,7 @@ Enact a temp Basal or a temp target */
 "Live activity displays blood glucose live on the lock screen and on the dynamic island (if available)" = "Эфир активности - в реальном времени отображает уровень глюкозы в крови на экране блокировки и на динамическом островке Dynamic Island (если доступно)";
 
 /* Live Activity Footer when off */
-"Live activities are turned OFF in system settings. To enable live activities, go to Settings app -> iAPS -> Turn live Activities ON.\n\n" = "\"Эфир активности\" отключен в системных настройках. Чтобы включить \"эфир активности\", перейдите в Настройки -> iAPS -> \"Эфир активности\" -> ВКЛ.\n\n";
+"Live activities are turned OFF in system settings. To enable live activities, go to Settings app -> ezFCL -> Turn live Activities ON.\n\n" = "\"Эфир активности\" отключен в системных настройках. Чтобы включить \"эфир активности\", перейдите в Настройки -> ezFCL -> \"Эфир активности\" -> ВКЛ.\n\n";
 
 /* Headline "Weighted Average of TDD. Weight of past 24 hours:" */
 "Weighted Average of TDD. Weight of past 24 hours:" = "Взвешенное среднее значение TDD. Вес последних 24 часов:";

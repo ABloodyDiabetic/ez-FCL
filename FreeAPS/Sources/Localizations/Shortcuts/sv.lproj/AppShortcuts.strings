@@ -1,36 +1,36 @@
-/* iAPS Temporary Target shortcut*/
+/* ezFCL Temporary Target shortcut*/
 "Activate ${applicationName} temporary target" = "${applicationName} tillfälligt målvärde";
 
-/* iAPS Temporary Target shortcut Description */
+/* ezFCL Temporary Target shortcut Description */
 "${applicationName} apply a temporary target" = "${applicationName} aktiverare ett tillfälligt målvärde";
 
-/* iAPS Status shortcut */
+/* ezFCL Status shortcut */
 "List ${applicationName} state" = "${applicationName} status";
 
-/* iAPS Status shortcut Description*/
+/* ezFCL Status shortcut Description*/
 "${applicationName} state" = "Visar ${applicationName} status";
 
-/* iAPS Add carbs shortcut */
+/* ezFCL Add carbs shortcut */
 "Add carbs in ${applicationName}" = "${applicationName} måltid";
 
-/* iAPS Add carbs shortcut description */
+/* ezFCL Add carbs shortcut description */
 "${applicationName} allows to add carbs" = "Lägger till måltid i ${applicationName}";
 
-/* iAPS Override shortcut */
+/* ezFCL Override shortcut */
 "Activate an ${applicationName} Override Preset" = "${applicationName} Profil";
 
-/* iAPS Override shortcut description */
+/* ezFCL Override shortcut description */
 "Activates an ${applicationName} Override Preset" = "Aktiverar en profil i ${applicationName}";
 
-/* iAPS Cancel Override shortcut */
+/* ezFCL Cancel Override shortcut */
 "Cancel ${applicationName} Overide" =  "${applicationName} avbryt profil";
 
-/* iAPS Cancel Override shortcut description */
+/* ezFCL Cancel Override shortcut description */
 "Cancels an active ${applicationName} override" = "Avbryter en profil i ${applicationName}";
 
-/* iAPS Bolus shortcut */
+/* ezFCL Bolus shortcut */
 "${applicationName} Bolus" = "${applicationName} bolus";
 
-/* iAPS Bolus shortcut description */
+/* ezFCL Bolus shortcut description */
 "${applicationName} Tries to Enact a bolus" = "Ger bolus med ${applicationName}";
 

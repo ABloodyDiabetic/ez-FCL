@@ -1,8 +1,10 @@
 import Foundation
 
 struct FreeAPSSettings: JSON, Equatable {
+    var enableMiddleware: Bool = true
     var units: GlucoseUnits = .mmolL
     var closedLoop: Bool = false
+    // var autoisf: Bool = false
     var allowAnnouncements: Bool = false
     var useAutotune: Bool = false
     var isUploadEnabled: Bool = false
@@ -76,6 +78,14 @@ extension FreeAPSSettings: Decodable {
         if let closedLoop = try? container.decode(Bool.self, forKey: .closedLoop) {
             settings.closedLoop = closedLoop
         }
+
+        if let enableMiddleware = try? container.decode(Bool.self, forKey: .enableMiddleware) {
+            settings.enableMiddleware = enableMiddleware
+        }
+
+//        if let autoisf = try? container.decode(Bool.self, forKey: .autoisf) {
+//            settings.autoisf = autoisf
+//        }
 
         if let allowAnnouncements = try? container.decode(Bool.self, forKey: .allowAnnouncements) {
             settings.allowAnnouncements = allowAnnouncements

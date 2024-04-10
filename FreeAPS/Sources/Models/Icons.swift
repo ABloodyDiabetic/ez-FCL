@@ -4,25 +4,25 @@ import UIKit
 
 enum Icon_: String, CaseIterable, Identifiable {
     case primary = "pod_colorful"
-    case text = "iAPS"
+    case text = "ezFCL"
     case podBlack = "podTemplateBlack"
     case popWhite = "podTemplateWhite"
-    case cyan = "iAPS_Loop_Cyan_Text"
+    case cyan = "ezFCL_Loop_Cyan_Text"
     case podPurple
     case catWithPod
     case catWithPodWhite = "catWithPodWhiteBG"
-    case loopWhiteText = "iAPS_Loop_White_Text"
-    case loopText = "iAPS_Loop_Text"
-    case black = "iAPS_Black_Black"
-    case clean = "iAPS_Clean"
-    case purple = "iAPS_Purple"
-    case glow = "iAPS_Glow_BG"
-    case gray = "iAPS_Gray"
-    case whiteAndGray = "iAPS_WhiteAndGray"
-    case grayAndLoopNoButtons = "iAPS_NoButtons_Gray_White_BG"
-    case purpleBG = "iAPS_Purple_BG"
-    case whiteBG = "iAPS_White_BG"
-    case loop = "iAPS_Loop"
+    case loopWhiteText = "ezFCL_Loop_White_Text"
+    case loopText = "ezFCL_Loop_Text"
+    case black = "ezFCL_Black_Black"
+    case clean = "ezFCL_Clean"
+    case purple = "ezFCL_Purple"
+    case glow = "ezFCL_Glow_BG"
+    case gray = "ezFCL_Gray"
+    case whiteAndGray = "ezFCL_WhiteAndGray"
+    case grayAndLoopNoButtons = "ezFCL_NoButtons_Gray_White_BG"
+    case purpleBG = "ezFCL_Purple_BG"
+    case whiteBG = "ezFCL_White_BG"
+    case loop = "ezFCL_Loop"
     var id: String { rawValue }
 }
 

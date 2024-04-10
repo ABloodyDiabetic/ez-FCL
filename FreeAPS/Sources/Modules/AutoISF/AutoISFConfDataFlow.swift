@@ -13,7 +13,7 @@ enum AutoISFConf {
         var displayName: String
         var type: FieldType
         var infoText: String
-        private var onChange: ((Any) -> Void)? // Add the onChange closure
+        private var onChange: ((Any) -> Void)?
 
         var boolValue: Bool {
             get {
@@ -25,7 +25,7 @@ enum AutoISFConf {
             }
             set {
                 set(value: newValue)
-                onChange?(newValue) // Call onChange when the value changes
+                onChange?(newValue)
             }
         }
 
@@ -33,13 +33,13 @@ enum AutoISFConf {
             get {
                 switch type {
                 case let .decimal(keypath):
-                    return settable?.get(keypath) ?? 0
-                default: return 0
+                    return settable?.get(keypath) ?? Decimal.zero
+                default: return Decimal.zero
                 }
             }
             set {
                 set(value: newValue)
-                onChange?(newValue) // Call onChange when the value changes
+                onChange?(newValue)
             }
         }
 
@@ -60,7 +60,7 @@ enum AutoISFConf {
             type: FieldType,
             infoText: String,
             settable: PreferencesSettable? = nil,
-            onChange: ((Any) -> Void)? = nil // Add the onChange parameter
+            onChange: ((Any) -> Void)? = nil
         ) {
             self.displayName = displayName
             self.type = type

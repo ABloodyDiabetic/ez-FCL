@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TransmitterDelegate, Tran
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
 
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ssZ"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
 
         return dateFormatter

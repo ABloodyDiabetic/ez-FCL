@@ -7,10 +7,10 @@ enum StateIntentError: Error {
     case NoIOBCOB
 }
 
-@available(iOS 16, *) struct StateiAPSResults: AppEntity {
+@available(iOS 16, *) struct StateezFCLResults: AppEntity {
     static var defaultQuery = StateBGQuery()
 
-    static var typeDisplayRepresentation: TypeDisplayRepresentation = "iAPS State Result"
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "ezFCL State Result"
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(title: "\(glucose)")
@@ -44,11 +44,11 @@ enum StateIntentError: Error {
 }
 
 @available(iOS 16.0, *) struct StateBGQuery: EntityQuery {
-    func entities(for _: [StateiAPSResults.ID]) async throws -> [StateiAPSResults] {
+    func entities(for _: [StateezFCLResults.ID]) async throws -> [StateezFCLResults] {
         []
     }
 
-    func suggestedEntities() async throws -> [StateiAPSResults] {
+    func suggestedEntities() async throws -> [StateezFCLResults] {
         []
     }
 }

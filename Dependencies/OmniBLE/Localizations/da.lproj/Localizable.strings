@@ -369,7 +369,7 @@
 "Suspend Delivery" = "Pause Indgivelse";
 
 /* Message for suspend duration selection action sheet */
-"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "Insulintilførsel vil blive stoppet, indtil du genoptager manuelt. Hvornår vil du have iAPS til at minde dig om at genoptage leveringen?";
+"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "Insulintilførsel vil blive stoppet, indtil du genoptager manuelt. Hvornår vil du have ezFCL til at minde dig om at genoptage leveringen?";
 
 /* Button text for 30 minute suspend duration */
 "30 minutes" = "30 minutter";
@@ -626,7 +626,7 @@
 "%1$@ for %2$@" = "%1$@ i %2$@";
 
 /* Description text on manual temp basal action sheet */
-"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "iAPS justerer ikke automatisk din insulindosering, før den midlertidige basalrate er afsluttet eller annulleret.";
+"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "ezFCL justerer ikke automatisk din insulindosering, før den midlertidige basalrate er afsluttet eller annulleret.";
 /* Button text for setting manual temporary basal rate*/
 "Set Temporary Basal" = "Sæt Midlertidig Basal";
 

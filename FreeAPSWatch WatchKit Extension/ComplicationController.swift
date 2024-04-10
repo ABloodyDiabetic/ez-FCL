@@ -8,7 +8,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         let descriptors = [
             CLKComplicationDescriptor(
                 identifier: "complication",
-                displayName: "iAPS",
+                displayName: "ezFCL",
                 supportedFamilies: [
                     .graphicCorner,
                     .graphicCircular,
@@ -52,7 +52,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                 return
             }
             let template = CLKComplicationTemplateGraphicCornerTextImage(
-                textProvider: CLKTextProvider(format: "%@", "iAPS"),
+                textProvider: CLKTextProvider(format: "%@", "ezFCL"),
                 imageProvider: CLKFullColorImageProvider(fullColorImage: image)
             )
             let timelineEntry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)

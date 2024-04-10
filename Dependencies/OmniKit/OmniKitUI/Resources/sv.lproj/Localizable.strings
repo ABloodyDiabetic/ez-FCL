@@ -339,7 +339,7 @@
 "Insulin delivery stopped. Change Pod now." = "Insulintilförsel stoppad. Byt podd nu.";
 
 /* Message for suspend duration selection action sheet */
-"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "Insulintillförsel kommer att stoppas tills du återupptar dennamanuellt. När vill du att iAPS ska påminna dig om att återuppta insulintillförsel?";
+"Insulin delivery will be stopped until you resume manually. When would you like Loop to remind you to resume delivery?" = "Insulintillförsel kommer att stoppas tills du återupptar dennamanuellt. När vill du att ezFCL ska påminna dig om att återuppta insulintillförsel?";
 
 /* Header for insulin remaining on pod settings screen */
 "Insulin Remaining" = "Insulin kvar";
@@ -361,7 +361,7 @@
 "Last Status" = "Senaste status";
 
 /* Description text on manual temp basal action sheet */
-"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "iAPS kommer inte automatiskt att justera dina insulindoser förrän den temporära basalen är färdig eller har avbrytits.";
+"Loop will not automatically adjust your insulin delivery until the temporary basal rate finishes or is canceled." = "ezFCL kommer inte automatiskt att justera dina insulindoser förrän den temporära basalen är färdig eller har avbrytits.";
 
 /* The title of the cell showing the pod lot id */
 "Lot" = "Lot";

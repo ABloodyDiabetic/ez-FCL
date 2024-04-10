@@ -6,6 +6,7 @@ extension CREditor {
         let resolver: Resolver
         @StateObject var state = StateModel()
         @State private var editMode = EditMode.inactive
+        @State private var activePickerIndex: Int? = nil
 
         @Environment(\.colorScheme) var colorScheme
         var color: LinearGradient {
@@ -25,13 +26,6 @@ extension CREditor {
                 )
         }
 
-        private var dateFormatter: DateFormatter {
-            let formatter = DateFormatter()
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.timeStyle = .short
-            return formatter
-        }
-
         private var rateFormatter: NumberFormatter {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
@@ -40,19 +34,21 @@ extension CREditor {
 
         var body: some View {
             Form {
-                if let autotune = state.autotune, !state.settingsManager.settings.onlyAutotuneBasals {
-                    Section(header: Text("Autotune")) {
-                        HStack {
-                            Text("Calculated Ratio")
-                            Spacer()
-                            Text(rateFormatter.string(from: autotune.carbRatio as NSNumber) ?? "0")
-                            Text("g/U").foregroundColor(.secondary)
-                        }
+                Section(header: Text("")) {}
+                Section(header: Text("")) {}
+                Section(
+                    header:
+                    HStack {
+                        Spacer()
+                        Text("Carb Ratio").textCase(nil)
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                        Spacer()
                     }
-                }
-                Section(header: Text("Schedule")) {
+                ) {}
+                Section {
                     list
-                    addButton
                 }
                 Section {
                     Button {
@@ -61,18 +57,15 @@ extension CREditor {
                         state.save()
                     }
                     label: {
-                        Text("Save")
+                        Text("Save").frame(maxWidth: .infinity)
                     }
                     .disabled(state.items.isEmpty)
                 }
             }
             .scrollContentBackground(.hidden).background(color)
             .onAppear(perform: configureView)
-            .navigationTitle("Carb Ratios")
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.automatic)
-            .navigationBarItems(
-                trailing: EditButton()
-            )
             .environment(\.editMode, $editMode)
             .onAppear {
                 state.validate()
@@ -82,10 +75,6 @@ extension CREditor {
         private func pickers(for index: Int) -> some View {
             GeometryReader { geometry in
                 VStack {
-                    HStack {
-                        Text("Ratio").frame(width: geometry.size.width / 2)
-                        Text("Time").frame(width: geometry.size.width / 2)
-                    }
                     HStack(spacing: 0) {
                         Picker(selection: $state.items[index].rateIndex, label: EmptyView()) {
                             ForEach(0 ..< state.rateValues.count, id: \.self) { i in
@@ -99,20 +88,6 @@ extension CREditor {
                         }
                         .frame(maxWidth: geometry.size.width / 2)
                         .clipped()
-
-                        Picker(selection: $state.items[index].timeIndex, label: EmptyView()) {
-                            ForEach(0 ..< state.timeValues.count, id: \.self) { i in
-                                Text(
-                                    self.dateFormatter
-                                        .string(from: Date(
-                                            timeIntervalSince1970: state
-                                                .timeValues[i]
-                                        ))
-                                ).tag(i)
-                            }
-                        }
-                        .frame(maxWidth: geometry.size.width / 2)
-                        .clipped()
                     }
                 }
             }
@@ -121,45 +96,31 @@ extension CREditor {
         private var list: some View {
             List {
                 ForEach(state.items.indexed(), id: \.1.id) { index, item in
-                    NavigationLink(destination: pickers(for: index)) {
-                        HStack {
-                            Text("Ratio").foregroundColor(.secondary)
-                            Text(
-                                "\(rateFormatter.string(from: state.rateValues[item.rateIndex] as NSNumber) ?? "0") g/U"
-                            )
-                            Spacer()
-                            Text("starts at").foregroundColor(.secondary)
-                            Text(
-                                "\(dateFormatter.string(from: Date(timeIntervalSince1970: state.timeValues[item.timeIndex])))"
-                            )
+                    VStack(alignment: .leading) {
+                        Button(action: {
+                            // Toggle picker visibility
+                            self.activePickerIndex = (self.activePickerIndex == index ? nil : index)
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("\(rateFormatter.string(from: state.rateValues[item.rateIndex] as NSNumber) ?? "0") g/U")
+                                Spacer()
+                            }
+                        }
+                        .foregroundColor(.white)
+
+                        // Only show picker if this item is the active one
+                        if activePickerIndex == index {
+                            Picker(selection: $state.items[index].rateIndex, label: Text("Select Rate")) {
+                                ForEach(0 ..< state.rateValues.count, id: \.self) { i in
+                                    Text(self.rateFormatter.string(from: state.rateValues[i] as NSNumber) ?? "" + " g/U")
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
                         }
                     }
-                    .moveDisabled(true)
                 }
-                .onDelete(perform: onDelete)
             }
-        }
-
-        private var addButton: some View {
-            guard state.canAdd else {
-                return AnyView(EmptyView())
-            }
-
-            switch editMode {
-            case .inactive:
-                return AnyView(Button(action: onAdd) { Text("Add") })
-            default:
-                return AnyView(EmptyView())
-            }
-        }
-
-        func onAdd() {
-            state.add()
-        }
-
-        private func onDelete(offsets: IndexSet) {
-            state.items.remove(atOffsets: offsets)
-            state.validate()
         }
     }
 }

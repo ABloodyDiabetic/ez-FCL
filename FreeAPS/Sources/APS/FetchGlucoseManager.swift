@@ -11,6 +11,8 @@ protocol FetchGlucoseManager: SourceInfoProvider {
     var glucoseSource: GlucoseSource! { get }
     var cgmGlucoseSourceType: CGMType? { get set }
     var settingsManager: SettingsManager! { get }
+    var settings: FreeAPSSettings { get set }
+    var preferences: Preferences { get }
 }
 
 final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
@@ -22,6 +24,20 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
     @Injected() var libreTransmitter: LibreTransmitterSource!
     @Injected() var healthKitManager: HealthKitManager!
     @Injected() var deviceDataManager: DeviceDataManager!
+    @Injected() var broadcaster: Broadcaster!
+    @Injected() var storage: FileStorage!
+    @SyncAccess var settings: FreeAPSSettings {
+        didSet {
+            if oldValue != settings {
+                save()
+                DispatchQueue.main.async {
+                    self.broadcaster.notify(SettingsObserver.self, on: .main) {
+                        $0.settingsDidChange(self.settings)
+                    }
+                }
+            }
+        }
+    }
 
     private var lifetime = Lifetime()
     private let timer = DispatchTimer(timeInterval: 1.minutes.timeInterval)
@@ -33,9 +49,118 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
     private lazy var simulatorSource = GlucoseSimulatorSource()
 
     init(resolver: Resolver) {
+        let storage = resolver.resolve(FileStorage.self)!
+        settings = storage.retrieve(OpenAPS.FreeAPS.settings, as: FreeAPSSettings.self)
+            ?? FreeAPSSettings(from: OpenAPS.defaults(for: OpenAPS.FreeAPS.settings))
+            ?? FreeAPSSettings()
         injectServices(resolver)
         updateGlucoseSource()
         subscribe()
+    }
+
+    private func save() {
+        storage.save(settings, as: OpenAPS.FreeAPS.settings)
+    }
+
+    var preferences: Preferences {
+        storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self)
+            ?? Preferences(from: OpenAPS.defaults(for: OpenAPS.Settings.preferences))
+            ?? Preferences()
+    }
+
+    func processTempTargets() {
+        let cd = CoreDataStorage()
+        let tempTargetsArray = cd.fetchTempTargets()
+        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets.")
+
+        let tempTargetActive = tempTargetsArray.first?.active ?? false
+        debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
+
+        if tempTargetActive {
+            let duration = Int(truncating: tempTargetsArray.first?.duration ?? 0)
+            let startDate = tempTargetsArray.first?.startDate ?? Date()
+            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
+            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
+            debug(
+                .deviceManager,
+                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
+            )
+
+            if timeRemaining > 0.1 {
+                // settingsManager.setLowCarbProfileEnabled(false)
+                debug(
+                    .deviceManager,
+                    "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
+                )
+            } else {
+                settingsManager.setLowCarbProfileEnabled(true)
+                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
+            }
+        } else {
+            settingsManager.setLowCarbProfileEnabled(true)
+            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets are active")
+        }
+    }
+
+    func processTempTargetPresets() {
+        let cd = CoreDataStorage()
+        let tempTargetsArray = cd.fetchTempTargets()
+        let tempTargetPresetsArray = cd.fetchPresets()
+
+        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets.")
+
+        let tempTargetIsPreset = tempTargetsArray.first?.isPreset ?? false
+        debug(.deviceManager, "Is first temp target active? \(tempTargetIsPreset)")
+
+        if !tempTargetIsPreset {
+            let duration = Int(truncating: tempTargetsArray.first?.duration ?? 0)
+            let startDate = tempTargetsArray.first?.startDate ?? Date()
+            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
+            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
+            debug(
+                .deviceManager,
+                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
+            )
+
+            if timeRemaining > 0.1 {
+                // settingsManager.setLowCarbProfileEnabled(false)
+                debug(
+                    .deviceManager,
+                    "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
+                )
+            } else {
+                settingsManager.setLowCarbProfileEnabled(true)
+                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
+            }
+        } else {
+            settingsManager.setLowCarbProfileEnabled(true)
+            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Target is active")
+        }
+
+        if tempTargetIsPreset {
+            let duration = Int(truncating: tempTargetPresetsArray.first?.duration ?? 0)
+            let startDate = tempTargetPresetsArray.first?.startDate ?? Date()
+            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
+            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
+            debug(
+                .deviceManager,
+                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
+            )
+
+            if timeRemaining > 0.1 {
+                // settingsManager.setLowCarbProfileEnabled(false)
+                debug(
+                    .deviceManager,
+                    "No change back to default carb profile due to active Preset with \(timeRemaining) minutes remaining"
+                )
+            } else {
+                settingsManager.setLowCarbProfileEnabled(true)
+                debug(.deviceManager, "Enabled Low Carb Profile because Preset expired")
+            }
+        } else {
+            settingsManager.setLowCarbProfileEnabled(true)
+            debug(.deviceManager, "Enabled Low Carb Profile as no Presets are active")
+        }
     }
 
     var glucoseSource: GlucoseSource!
@@ -76,6 +201,8 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         let syncDate = glucoseStorage.syncDate()
         debug(.deviceManager, "CGM BLE FETCHGLUCOSE  : SyncDate is \(syncDate)")
         glucoseStoreAndHeartDecision(syncDate: syncDate, glucose: newBloodGlucose)
+        processTempTargets()
+//        processTempTargetPresets()
     }
 
     /// function to try to force the refresh of the CGM - generally provide by the pump heartbeat
@@ -94,6 +221,8 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
             self.glucoseStoreAndHeartDecision(syncDate: syncDate, glucose: glucose, glucoseFromHealth: glucoseFromHealth)
         }
         .store(in: &lifetime)
+        processTempTargets()
+//        processTempTargetPresets()
     }
 
     private func glucoseStoreAndHeartDecision(syncDate: Date, glucose: [BloodGlucose], glucoseFromHealth: [BloodGlucose] = []) {
@@ -162,6 +291,9 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
             return
         }
         healthKitManager.saveIfNeeded(bloodGlucose: glucoseForHealth)
+
+        processTempTargets()
+//        processTempTargetPresets()
     }
 
     /// The function used to start the timer sync - Function of the variable defined in config

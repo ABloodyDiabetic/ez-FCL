@@ -35,7 +35,7 @@ final class BaseHealthKitManager: HealthKitManager, Injectable, CarbsObserver, P
     private enum Config {
         // unwraped HKObjects
         static var readPermissions: Set<HKSampleType> {
-            Set([healthBGObject].compactMap { $0 }) }
+            Set([healthBGObject, healthSleepObject].compactMap { $0 }) }
 
         static var writePermissions: Set<HKSampleType> {
             Set([healthBGObject, healthCarbObject, healthInsulinObject].compactMap { $0 }) }
@@ -44,9 +44,10 @@ final class BaseHealthKitManager: HealthKitManager, Injectable, CarbsObserver, P
         static let healthBGObject = HKObjectType.quantityType(forIdentifier: .bloodGlucose)
         static let healthCarbObject = HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)
         static let healthInsulinObject = HKObjectType.quantityType(forIdentifier: .insulinDelivery)
+        static let healthSleepObject = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)
 
         // Meta-data key of FreeASPX data in HealthStore
-        static let freeAPSMetaKey = "From iAPS"
+        static let freeAPSMetaKey = "From ezFCL"
     }
 
     @Injected() private var glucoseStorage: GlucoseStorage!
@@ -490,8 +491,8 @@ final class BaseHealthKitManager: HealthKitManager, Injectable, CarbsObserver, P
 
         newGlucose += samples
             .compactMap { sample -> HealthKitSample? in
-                let fromiAPS = sample.metadata?[Config.freeAPSMetaKey] as? Bool ?? false
-                guard !fromiAPS else { return nil }
+                let fromezFCL = sample.metadata?[Config.freeAPSMetaKey] as? Bool ?? false
+                guard !fromezFCL else { return nil }
                 return HealthKitSample(
                     healthKitId: sample.uuid.uuidString,
                     date: sample.startDate,

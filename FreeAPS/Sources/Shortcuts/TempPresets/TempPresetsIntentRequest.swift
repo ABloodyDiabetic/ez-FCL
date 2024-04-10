@@ -59,6 +59,8 @@ import Foundation
                 let saveToCoreData = TempTargets(context: self.coredataContext)
                 saveToCoreData.active = false
                 saveToCoreData.date = Date()
+                saveToCoreData.startDate = Date()
+                saveToCoreData.duration = whichID?.duration ?? 0
                 try? self.coredataContext.save()
             }
         }

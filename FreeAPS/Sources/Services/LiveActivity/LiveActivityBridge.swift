@@ -76,12 +76,14 @@ extension LiveActivityAttributes.ContentState {
         let highGlucose = settings.highGlucose / Decimal(conversionFactor)
         let lowGlucose = settings.lowGlucose / Decimal(conversionFactor)
 
+        let basal = suggestion.rate ?? 0
         let cob = suggestion.cob ?? 0
         let iob = suggestion.iob ?? 0
 
         let lockScreenView = settings.lockScreenView.displayName
 
         self.init(
+            basal: basal,
             bg: formattedBG,
             direction: trendString,
             change: change,
@@ -219,6 +221,7 @@ extension LiveActivityAttributes.ContentState {
                 // we want it shown though even if it is iniially stale, as we expect new BG readings to become available soon, which should then be displayed
                 let nonStale = ActivityContent(
                     state: LiveActivityAttributes.ContentState(
+                        basal: 0,
                         bg: "--",
                         direction: nil,
                         change: "--",

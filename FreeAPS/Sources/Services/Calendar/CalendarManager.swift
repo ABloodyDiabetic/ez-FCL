@@ -138,7 +138,7 @@ final class BaseCalendarManager: CalendarManager, Injectable {
             } ?? "--"
 
         let iobText = iobFormatter.string(from: (lastLoop.first?.iob ?? 0) as NSNumber) ?? ""
-        let cobText = cobFormatter.string(from: (lastLoop.first?.cob ?? 0) as NSNumber) ?? ""
+        let cobText = cobFormatter.string(from: (lastLoop.first?.rate ?? 0) as NSNumber) ?? ""
 
         var glucoseDisplayText = displayEmojis ? glucoseIcon + " " : ""
         glucoseDisplayText += glucoseText + " " + directionText + " " + deltaText
@@ -152,7 +152,7 @@ final class BaseCalendarManager: CalendarManager, Injectable {
                 cobDisplayText += "🥨"
             } else {
                 iobDisplayText += "IOB:"
-                cobDisplayText += "COB:"
+                cobDisplayText += "BR:"
             }
             iobDisplayText += " " + iobText
             cobDisplayText += " " + cobText
@@ -160,7 +160,7 @@ final class BaseCalendarManager: CalendarManager, Injectable {
         }
 
         event.title = glucoseDisplayText
-        event.notes = "iAPS"
+        event.notes = "ezFCL"
         event.startDate = Date()
         event.endDate = Date(timeIntervalSinceNow: 60 * 10)
         event.calendar = calendar
@@ -219,14 +219,14 @@ final class BaseCalendarManager: CalendarManager, Injectable {
     private var iobFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 1
+        formatter.maximumFractionDigits = 2
         return formatter
     }
 
     private var cobFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
         return formatter
     }
 

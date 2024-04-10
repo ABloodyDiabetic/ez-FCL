@@ -84,7 +84,7 @@ extension CGM {
                         } else if state.createCalendarEvents {
                             if #available(iOS 17.0, *) {
                                 Text(
-                                    "If you are not seeing calendars to choose here, please go to Settings -> iAPS -> Calendars and change permissions to \"Full Access\""
+                                    "If you are not seeing calendars to choose here, please go to Settings -> ezFCL -> Calendars and change permissions to \"Full Access\""
                                 ).font(.footnote)
 
                                 Button("Open Settings") {

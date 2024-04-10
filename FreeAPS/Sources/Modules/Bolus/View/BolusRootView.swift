@@ -13,7 +13,7 @@ extension Bolus {
                 // show alternative bolus calc based on toggle in bolus calc settings
                 AlternativeBolusCalcRootView(resolver: resolver, waitForSuggestion: waitForSuggestion, fetch: fetch, state: state)
             } else {
-                // show iAPS standard bolus calc
+                // show ezFCL standard bolus calc
                 DefaultBolusCalcRootView(resolver: resolver, waitForSuggestion: waitForSuggestion, fetch: fetch, state: state)
             }
         }

@@ -24,7 +24,7 @@ struct NigtscoutTreatment: JSON, Hashable, Equatable {
     var id: String?
     var fpuID: String?
 
-    static let local = "iAPS"
+    static let local = "ezFCL"
 
     static let empty = NigtscoutTreatment(from: "{}")!
 

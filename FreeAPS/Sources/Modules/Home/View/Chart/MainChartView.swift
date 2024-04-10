@@ -137,14 +137,15 @@ struct MainChartView: View {
 
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.setLocalizedDateFormatFromTemplate("HH")
         return formatter
     }
 
     private var date24Formatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.setLocalizedDateFormatFromTemplate("HH")
+        formatter.setLocalizedDateFormatFromTemplate("hh")
         return formatter
     }
 
@@ -405,7 +406,7 @@ struct MainChartView: View {
     }
 
     private func timeLabelsView(fullSize: CGSize) -> some View {
-        let format = screenHours > 6 ? date24Formatter : dateFormatter
+        let format = screenHours < 29 ? date24Formatter : dateFormatter
         return ZStack {
             // X time labels
             ForEach(0 ..< hours + hours, id: \.self) { hour in

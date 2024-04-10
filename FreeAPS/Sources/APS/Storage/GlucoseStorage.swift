@@ -235,7 +235,7 @@ final class BaseGlucoseStorage: GlucoseStorage, Injectable {
         let manualReadings = filtered.map { item -> NigtscoutTreatment in
             NigtscoutTreatment(
                 duration: nil, rawDuration: nil, rawRate: nil, absolute: nil, rate: nil, eventType: .capillaryGlucose,
-                createdAt: item.dateString, enteredBy: "iAPS", bolus: nil, insulin: nil, notes: "iAPS User", carbs: nil,
+                createdAt: item.dateString, enteredBy: "ezFCL", bolus: nil, insulin: nil, notes: "ezFCL User", carbs: nil,
                 fat: nil,
                 protein: nil, foodType: nil, targetTop: nil, targetBottom: nil, glucoseType: "Manual",
                 glucose: settingsManager.settings
