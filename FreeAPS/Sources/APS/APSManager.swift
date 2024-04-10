@@ -344,12 +344,21 @@ final class BaseAPSManager: APSManager, Injectable {
             return Just(false).eraseToAnyPublisher()
         }
 
-        // Only let glucose be flat when 400 mg/dl
-        if (glucoseStorage.recent().last?.glucose ?? 100) != 400 {
-            guard glucoseStorage.isGlucoseNotFlat() else {
-                debug(.apsManager, "Glucose data is too flat")
-                processError(APSError.glucoseError(message: "Glucose data is too flat"))
-                return Just(false).eraseToAnyPublisher()
+        // Retrieve user preferences
+        guard let preferences = storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self) else {
+            debug(.apsManager, "Enable or Disable Flat Glucose Check preference not found")
+            processError(APSError.glucoseError(message: "Enable or Disable Flat Glucose Check preference not found"))
+            return Just(false).eraseToAnyPublisher()
+        }
+
+        // Perform the flatness check only if enabled in user preferences
+        if preferences.flatGlucoseCheck == true {
+            if (glucoseStorage.recent().last?.glucose ?? 100) != 400 {
+                guard glucoseStorage.isGlucoseNotFlat() else {
+                    debug(.apsManager, "Glucose data is too flat")
+                    processError(APSError.glucoseError(message: "Glucose data is too flat"))
+                    return Just(false).eraseToAnyPublisher()
+                }
             }
         }
 
