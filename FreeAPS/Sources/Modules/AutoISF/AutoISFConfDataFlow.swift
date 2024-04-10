@@ -13,6 +13,7 @@ enum AutoISFConf {
         var displayName: String
         var type: FieldType
         var infoText: String
+        private var onChange: ((Any) -> Void)? // Add the onChange closure
 
         var boolValue: Bool {
             get {
@@ -22,7 +23,10 @@ enum AutoISFConf {
                 default: return false
                 }
             }
-            set { set(value: newValue) }
+            set {
+                set(value: newValue)
+                onChange?(newValue) // Call onChange when the value changes
+            }
         }
 
         var decimalValue: Decimal {
@@ -33,7 +37,10 @@ enum AutoISFConf {
                 default: return 0
                 }
             }
-            set { set(value: newValue) }
+            set {
+                set(value: newValue)
+                onChange?(newValue) // Call onChange when the value changes
+            }
         }
 
         private func set<T: SettableValue>(value: T) {
@@ -52,12 +59,14 @@ enum AutoISFConf {
             displayName: String,
             type: FieldType,
             infoText: String,
-            settable: PreferencesSettable? = nil
+            settable: PreferencesSettable? = nil,
+            onChange: ((Any) -> Void)? = nil // Add the onChange parameter
         ) {
             self.displayName = displayName
             self.type = type
             self.infoText = infoText
             self.settable = settable
+            self.onChange = onChange
         }
 
         let id = UUID()
