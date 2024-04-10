@@ -10,6 +10,21 @@ extension AutoISFConf {
         @Published var sections: [FieldSection] = []
         @Published var autoisf: Bool = false
 
+        func updateAutosensSettings(enableAutosens: Bool) {
+            guard let preferences = storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self) else {
+                debug(.openAPS, "Error loading preferences in updateAutosensSettings")
+                return
+            }
+
+            var updatedPreferences = preferences
+            if enableAutosens {
+                updatedPreferences.enableAutosens = true
+            }
+            updatedPreferences.useAutosensIsfToCalculateAutoIsfSens = enableAutosens
+
+            storage.save(updatedPreferences, as: OpenAPS.Settings.preferences)
+        }
+
         override func subscribe() {
             unit = settingsManager.settings.units
             preferences = provider.preferences
@@ -26,6 +41,17 @@ extension AutoISFConf {
                         comment: "Autosens"
                     ),
                     settable: self
+                ),
+                Field(
+                    displayName: "Use Autosens ISF to Calculate the autoISF Sens",
+                    type: .boolean(keypath: \.useAutosensIsfToCalculateAutoIsfSens),
+                    infoText: "Defaults to false. When true, the Autosens ISF is used to calculate the autoISFsens instead of the profile ISF and the 'Enable Autosens' setting is automatically set to true. The hypothesis is that this makes autoISF far more adaptable to large swings in sensitivity that take place over several hours or days. This should make transitioning back and forth between fasting and gorging much easier by taking away some of the cognitive load required to manually adjust sensitivity settings up or down with a dynamic lifestyle. Please note eating after a fast, that Autosens will take a little while to catch up with your reduced sensitivity and you'll have elevated mealtime BGs as a result until the Autosens ISF catches up to reality.",
+                    settable: self,
+                    onChange: { [weak self] newValue in
+                        if let newValue = newValue as? Bool {
+                            self?.updateAutosensSettings(enableAutosens: newValue)
+                        }
+                    }
                 ),
                 Field(
                     displayName: "Temp Targets toggle SMB for autoISF",
