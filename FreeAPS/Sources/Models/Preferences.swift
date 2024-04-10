@@ -1,6 +1,11 @@
 import Foundation
 
 struct Preferences: JSON {
+    var adjustBasalInverselyToAutosensIsf: Bool = false
+    var useAutosensIsfToCalculateAutoIsfSens: Bool = false
+    var flatGlucoseCheck: Bool = true
+    var glucoseCalibrationSlope: Decimal = 1
+    var glucoseCalibrationIntercept: Decimal = 0
     var maxIOB: Decimal = 0
     var maxDailySafetyMultiplier: Decimal = 3
     var currentBasalSafetyMultiplier: Decimal = 4
@@ -92,6 +97,11 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case adjustBasalInverselyToAutosensIsf = "adjust_basal_inversely_to_autosens_isf"
+        case useAutosensIsfToCalculateAutoIsfSens = "use_autosens_isf_to_calculate_auto_isf_sens"
+        case flatGlucoseCheck = "flat_glucose_check"
+        case glucoseCalibrationSlope = "glucose_calibration_slope"
+        case glucoseCalibrationIntercept = "glucose_calibration_intercept"
         case maxIOB = "max_iob"
         case maxDailySafetyMultiplier = "max_daily_safety_multiplier"
         case currentBasalSafetyMultiplier = "current_basal_safety_multiplier"
