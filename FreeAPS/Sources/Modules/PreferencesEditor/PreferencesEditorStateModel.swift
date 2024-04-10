@@ -20,7 +20,26 @@ extension PreferencesEditor {
             } didSet: { [weak self] _ in
                 self?.provider.migrateUnits()
             }
-
+            let glucoseFields = [
+                Field(
+                    displayName: "Flat Glucose Check",
+                    type: .boolean(keypath: \.flatGlucoseCheck),
+                    infoText: "Defaults to true. When true, if glucose values are too flat, iAPS does not loop and eventually reverts back to the profile basal if glucose readings are flat for too long. When false, flat glucose values will not trigger the cessation of loops. You should set this to false when you are using a software calibrated CGM or when you are using a Calibration Slope and Intercept value other than 1 and 0 respectively. This helps to mitigate the risk of going low when a sensor's minimum glucose value boundary has been elevated due to software based calibration. Example: if the lowest value your software calibrated sensor will read is 90 (after calibration), and your glucose gets pegged at that value (because your actual glucose value is still falling), iAPS will continue to assume that your glucose is trending down, and will maintain a 0 temp basal until the glucose level rises back above 90. You may need to restart the app for the change to apply.",
+                    settable: self
+                ),
+                Field(
+                    displayName: "NS Glucose Calibration Slope",
+                    type: .decimal(keypath: \.glucoseCalibrationSlope),
+                    infoText: "1 = No Change. The slope value used to calibrate glucose readings. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
+                    settable: self
+                ),
+                Field(
+                    displayName: "NS Glucose Calibration Intercept",
+                    type: .decimal(keypath: \.glucoseCalibrationIntercept),
+                    infoText: "0 = No Change. The intercept value used to calibrate glucose readings. Negative values must be entered into the preferences.json. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
+                    settable: self
+                )
+            ]
             let quickPrefs = [
                 Field(
                     displayName: "Exercise Mode",
@@ -119,6 +138,12 @@ extension PreferencesEditor {
                         "Switch Autosens on/off",
                         comment: "Autosens"
                     ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Adjust Basal Inverse to Autosens ISF",
+                    type: .boolean(keypath: \.adjustBasalInverselyToAutosensIsf),
+                    infoText: "Defaults to false. When true, this assumes a direct inverse relationship between one’s current Autosens ISF and one’s required basal rate. This adjusts the basal rate up or down relative to your current Autosens ISF and calculates the ‘Max Daily Safety Multiplier’ and the ‘Current Basal Safety Multiplier’ using the adjusted basal rate instead of the profile basal rate.",
                     settable: self
                 ),
                 Field(
@@ -410,6 +435,10 @@ extension PreferencesEditor {
             ]
 
             sections = [
+                FieldSection(
+                    displayName: NSLocalizedString("Glucose Related Settings", comment: "Glucose Related Settings"),
+                    fields: glucoseFields
+                ),
                 FieldSection(
                     displayName: NSLocalizedString("Target Control Sports", comment: "Target Control Sports"),
                     fields: quickPrefs
