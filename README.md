@@ -75,7 +75,9 @@ Watches:
 	 />
 
 # Install
-For multiple alternative installation methods refer to to the parent repository and its [ReadMe File](https://github.com/Artificial-Pancreas/iAPS/tree/dev#readme). This branch does not deviate from it.
+For multiple alternative installation methods refer to to the parent repository and its [ReadMe File](https://github.com/Artificial-Pancreas/iAPS/tree/dev#readme) for Github installs. for xcode installs use:
+
+git clone --branch=autoISF https://github.com/ABloodyDiabetic/iAPS-autosens-impacts-autoISF.git cd iAPS-autosens-impacts-autoISF xed .
 
 ### Please understand that iAPS and especially autoISF is:
 - highly experimental and evolving rapidly.
