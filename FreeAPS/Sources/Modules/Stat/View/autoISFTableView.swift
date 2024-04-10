@@ -10,8 +10,8 @@ extension Stat {
         @Environment(\.managedObjectContext) private var viewContext
 
         @State private var selectedEndTime = Date()
-        @State private var selectedTimeIntervalIndex = 1 // Default to 2 hours
-        let timeIntervalOptions = [1, 2, 4, 8] // Hours
+        @State private var selectedTimeIntervalIndex = 4 // Default to 24 hours
+        let timeIntervalOptions = [4, 6, 8, 16, 24] // Hours
 
         @State private var autoISFResults: [AutoISF] = [] // Holds the fetched results
         @Environment(\.horizontalSizeClass) var sizeClass
