@@ -66,11 +66,14 @@ extension Settings {
                         Text("Apple Health").navigationLink(to: .healthkit, from: self)
                     }
                     Text("Fat And Protein Conversion").navigationLink(to: .fpuConfig, from: self)
-                    Text("Middleware")
-                        .navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
                     Text("Notifications").navigationLink(to: .notificationsConfig, from: self)
                     Text("App Icons").navigationLink(to: .iconConfig, from: self)
                 } header: { Text("Features") }
+
+                Section {
+                    Toggle("Enable", isOn: $state.enableMiddleware)
+                    Text("Middleware").navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
+                } header: { Text("Middleware") }                
 
                 Section {
                     Text("Pump Settings").navigationLink(to: .pumpSettingsEditor, from: self)
@@ -185,7 +188,10 @@ extension Settings {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onDisappear(perform: { state.uploadProfileAndSettings(false) })
+            .onDisappear(perform: {
+                state.saveIfChanged()
+                state.uploadProfileAndSettings(false)
+            })
         }
     }
 }
