@@ -1,6 +1,7 @@
 import Foundation
 
 struct Preferences: JSON {
+    var enableMiddleware: Bool = false
     var maxIOB: Decimal = 0
     var maxDailySafetyMultiplier: Decimal = 3
     var currentBasalSafetyMultiplier: Decimal = 4
@@ -92,6 +93,7 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case enableMiddleware
         case maxIOB = "max_iob"
         case maxDailySafetyMultiplier = "max_daily_safety_multiplier"
         case currentBasalSafetyMultiplier = "current_basal_safety_multiplier"
