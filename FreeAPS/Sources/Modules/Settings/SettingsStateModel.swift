@@ -5,19 +5,28 @@ extension Settings {
         @Injected() private var broadcaster: Broadcaster!
         @Injected() private var fileManager: FileManager!
         @Injected() private var nightscoutManager: NightscoutManager!
+        @Injected() private var nightscoutManager: NightscoutManager!
+        @Injected() var settings: SettingsManager!
+        @Injected() var storage: FileStorage!
 
         @Published var closedLoop = false
         @Published var debugOptions = false
         @Published var animatedBackground = false
+        @Published var enableMiddleware = false
 
         private(set) var buildNumber = ""
         private(set) var versionNumber = ""
         private(set) var branch = ""
         private(set) var copyrightNotice = ""
 
+        var preferences: Preferences {
+            settingsManager.preferences
+        }        
+
         override func subscribe() {
             subscribeSetting(\.debugOptions, on: $debugOptions) { debugOptions = $0 }
             subscribeSetting(\.closedLoop, on: $closedLoop) { closedLoop = $0 }
+            enableMiddleware = settings.preferences.enableMiddleware            
 
             broadcaster.register(SettingsObserver.self, observer: self)
 
@@ -50,6 +59,18 @@ extension Settings {
 
             subscribeSetting(\.animatedBackground, on: $animatedBackground) { animatedBackground = $0 }
         }
+
+        var unChanged: Bool {
+            preferences.enableMiddleware == enableMiddleware
+        }
+
+        func saveIfChanged() {
+            if !unChanged {
+                var newSettings = storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self) ?? Preferences()
+                newSettings.enableMiddleware = enableMiddleware
+                storage.save(newSettings, as: OpenAPS.Settings.preferences)
+            }
+        }        
 
         func logItems() -> [URL] {
             var items: [URL] = []
