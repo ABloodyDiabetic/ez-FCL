@@ -80,6 +80,18 @@ extension OverrideProfilesConfig {
 
         var body: some View {
             Form {
+                if state.isEnabled {
+                    Section {
+                        Button("Cancel current Profile Override") {
+                            state.cancelProfile()
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .buttonStyle(BorderlessButtonStyle())
+                        .disabled(!state.isEnabled)
+                        .tint(.red)
+                    }
+                }
                 if state.presets.isNotEmpty {
                     Section {
                         ForEach(fetchedProfiles) { preset in
@@ -140,13 +152,15 @@ extension OverrideProfilesConfig {
                             Toggle(isOn: $state.smbIsOff) {
                                 Text("Disable SMBs")
                             }
+                            .disabled(state.smbIsScheduledOff)
                         }
                         HStack {
-                            Toggle(isOn: $state.smbIsAlwaysOff) {
+                            Toggle(isOn: $state.smbIsScheduledOff) {
                                 Text("Schedule when SMBs are Off")
-                            }.disabled(!state.smbIsOff)
+                            }
+                            .disabled(state.smbIsOff)
                         }
-                        if state.smbIsAlwaysOff {
+                        if state.smbIsScheduledOff {
                             HStack {
                                 Text("First Hour SMBs are Off (24 hours)")
                                 DecimalTextField("0", value: $state.start, formatter: formatter, cleanInput: false)
@@ -274,18 +288,6 @@ extension OverrideProfilesConfig {
                         "Your profile basal insulin will be adjusted with the override percentage and your profile ISF and CR will be inversly adjusted with the percentage."
                     )
                 }
-                if state.isEnabled {
-                    Section {
-                        Button("Cancel Profile Override") {
-                            state.cancelProfile()
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .buttonStyle(BorderlessButtonStyle())
-                        .disabled(!state.isEnabled)
-                        .tint(.red)
-                    } footer: { Text("").padding(.bottom, 150) }
-                }
             }
             .scrollContentBackground(.hidden).background(color)
             .onAppear(perform: configureView)
@@ -309,7 +311,7 @@ extension OverrideProfilesConfig {
             let percent = preset.percentage / 100
             let perpetual = preset.indefinite
             let durationString = perpetual ? "" : "\(formatter.string(from: duration as NSNumber)!)"
-            let scheduledSMBstring = (preset.smbIsOff && preset.smbIsAlwaysOff) ? "Scheduled SMBs" : ""
+            let scheduledSMBstring = (preset.smbIsOff && preset.smbIsScheduledOff) ? "Scheduled SMBs" : ""
             let smbString = (preset.smbIsOff && scheduledSMBstring == "") ? "SMBs are off" : ""
             let targetString = targetRaw > 10 ? "\(glucoseFormatter.string(from: target as NSNumber)!)" : ""
             let maxMinutesSMB = (preset.smbMinutes as Decimal?) != nil ? (preset.smbMinutes ?? 0) as Decimal : 0

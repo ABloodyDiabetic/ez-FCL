@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G313" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AutoISF" representedClassName="AutoISF" syncable="YES" codeGenerationType="class">
         <attribute name="acce_ratio" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="autoISF_ratio" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
@@ -102,8 +102,8 @@
         <attribute name="isfAndCr" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isPreset" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="percentage" optional="YES" attributeType="Double" defaultValueString="100" usesScalarValueType="YES"/>
-        <attribute name="smbIsAlwaysOff" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="smbIsOff" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="smbIsScheduledOff" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="smbMinutes" optional="YES" attributeType="Decimal" defaultValueString="30"/>
         <attribute name="start" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="target" optional="YES" attributeType="Decimal" defaultValueString="100"/>
@@ -127,8 +127,8 @@
         <attribute name="isfAndCr" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="percentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="smbIsAlwaysOff" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="smbIsOff" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="smbIsScheduledOff" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="smbMinutes" optional="YES" attributeType="Decimal" defaultValueString="30"/>
         <attribute name="start" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="target" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>

@@ -19,7 +19,7 @@ extension OverrideProfilesConfig {
         @Published var isfAndCr: Bool = true
         @Published var isf: Bool = true
         @Published var cr: Bool = true
-        @Published var smbIsAlwaysOff: Bool = false
+        @Published var smbIsScheduledOff: Bool = false
         @Published var start: Decimal = 0
         @Published var end: Decimal = 23
         @Published var smbMinutes: Decimal = 0
@@ -83,11 +83,11 @@ extension OverrideProfilesConfig {
                         saveOverride.isf = isf
                         saveOverride.cr = cr
                     } else { saveOverride.isfAndCr = true }
-                    if smbIsAlwaysOff {
-                        saveOverride.smbIsAlwaysOff = true
+                    if smbIsScheduledOff {
+                        saveOverride.smbIsScheduledOff = true
                         saveOverride.start = start as NSDecimalNumber
                         saveOverride.end = end as NSDecimalNumber
-                    } else { saveOverride.smbIsAlwaysOff = false }
+                    } else { saveOverride.smbIsScheduledOff = false }
 
                     saveOverride.smbMinutes = smbMinutes as NSDecimalNumber
                     saveOverride.uamMinutes = uamMinutes as NSDecimalNumber
@@ -128,11 +128,11 @@ extension OverrideProfilesConfig {
                         saveOverride.isf = isf
                         saveOverride.cr = cr
                     } else { saveOverride.isfAndCr = true }
-                    if smbIsAlwaysOff {
-                        saveOverride.smbIsAlwaysOff = true
+                    if smbIsScheduledOff {
+                        saveOverride.smbIsScheduledOff = true
                         saveOverride.start = start as NSDecimalNumber
                         saveOverride.end = end as NSDecimalNumber
-                    } else { smbIsAlwaysOff = false }
+                    } else { smbIsScheduledOff = false }
 
                     saveOverride.smbMinutes = smbMinutes as NSDecimalNumber
                     saveOverride.uamMinutes = uamMinutes as NSDecimalNumber
@@ -178,11 +178,11 @@ extension OverrideProfilesConfig {
                     saveOverride.isf = profile.isf
                     saveOverride.cr = profile.cr
                 } else { saveOverride.isfAndCr = true }
-                if profile.smbIsAlwaysOff {
-                    saveOverride.smbIsAlwaysOff = true
+                if profile.smbIsScheduledOff {
+                    saveOverride.smbIsScheduledOff = true
                     saveOverride.start = profile.start
                     saveOverride.end = profile.end
-                } else { saveOverride.smbIsAlwaysOff = false }
+                } else { saveOverride.smbIsScheduledOff = false }
 
                 saveOverride.smbMinutes = (profile.smbMinutes ?? 0) as NSDecimalNumber
                 saveOverride.uamMinutes = (profile.uamMinutes ?? 0) as NSDecimalNumber
@@ -205,14 +205,14 @@ extension OverrideProfilesConfig {
             smbIsOff = overrideArray.smbIsOff
             advancedSettings = overrideArray.advancedSettings
             isfAndCr = overrideArray.isfAndCr
-            smbIsAlwaysOff = overrideArray.smbIsAlwaysOff
+            smbIsScheduledOff = overrideArray.smbIsScheduledOff
 
             if advancedSettings {
                 if !isfAndCr {
                     isf = overrideArray.isf
                     cr = overrideArray.cr
                 }
-                if smbIsAlwaysOff {
+                if smbIsScheduledOff {
                     start = (overrideArray.start ?? 0) as Decimal
                     end = (overrideArray.end ?? 0) as Decimal
                 }

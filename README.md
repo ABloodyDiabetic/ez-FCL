@@ -7,7 +7,7 @@ iAPS - an artificial pancreas system for iOS based on [OpenAPS Reference](https:
 Thousands of commits later, with many new and unique features added, the iOS app has been renamed to iAPS under a new organisation, Artificial Pancreas. iAPS uses lot of frameworks published by the Loop community.
 
 
-# autoISF
+# autoISF 
 The autoISF branch is based on dev from the original [iAPS repo](https://github.com/artificial-pancreas/iaps) and includes my implementation of [autoISF by ga-zelle](https://github.com/T-o-b-i-a-s/AndroidAPS) for AAPS and some other extra features. autoISF is off by default.
 
 autoISF adjusts ISF depending on 4 different effects in glucose behaviour that autoISF checks and reacts to:
@@ -89,6 +89,10 @@ Latest version of original iAPS is maintained by Jon and the gang. It brings sig
 
 [iAPS repo github](https://github.com/artificial-pancreas/iaps.git)
 
+## Dana Kit
+
+this branch has the great work from 
+https://github.com/bastiaanv/iAPS re. Dana pump integration included.
 
 ## autoISF Version
 Refers to the changes done to the original oref0 used in FAX, the source can be found at my [oref0-repository](https://github.com/mountrcg/oref0). Also testing autoISF 3.0 adaption

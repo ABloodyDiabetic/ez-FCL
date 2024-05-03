@@ -3,7 +3,7 @@ import SwiftUI
 
 extension AddTempTarget {
     final class StateModel: BaseStateModel<Provider> {
-        @Injected() private var storage: TempTargetsStorage!
+        @Injected() var storage: TempTargetsStorage!
         @Injected() var apsManager: APSManager!
 
         let coredataContext = CoreDataStack.shared.persistentContainer.viewContext

@@ -585,7 +585,7 @@ extension Home {
                         Spacer()
                     }
 
-                    // MAYBE WITH A SMALL INDICATOR AT THE SYMBOL
+                    // overide profiles
 //                    Button {
 //                        state.showModal(for: .overrideProfilesConfig)
 //                    } label: {

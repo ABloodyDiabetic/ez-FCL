@@ -44,6 +44,17 @@ extension AddTempTarget {
 
         var body: some View {
             Form {
+                if state.storage?.current() != nil {
+                    Section {
+                        Button { state.cancel() }
+                        label: { Text("Cancel current TempTarget") }
+                            .disabled(state.storage?.current() == nil)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .buttonStyle(BorderlessButtonStyle())
+                            .tint(.red)
+                    }
+                }
+
                 if !state.presets.isEmpty {
                     Section(header: Text("Presets")) {
                         ForEach(state.presets) { preset in
@@ -146,8 +157,6 @@ extension AddTempTarget {
                 Section {
                     Button { state.enact() }
                     label: { Text("Start") }
-                    Button { state.cancel() }
-                    label: { Text("Cancel Temp Target") }
                 }
             }
             .scrollContentBackground(.hidden).background(color)
@@ -164,8 +173,8 @@ extension AddTempTarget {
                         label: { Text("Cancel") }
                     }
                 }
+                .scrollContentBackground(.hidden).background(color)
             }
-            .scrollContentBackground(.hidden).background(color)
             .onAppear {
                 configureView()
                 state.hbt = isEnabledArray.first?.hbt ?? 160
