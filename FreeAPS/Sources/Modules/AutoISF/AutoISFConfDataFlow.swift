@@ -13,6 +13,7 @@ enum AutoISFConf {
         var displayName: String
         var type: FieldType
         var infoText: String
+        private var onChange: ((Any) -> Void)?
 
         var boolValue: Bool {
             get {
@@ -22,18 +23,24 @@ enum AutoISFConf {
                 default: return false
                 }
             }
-            set { set(value: newValue) }
+            set {
+                set(value: newValue)
+                onChange?(newValue)
+            }
         }
 
         var decimalValue: Decimal {
             get {
                 switch type {
                 case let .decimal(keypath):
-                    return settable?.get(keypath) ?? 0
-                default: return 0
+                    return settable?.get(keypath) ?? Decimal.zero
+                default: return Decimal.zero
                 }
             }
-            set { set(value: newValue) }
+            set {
+                set(value: newValue)
+                onChange?(newValue)
+            }
         }
 
         private func set<T: SettableValue>(value: T) {
@@ -52,12 +59,14 @@ enum AutoISFConf {
             displayName: String,
             type: FieldType,
             infoText: String,
-            settable: PreferencesSettable? = nil
+            settable: PreferencesSettable? = nil,
+            onChange: ((Any) -> Void)? = nil
         ) {
             self.displayName = displayName
             self.type = type
             self.infoText = infoText
             self.settable = settable
+            self.onChange = onChange
         }
 
         let id = UUID()

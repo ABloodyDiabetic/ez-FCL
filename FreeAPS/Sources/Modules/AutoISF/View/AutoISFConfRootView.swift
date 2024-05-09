@@ -1,6 +1,61 @@
 import SwiftUI
 import Swinject
 
+//struct BulletList: View {
+//    var withBorder: Bool = false
+//    var toInfinity: Bool = true
+//    var alignLeft: Bool = true
+//    var borderWidth: CGFloat {
+//        withBorder ? 1 : 0
+//    }
+
+//    var textFrameMaxWidth: CGFloat? {
+//        toInfinity ? .infinity : nil
+//    }
+
+//    var textFrameAlignment: Alignment {
+//        alignLeft ? .leading : .center
+//    }
+
+//    var listItems: [String]
+//    var listItemSpacing: CGFloat? = nil
+//    var bullet: String = "•"
+//    var bulletWidth: CGFloat? = nil
+//    var bulletAlignment: Alignment = .leading
+
+//    var body: some View {
+//        VStack(
+//            alignment: .leading,
+//            spacing: listItemSpacing
+//        ) {
+//            ForEach(listItems, id: \.self) { data in
+//                HStack(alignment: .top) {
+//                    Text(bullet)
+//                        .frame(
+//                            width: bulletWidth,
+//                            alignment: bulletAlignment
+//                        )
+//                        .border(
+//                            Color.blue,
+//                            width: borderWidth
+//                        )
+//                    Text(data)
+//                        .frame(
+//                            maxWidth: textFrameMaxWidth,
+//                            alignment: textFrameAlignment
+//                        )
+//                        .border(
+//                            Color.orange,
+//                            width: borderWidth
+//                        )
+//                }
+//            }
+//        }
+//        .padding(2)
+//        .border(.green, width: borderWidth)
+//    }
+//}
+
 extension AutoISFConf {
     struct RootView: BaseView {
         let resolver: Resolver
@@ -37,36 +92,35 @@ extension AutoISFConf {
                 Section {
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
-                            Toggle("Activate autoISF", isOn: $state.autoisf)
+                            Toggle("Enable ezFCL", isOn: $state.autoisf)
                         }
                         .padding(.bottom, 2)
                         if !state.autoisf {
                             VStack(alignment: .leading) {
                                 Text(
-                                    "autoISF allows to adapt the insulin sensitivity factor (ISF) in the following scenarios of glucose behaviour:"
+                                    "When enabled, ezFCL achieves a *near* Fully Closed Loop once the ezFCL and 'TDD ISF Adjustment Factor' settings have been properly configured. ezFCL achieves autonomous glucose control by adjusting the insulin sensitivity factor (ISF) up or down as necessary to regulate blood glucose levels. It accounts for:"
                                 )
                                 BulletList(
                                     listItems:
                                     [
-                                        "accelerating/decelerating blood glucose",
-                                        "blood glucose levels according to a predefined polygon, like a Sigmoid",
-                                        "postprandial (after meal) glucose rise",
-                                        "blood glucose plateaus above target"
+                                        "accelerating or decelerating blood glucose values (acce)",
+                                        "glucose deltas (Δ)",
+                                        "and glucose plateaus (---)"
                                     ],
                                     listItemSpacing: 10
                                 )
                             }
                             // .padding(10)
-                            Text("It can also adapt SMB delivery settings.")
+                            Text("when calculating ezFCL ISFs.")
                             Text(
-                                "Read up on it at:\nhttps://github.com/ga-zelle/autoISF\nHit View Code to access all help documents!\niAPS version of autoISF does not include ActivityTracking."
+                                "\n\n * Without a bi-hormonal system (a pump, or pumps that administer both insulin and glucagon concurrently) it will still be necessary to treat low BG values with glucose on some occasions. *"
                             )
                         }
                     }
-                } header: { Text("Enable").textCase(nil) }
+                } header: { Text("Enable") }
                 if state.autoisf {
                     ForEach(state.sections.indexed(), id: \.1.id) { sectionIndex, section in
-                        Section(header: Text(section.displayName).textCase(nil)) {
+                        Section(header: Text(section.displayName)) {
                             ForEach(section.fields.indexed(), id: \.1.id) { fieldIndex, field in
                                 HStack {
                                     switch field.type {
@@ -106,7 +160,7 @@ extension AutoISFConf {
             }
             .scrollContentBackground(.hidden).background(color)
             .onAppear(perform: configureView)
-            .navigationTitle("autoISF Configuration")
+            .navigationTitle("ezFCL Configuration")
             .navigationBarTitleDisplayMode(.automatic)
             .alert(item: $infoButtonPressed) { infoButton in
                 Alert(
