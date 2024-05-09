@@ -56,18 +56,6 @@ final class CoreDataStorage {
         return tempTargetsArray
     }
 
-    func fetchPresets() -> [TempTargets] {
-        var presetsArray = [TempTargets]()
-        coredataContext.performAndWait {
-            let requestPresets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
-            let sortPresets = NSSortDescriptor(key: "date", ascending: false)
-            requestPresets.sortDescriptors = [sortPresets]
-            requestPresets.predicate = NSPredicate(format: "isPreset == YES")
-            try? presetsArray = coredataContext.fetch(requestPresets)
-        }
-        return presetsArray
-    }
-
     func fetcarbs(interval: NSDate) -> [Carbohydrates] {
         var carbs = [Carbohydrates]()
         coredataContext.performAndWait {

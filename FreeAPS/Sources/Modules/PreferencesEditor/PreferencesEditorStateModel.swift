@@ -74,7 +74,7 @@ extension PreferencesEditor {
 //                    settable: self
 //                ),
                 Field(
-                    displayName: "Enable Max IOB Deadbands",
+                    displayName: NSLocalizedString("Enable Max IOB Deadbands", comment: "Enable Max IOB Deadbands"),
                     type: .boolean(keypath: \.enableMaxIobDeadbands),
                     infoText: NSLocalizedString(
                         "Enable Max IOB Deadbands",
@@ -83,7 +83,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Enable Sleep Mode",
+                    displayName: NSLocalizedString("Enable Sleep Mode", comment: "Enable Sleep Mode"),
                     type: .boolean(keypath: \.sleepMode),
                     infoText: NSLocalizedString(
                         "Defaults to false. When true, the 'Max IOB %' is set to equal the 'Max IOB Loose Deadband %'. This must manually be toggled on or off to enable or disable Sleep Mode manually when 'Sleep Detection' is disabled or when Apple Health is not capable of determing sleep state.",
@@ -92,7 +92,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Sleep Detection (Enable Sleep Mode Automatically)",
+                    displayName: NSLocalizedString("Sleep Detection (Enable Sleep Mode Automatically)", comment: "Sleep Detection (Enable Sleep Mode Automatically)"),
                     type: .boolean(keypath: \.automaticSleepMode),
                     infoText: NSLocalizedString(
                         "Defaults to false. When true, the 'Max IOB %' is set to equal the 'Max IOB Loose Deadband %' automatically whenever you are asleep by scrutinizing Apple Health sleep data to determine sleep state vs awake.",
@@ -101,7 +101,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Exercise Mode",
+                    displayName: NSLocalizedString("Exercise Mode", comment: "Exercise Mode"),
                     type: .boolean(keypath: \.exerciseMode),
                     infoText: NSLocalizedString(
                         "Defaults to false. When true, > 100 mg/dL high temp target adjusts sensitivityRatio for exercise mode. Synonym for high_temptarget_raises_sensitivity",
@@ -123,7 +123,7 @@ extension PreferencesEditor {
 
             let tddFields = [
                 Field(
-                    displayName: "TDD ISF Adjustment Factor",
+                    displayName: NSLocalizedString("TDD ISF Adjustment Factor", comment: "TDD ISF Adjustment Factor"),
                     type: .decimal(keypath: \.calculateIsfFromTddNumeratorDivisor),
                     infoText: NSLocalizedString(
                         "Defaults to 0.5. A value of 0.5 increases the calculated TDD ISF by 50% (numerator adjusted from 1700 to 3400), reducing recommended dosings by 50% and basal rate by 50%. You should continue to nudge this value up overtime from 0.5 until your average BG is at or very near your target glucose. If you are getting roller coaster blood glucose values, either this value is too high or the profile basal and ISF need to be adjusted. Having a well tuned initial profile basal and profile ISF is probably the important factor when configuring ezFCL. TDD ISF = 1700 / TDD ISF Adjustment / TDD",
@@ -132,7 +132,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Basal Multiplier",
+                    displayName: NSLocalizedString("Basal Multiplier", comment: "Basal Multiplier"),
                     type: .decimal(keypath: \.basalMultiplier),
                     infoText: NSLocalizedString(
                         "Increase or decrese basal rates relative to the TDD ISF to improve alignment.",
@@ -141,7 +141,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Use TDD ISF to Calculate Sensitivity and Basal Rate",
+                    displayName: NSLocalizedString("Use TDD ISF to Calculate Sensitivity and Basal Rate", comment: "Use TDD ISF to Calculate Sensitivity and Basal Rate"),
                     type: .boolean(keypath: \.useAutosensIsfToCalculateAutoIsfSens),
                     infoText: "Defaults to true. When true, the TDD ISF is used to calculate Sensitivity and Basal Rates instead of using the profile ISF. The hypothesis is that this makes ezFCL far more adaptable to large swings in sensitivity that take place over several hours or days. This should make transitioning back and forth between fasting and gorging much easier by taking away some of the cognitive load required to manually adjust sensitivity settings up or down with a dynamic lifestyle.This also adjusts the ‘Max Daily Safety Multiplier’ and the ‘Current Basal Safety Multiplier’ up or down as necessary relative to the TDD ISF.",
                     settable: self
@@ -165,7 +165,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Max IOB Tight Deadband %",
+                    displayName: NSLocalizedString("Max IOB Tight Deadband %", comment: "Max IOB Tight Deadband %"),
                     type: .decimal(keypath: \.maxIobTightDeadband),
                     infoText: NSLocalizedString(
                         "Tight Deadband",
@@ -174,7 +174,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Max IOB Loose Deadband %",
+                    displayName: NSLocalizedString("Max IOB Loose Deadband %", comment: "Max IOB Loose Deadband %"),
                     type: .decimal(keypath: \.maxIobLooseDeadband),
                     infoText: NSLocalizedString(
                         "Loose Deadband",
@@ -183,7 +183,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Tight Deadband Range",
+                    displayName: NSLocalizedString("Tight Deadband Range", comment: "Tight Deadband Range"),
                     type: .decimal(keypath: \.tightDeadbandRange),
                     infoText: NSLocalizedString(
                         "Tight Deadband Range",
@@ -192,7 +192,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Loose Deadband Range",
+                    displayName: NSLocalizedString("Loose Deadband Range", comment: "Loose Deadband Range"),
                     type: .decimal(keypath: \.looseDeadbandRange),
                     infoText: NSLocalizedString(
                         "Loose Deadband Range",
@@ -317,7 +317,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "MB DeliveryRatio",
+                    displayName: NSLocalizedString("MB DeliveryRatio", comment: "MB DeliveryRatio"),
                     type: .decimal(keypath: \.smbDeliveryRatio),
                     infoText: NSLocalizedString(
                         "Default value: 0.85 This is another key OpenAPS safety cap, and specifies what share of the total insulin required can be delivered as MB. This is to prevent people from getting into dangerous territory by setting MB requests from the caregivers phone at the same time. Increase this experimental value slowly and with caution. You can use that with ezFCL to increase the MB DR immediately indpendent of BG if you use an Eating Soon TT (even and below 100). This MB DR will then be used, independently of the 3 following options, that normally superceed his setting.",
@@ -507,7 +507,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Flat Glucose Check",
+                    displayName: NSLocalizedString("Flat Glucose Check", comment: "Flat Glucose Check"),
                     type: .boolean(keypath: \.flatGlucoseCheck),
                     infoText: "Defaults to true. When true, if glucose values are too flat, ezFCL does not loop and eventually reverts back to the profile basal if glucose readings are flat for too long. When false, flat glucose values will not trigger the cessation of loops. You should set this to false when you are using a software calibrated CGM or when you are using a Calibration Slope and Intercept value other than 1 and 0 respectively. This helps to mitigate the risk of going low when a sensor's minimum glucose value boundary has been elevated due to software based calibration. Example: if the lowest value your software calibrated sensor will read is 90 (after calibration), and your glucose gets pegged at that value (because your actual glucose value is still falling), ezFCL will continue to assume that your glucose is trending down, and will maintain a 0 temp basal until the glucose level rises back above 90. You may need to restart the app for the change to apply.",
                     settable: self

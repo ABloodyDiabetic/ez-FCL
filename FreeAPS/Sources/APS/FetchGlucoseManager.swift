@@ -102,67 +102,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         }
     }
 
-    func processTempTargetPresets() {
-        let cd = CoreDataStorage()
-        let tempTargetsArray = cd.fetchTempTargets()
-        let tempTargetPresetsArray = cd.fetchPresets()
-
-        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets.")
-
-        let tempTargetIsPreset = tempTargetsArray.first?.isPreset ?? false
-        debug(.deviceManager, "Is first temp target active? \(tempTargetIsPreset)")
-
-        if !tempTargetIsPreset {
-            let duration = Int(truncating: tempTargetsArray.first?.duration ?? 0)
-            let startDate = tempTargetsArray.first?.startDate ?? Date()
-            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
-            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
-            debug(
-                .deviceManager,
-                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
-            )
-
-            if timeRemaining > 0.1 {
-                // settingsManager.setLowCarbProfileEnabled(false)
-                debug(
-                    .deviceManager,
-                    "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
-                )
-            } else {
-                settingsManager.setLowCarbProfileEnabled(true)
-                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
-            }
-        } else {
-            settingsManager.setLowCarbProfileEnabled(true)
-            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Target is active")
-        }
-
-        if tempTargetIsPreset {
-            let duration = Int(truncating: tempTargetPresetsArray.first?.duration ?? 0)
-            let startDate = tempTargetPresetsArray.first?.startDate ?? Date()
-            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
-            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
-            debug(
-                .deviceManager,
-                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
-            )
-
-            if timeRemaining > 0.1 {
-                // settingsManager.setLowCarbProfileEnabled(false)
-                debug(
-                    .deviceManager,
-                    "No change back to default carb profile due to active Preset with \(timeRemaining) minutes remaining"
-                )
-            } else {
-                settingsManager.setLowCarbProfileEnabled(true)
-                debug(.deviceManager, "Enabled Low Carb Profile because Preset expired")
-            }
-        } else {
-            settingsManager.setLowCarbProfileEnabled(true)
-            debug(.deviceManager, "Enabled Low Carb Profile as no Presets are active")
-        }
-    }
-
     var glucoseSource: GlucoseSource!
 
     func updateGlucoseSource() {
@@ -202,7 +141,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         debug(.deviceManager, "CGM BLE FETCHGLUCOSE  : SyncDate is \(syncDate)")
         glucoseStoreAndHeartDecision(syncDate: syncDate, glucose: newBloodGlucose)
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     /// function to try to force the refresh of the CGM - generally provide by the pump heartbeat
@@ -222,7 +160,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         }
         .store(in: &lifetime)
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     private func glucoseStoreAndHeartDecision(syncDate: Date, glucose: [BloodGlucose], glucoseFromHealth: [BloodGlucose] = []) {
@@ -293,7 +230,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         healthKitManager.saveIfNeeded(bloodGlucose: glucoseForHealth)
 
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     /// The function used to start the timer sync - Function of the variable defined in config
