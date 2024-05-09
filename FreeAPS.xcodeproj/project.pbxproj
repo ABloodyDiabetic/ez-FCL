@@ -1509,7 +1509,6 @@
 		3811DE9125C9D88200A708ED /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				822A535D2BEBF6A200B410AF /* ContactTrick */,
 				6B1A8D2C2B156EC100E76752 /* LiveActivity */,
 				CEB434E128B8F9BC00B70274 /* Bluetooth */,
 				F90692A8274B7A980037068D /* HealthKit */,
@@ -2220,13 +2219,6 @@
 				50E85421406582CF9D321A20 /* View */,
 			);
 			path = AddCarbs;
-			sourceTree = "<group>";
-		};
-		822A535D2BEBF6A200B410AF /* ContactTrick */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ContactTrick;
 			sourceTree = "<group>";
 		};
 		833DA2F9E47E64E305F92F9D /* View */ = {
