@@ -1,5 +1,5 @@
-name: 4. Build iAPS
-run-name: Build iAPS (${{ github.ref_name }})
+name: 4. Build ezFCL
+run-name: Build ezFCL (${{ github.ref_name }})
 on:
   workflow_dispatch:
 
@@ -12,7 +12,7 @@ on:
     - cron: '0 6 1 * *' # Builds the app on the 1st of every month at 06:00 UTC
 
 env:
-  UPSTREAM_REPO: Artificial-Pancreas/iAPS
+  UPSTREAM_REPO: ABloodyDiabetic/ezFCL
   UPSTREAM_BRANCH: ${{ github.ref_name }} # branch on upstream repository to sync from (replace with specific branch name if needed)
   TARGET_BRANCH: ${{ github.ref_name }} # target branch on fork to be kept in sync, and target branch on upstream to be kept alive (replace with specific branch name if needed)
   ALIVE_BRANCH: alive
@@ -56,7 +56,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        if [[ "$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository_owner }}/iAPS/branches | jq --raw-output 'any(.name=="alive")')" == "true" ]]; then
+        if [[ "$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository_owner }}/ezFCL/branches | jq --raw-output 'any(.name=="alive")')" == "true" ]]; then
           echo "Branch 'alive' exists."
           echo "ALIVE_BRANCH_EXISTS=true" >> $GITHUB_ENV # Set ALIVE_BRANCH_EXISTS to true
         else
@@ -69,13 +69,13 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Get ref for Artificial-Pancreas/iAPS:main
+        # Get ref for ABloodyDiabetic/ezFCL:ezFCL
         SHA=$(curl -sS https://api.github.com/repos/${{ env.UPSTREAM_REPO }}/git/refs \
           | jq '.[] | select(.ref == "refs/heads/main" ) | .object.sha' \
           | tr -d '"'
         );
 
-        # Create alive branch based on Artificial-Pancreas/iAPS:dev
+        # Create alive branch based on ABloodyDiabetic/ezFCL:dev-ezFCL-tddAdjustsBasalAndISF
         gh api \
           --method POST \
           -H "Authorization: token $GITHUB_TOKEN" \
@@ -115,13 +115,13 @@ jobs:
       if: needs.check_alive_and_permissions.outputs.WORKFLOW_PERMISSION != 'true'
       run: |
         echo "### :calendar: Scheduled Sync and Build Disabled :mobile_phone_off:" >> $GITHUB_STEP_SUMMARY
-        echo "You have not yet configured the scheduled sync and build for iAPS's browser build." >> $GITHUB_STEP_SUMMARY
-        echo "Synchronizing your fork of <code>iAPS</code> with the upstream repository <code>Artificial-Pancreas/iAPS</code> will be skipped." >> $GITHUB_STEP_SUMMARY
-        echo "If you want to enable automatic builds and updates for your iAPS, please follow the instructions \
+        echo "You have not yet configured the scheduled sync and build for ezFCL's browser build." >> $GITHUB_STEP_SUMMARY
+        echo "Synchronizing your fork of <code>ezFCL</code> with the upstream repository <code>ABloodyDiabetic/ezFCL</code> will be skipped." >> $GITHUB_STEP_SUMMARY
+        echo "If you want to enable automatic builds and updates for your ezFCL, please follow the instructions \
               under the following path <code>iAPS/fastlane/testflight.md</code>." >> $GITHUB_STEP_SUMMARY
 
 
-  # Builds iAPS
+  # Builds ezFCL
   build:
     name: Build
     needs: [validate, check_alive_and_permissions, check_latest_from_upstream]
@@ -201,9 +201,9 @@ jobs:
       - name: Sync clock
         run: sudo sntp -sS time.windows.com
 
-      # Build signed iAPS IPA file
+      # Build signed ezFCL IPA file
       - name: Fastlane Build & Archive
-        run: bundle exec fastlane build_iAPS
+        run: bundle exec fastlane build_ezFCL
         env:
           TEAMID: ${{ secrets.TEAMID }}
           GH_PAT: ${{ secrets.GH_PAT }}
