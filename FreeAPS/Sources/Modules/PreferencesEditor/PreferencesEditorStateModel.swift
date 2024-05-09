@@ -415,20 +415,19 @@ extension PreferencesEditor {
                     fields: quickPrefs
                 ),
                 FieldSection(
-                    displayName: NSLocalizedString("OpenAPS main settings", comment: "OpenAPS main settings"),
+                    displayName: NSLocalizedString("oref0 Main Settings", comment: "oref0 main settings"),
                     fields: mainFields
                 ),
                 FieldSection(
-                    displayName: NSLocalizedString("OpenAPS SMB settings", comment: "OpenAPS main settings"),
+                    displayName: NSLocalizedString("oref1 SMB Settings", comment: "oref1 main settings"),
                     fields: smbFields
                 ),
                 FieldSection(
-                    displayName: NSLocalizedString("OpenAPS targets settings", comment: "OpenAPS targets settings"),
+                    displayName: NSLocalizedString("oref0 Targets Settings", comment: "oref0 targets settings"),
                     fields: targetSettings
                 ),
-
                 FieldSection(
-                    displayName: NSLocalizedString("OpenAPS other settings", comment: "OpenAPS other settings"),
+                    displayName: NSLocalizedString("oref0 Other Settings", comment: "oref0 other settings"),
                     fields: otherSettings
                 )
             ]

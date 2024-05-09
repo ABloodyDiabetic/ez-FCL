@@ -48,7 +48,7 @@ extension PreferencesEditor {
                 }
 
                 ForEach(state.sections.indexed(), id: \.1.id) { sectionIndex, section in
-                    Section(header: Text(section.displayName)) {
+                    Section(header: Text(section.displayName).textCase(nil)) {
                         ForEach(section.fields.indexed(), id: \.1.id) { fieldIndex, field in
                             HStack {
                                 switch field.type {

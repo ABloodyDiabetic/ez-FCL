@@ -88,6 +88,12 @@ struct Preferences: JSON {
     var B30upperLimit: Decimal = 130
     var B30upperDelta: Decimal = 8
     var B30basalFactor: Decimal = 7
+    // start keto protect
+    var ketoProtect: Bool = false
+    var variableKetoProtect: Bool = false
+    var ketoProtectBasalPercent: Decimal = 20
+    var ketoProtectAbsolut: Bool = false
+    var ketoProtectBasalAbsolut: Decimal = 0
 }
 
 extension Preferences {
@@ -103,7 +109,7 @@ extension Preferences {
         case highTemptargetRaisesSensitivity = "high_temptarget_raises_sensitivity"
         case lowTemptargetLowersSensitivity = "low_temptarget_lowers_sensitivity"
         case sensitivityRaisesTarget = "sensitivity_raises_target"
-        case resistanceLowersTarget
+        case resistanceLowersTarget = "resistance_lowers_target"
         case advTargetAdjustments = "adv_target_adjustments"
         case exerciseMode = "exercise_mode"
         case halfBasalExerciseTarget = "half_basal_exercise_target"
@@ -178,6 +184,12 @@ extension Preferences {
         case B30upperLimit = "b30_upperBG"
         case B30upperDelta = "b30_upperdelta"
         case B30basalFactor = "b30_factor"
+        // start keto protect
+        case ketoProtect = "keto_protect"
+        case variableKetoProtect = "variable_keto_protect_strategy"
+        case ketoProtectBasalPercent = "keto_protect_basal_percent"
+        case ketoProtectAbsolut = "keto_protect_absolute"
+        case ketoProtectBasalAbsolut = "keto_protect_basal_absolute"
     }
 }
 

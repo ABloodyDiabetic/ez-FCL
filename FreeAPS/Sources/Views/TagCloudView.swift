@@ -62,6 +62,7 @@ struct TagCloudView: View {
             case "autoISF",
                  "AIMI B30",
                  textTag where textTag.contains("disabled"),
+                 textTag where textTag.contains("Keto"),
                  textTag where textTag.contains("final"):
                 return .loopRed
             case "autosens:",
