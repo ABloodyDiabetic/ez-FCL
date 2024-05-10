@@ -1,6 +1,8 @@
 import Foundation
 
 struct Preferences: JSON {
+    var sevenDayTDDPlaceholder: Decimal = 20
+    var twentyFourHrTDDPlaceholder: Decimal = 20
     var carbProfileDuration: Decimal = 210
     var enableMiddleware: Bool = false
     var disableMBDuringSleep: Bool = true
@@ -121,6 +123,8 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case sevenDayTDDPlaceholder
+        case twentyFourHrTDDPlaceholder
         case carbProfileDuration
         case enableMiddleware
         case disableMBDuringSleep = "disable_mb_during_sleep"

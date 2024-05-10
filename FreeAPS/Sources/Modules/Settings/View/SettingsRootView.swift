@@ -36,12 +36,12 @@ extension Settings {
                 header: {
                     if let expirationDate = Bundle.main.profileExpiration {
                         Text(
-                            "ezFCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)" +
+                            "ez-FCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)" +
                                 "\nBuild Expires: " + expirationDate
                         ).textCase(nil)
                     } else {
                         Text(
-                            "ezFCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)"
+                            "ez-FCL v\(state.versionNumber) (\(state.buildNumber))\nBranch: \(state.branch)\n\(state.copyrightNotice)"
                         )
                     }
                 }

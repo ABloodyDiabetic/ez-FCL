@@ -123,6 +123,24 @@ extension PreferencesEditor {
 
             let tddFields = [
                 Field(
+                        displayName: "Initial 24 Hour TDD",
+                        type: .decimal(keypath: \.twentyFourHrTDDPlaceholder),
+                        infoText: NSLocalizedString(
+                            "Initial 24 Hour TDD",
+                            comment: "Initial 24 Hour TDD"
+                        ),
+                        settable: self
+                    ),
+                Field(
+                        displayName: "Initial 7 Day TDD",
+                        type: .decimal(keypath: \.sevenDayTDDPlaceholder),
+                        infoText: NSLocalizedString(
+                            "Initial 7 Day TDD",
+                            comment: "Initial 7 Day TDD"
+                        ),
+                        settable: self
+                    ),
+                Field(
                     displayName: "TDD ISF Adjustment Factor",
                     type: .decimal(keypath: \.calculateIsfFromTddNumeratorDivisor),
                     infoText: NSLocalizedString(
@@ -130,8 +148,7 @@ extension PreferencesEditor {
                         comment: "Calculate ISF From TDD Numerator Divisor"
                     ),
                     settable: self
-                ),
-                Field(
+                ),                Field(
                     displayName: "Basal Multiplier",
                     type: .decimal(keypath: \.basalMultiplier),
                     infoText: NSLocalizedString(
