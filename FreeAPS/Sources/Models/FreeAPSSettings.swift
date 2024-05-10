@@ -1,8 +1,10 @@
 import Foundation
 
 struct FreeAPSSettings: JSON, Equatable {
-    var units: GlucoseUnits = .mmolL
+    var enableMiddleware: Bool = false
+    var units: GlucoseUnits = .mgdL
     var closedLoop: Bool = false
+    // var autoisf: Bool = false
     var allowAnnouncements: Bool = false
     var useAutotune: Bool = false
     var isUploadEnabled: Bool = false
@@ -19,11 +21,11 @@ struct FreeAPSSettings: JSON, Equatable {
     var displayCalendarEmojis: Bool = false
     var glucoseBadge: Bool = false
     var glucoseNotificationsAlways: Bool = false
-    var useAlarmSound: Bool = false
+    var useAlarmSound: Bool = true
     var addSourceInfoToGlucoseNotifications: Bool = false
-    var lowGlucose: Decimal = 72
+    var lowGlucose: Decimal = 70
     var highGlucose: Decimal = 270
-    var carbsRequiredThreshold: Decimal = 10
+    var carbsRequiredThreshold: Decimal = 50
     var animatedBackground: Bool = false
     var useFPUconversion: Bool = true
     var tins: Bool = false
@@ -35,7 +37,7 @@ struct FreeAPSSettings: JSON, Equatable {
     var smoothGlucose: Bool = false
     var displayOnWatch: AwConfig = .BGTarget
     var overrideHbA1cUnit: Bool = false
-    var high: Decimal = 145
+    var high: Decimal = 180
     var low: Decimal = 70
     var uploadStats: Bool = true
     var hours: Int = 6
@@ -43,7 +45,7 @@ struct FreeAPSSettings: JSON, Equatable {
     var yGridLines: Bool = true
     var oneDimensionalGraph: Bool = false
     var rulerMarks: Bool = false
-    var maxCarbs: Decimal = 1000
+    var maxCarbs: Decimal = 300
     var displayFatAndProteinOnWatch: Bool = false
     var confirmBolusFaster: Bool = false
     var onlyAutotuneBasals: Bool = false
@@ -51,7 +53,7 @@ struct FreeAPSSettings: JSON, Equatable {
     var useCalc: Bool = false
     var fattyMeals: Bool = false
     var fattyMealFactor: Decimal = 0.7
-    var displayPredictions: Bool = true
+    var displayPredictions: Bool = true //interesting, see what setting to false does
     var useLiveActivity: Bool = false
     var historyLayout: HistoryLayout = .twoTabs
     var useTargetButton: Bool = false
@@ -76,6 +78,14 @@ extension FreeAPSSettings: Decodable {
         if let closedLoop = try? container.decode(Bool.self, forKey: .closedLoop) {
             settings.closedLoop = closedLoop
         }
+
+        if let enableMiddleware = try? container.decode(Bool.self, forKey: .enableMiddleware) {
+            settings.enableMiddleware = enableMiddleware
+        }
+
+//        if let autoisf = try? container.decode(Bool.self, forKey: .autoisf) {
+//            settings.autoisf = autoisf
+//        }
 
         if let allowAnnouncements = try? container.decode(Bool.self, forKey: .allowAnnouncements) {
             settings.allowAnnouncements = allowAnnouncements

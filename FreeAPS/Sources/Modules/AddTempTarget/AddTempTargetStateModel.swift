@@ -3,7 +3,7 @@ import SwiftUI
 
 extension AddTempTarget {
     final class StateModel: BaseStateModel<Provider> {
-        @Injected() var storage: TempTargetsStorage!
+        @Injected() private var storage: TempTargetsStorage!
         @Injected() var apsManager: APSManager!
 
         let coredataContext = CoreDataStack.shared.persistentContainer.viewContext
@@ -12,6 +12,7 @@ extension AddTempTarget {
         // @Published var target: Decimal = 0
         @Published var high: Decimal = 0
         @Published var duration: Decimal = 0
+        @Published var duration2: Decimal = 0
         @Published var date = Date()
         @Published var newPresetName = ""
         @Published var presets: [TempTarget] = []
@@ -22,6 +23,13 @@ extension AddTempTarget {
         @Published var viewPercantage = false
         @Published var hbt: Double = 160
         @Published var saveSettings: Bool = false
+        @Published var carbProfileSelection: String = "Low"
+        @Published var tempLowCarbProfileEnabled: Bool = false
+        @Published var tempMediumCarbProfileEnabled: Bool = false
+        @Published var tempHighCarbProfileEnabled: Bool = false
+        @Published var lowCarbProfile: Bool = false
+        @Published var mediumCarbProfile: Bool = false
+        @Published var highCarbProfile: Bool = false
 
         private(set) var units: GlucoseUnits = .mmolL
 
@@ -33,34 +41,72 @@ extension AddTempTarget {
             use_autoISF = settingsManager.preferences.autoisf
         }
 
+        func applyCarbProfileSetting() {
+            switch carbProfileSelection {
+            case "Low":
+                settingsManager.setLowCarbProfileEnabled(true)
+            case "Medium":
+                settingsManager.setMediumCarbProfileEnabled(true)
+            case "High":
+                settingsManager.setHighCarbProfileEnabled(true)
+            default:
+                break
+            }
+        }
+
         func enact() {
             guard duration > 0 else {
                 return
             }
+            if carbProfileSelection == "Low" {
+                settingsManager.setLowCarbProfileEnabled(true)
+                lowCarbProfile = true
+                mediumCarbProfile = false
+                highCarbProfile = false
+            }
+            if carbProfileSelection == "Medium" {
+                settingsManager.setMediumCarbProfileEnabled(true)
+                lowCarbProfile = false
+                mediumCarbProfile = true
+                highCarbProfile = false
+            }
+            if carbProfileSelection == "High" {
+                settingsManager.setHighCarbProfileEnabled(true)
+                lowCarbProfile = false
+                mediumCarbProfile = false
+                highCarbProfile = true
+            }
+
             var lowTarget = low
             if units == .mmolL {
                 lowTarget = Decimal(round(Double(lowTarget.asMgdL)))
             }
             let highTarget = lowTarget
 
-            if viewPercantage {
-                hbt = computeHBT()
+            if !viewPercantage {
+//                hbt = computeHBT()
+//                coredataContext.performAndWait {
+//                    let saveToCoreData = TempTargets(context: self.coredataContext)
+//                    saveToCoreData.id = UUID().uuidString
+//                    saveToCoreData.active = true
+//                    saveToCoreData.hbt = hbt
+//                    saveToCoreData.date = Date()
+//                    saveToCoreData.duration = duration as NSDecimalNumber
+//                    saveToCoreData.startDate = Date()
+//                    try? self.coredataContext.save()
+//                }
+//                saveSettings = true
+//            } else {
                 coredataContext.performAndWait {
-                    let saveToCoreData = TempTargets(context: self.coredataContext)
-                    saveToCoreData.id = UUID().uuidString
+                    let saveToCoreData = TempTargets(context: coredataContext)
                     saveToCoreData.active = true
-                    saveToCoreData.hbt = hbt
                     saveToCoreData.date = Date()
                     saveToCoreData.duration = duration as NSDecimalNumber
                     saveToCoreData.startDate = Date()
-                    try? self.coredataContext.save()
-                }
-                saveSettings = true
-            } else {
-                coredataContext.performAndWait {
-                    let saveToCoreData = TempTargets(context: coredataContext)
-                    saveToCoreData.active = false
-                    saveToCoreData.date = Date()
+                    saveToCoreData.low = low as NSDecimalNumber
+                    saveToCoreData.lowCarbProfile = lowCarbProfile
+                    saveToCoreData.mediumCarbProfile = mediumCarbProfile
+                    saveToCoreData.highCarbProfile = highCarbProfile
                     try? coredataContext.save()
                 }
             }
@@ -72,7 +118,10 @@ extension AddTempTarget {
                 targetBottom: lowTarget,
                 duration: duration,
                 enteredBy: TempTarget.manual,
-                reason: TempTarget.custom
+                reason: TempTarget.custom,
+                lowCarbProfile: lowCarbProfile,
+                mediumCarbProfile: mediumCarbProfile,
+                highCarbProfile: highCarbProfile
             )
             storage.storeTempTargets([entry])
             showModal(for: nil)
@@ -82,16 +131,24 @@ extension AddTempTarget {
             storage.storeTempTargets([TempTarget.cancel(at: Date())])
             showModal(for: nil)
 
+            settingsManager.setLowCarbProfileEnabled(true)
+            lowCarbProfile = true
+            mediumCarbProfile = false
+            highCarbProfile = false
+
             coredataContext.performAndWait {
                 let saveToCoreData = TempTargets(context: self.coredataContext)
                 saveToCoreData.active = false
                 saveToCoreData.date = Date()
+                saveToCoreData.lowCarbProfile = lowCarbProfile
+                saveToCoreData.mediumCarbProfile = mediumCarbProfile
+                saveToCoreData.highCarbProfile = highCarbProfile
                 try? self.coredataContext.save()
 
-                let setHBT = TempTargetsSlider(context: self.coredataContext)
-                setHBT.enabled = false
-                setHBT.date = Date()
-                try? self.coredataContext.save()
+//                let setHBT = TempTargetsSlider(context: self.coredataContext)
+//                setHBT.enabled = false
+//                setHBT.date = Date()
+//                try? self.coredataContext.save()
             }
         }
 
@@ -105,10 +162,26 @@ extension AddTempTarget {
             }
             let highTarget = lowTarget
 
-            if viewPercantage {
-                hbt = computeHBT()
-                saveSettings = true
+            if carbProfileSelection == "Low" {
+                lowCarbProfile = true
+                mediumCarbProfile = false
+                highCarbProfile = false
             }
+            if carbProfileSelection == "Medium" {
+                lowCarbProfile = false
+                mediumCarbProfile = true
+                highCarbProfile = false
+            }
+            if carbProfileSelection == "High" {
+                lowCarbProfile = false
+                mediumCarbProfile = false
+                highCarbProfile = true
+            }
+
+//            if viewPercantage {
+//                hbt = computeHBT()
+//                saveSettings = true
+//            }
 
             let entry = TempTarget(
                 name: newPresetName.isEmpty ? TempTarget.custom : newPresetName,
@@ -117,23 +190,42 @@ extension AddTempTarget {
                 targetBottom: lowTarget,
                 duration: duration,
                 enteredBy: TempTarget.manual,
-                reason: newPresetName.isEmpty ? TempTarget.custom : newPresetName
+                reason: newPresetName.isEmpty ? TempTarget.custom : newPresetName,
+                lowCarbProfile: lowCarbProfile,
+                mediumCarbProfile: mediumCarbProfile,
+                highCarbProfile: highCarbProfile
             )
             presets.append(entry)
             storage.storePresets(presets)
 
-            if viewPercantage {
+            if !viewPercantage {
+//                let id = entry.id
+
+//                coredataContext.performAndWait {
+//                    let saveToCoreData = TempTargetsSlider(context: self.coredataContext)
+//                    saveToCoreData.id = id
+//                    saveToCoreData.isPreset = true
+//                    saveToCoreData.enabled = true
+//                    saveToCoreData.hbt = hbt
+//                    saveToCoreData.date = Date()
+//                    saveToCoreData.duration = duration as NSDecimalNumber
+//                    try? self.coredataContext.save()
+//                }
+//            } else {
                 let id = entry.id
 
                 coredataContext.performAndWait {
-                    let saveToCoreData = TempTargetsSlider(context: self.coredataContext)
+                    let saveToCoreData = TempTargets(context: coredataContext)
                     saveToCoreData.id = id
                     saveToCoreData.isPreset = true
                     saveToCoreData.enabled = true
-                    saveToCoreData.hbt = hbt
                     saveToCoreData.date = Date()
                     saveToCoreData.duration = duration as NSDecimalNumber
-                    try? self.coredataContext.save()
+                    saveToCoreData.low = low as NSDecimalNumber
+                    saveToCoreData.lowCarbProfile = lowCarbProfile
+                    saveToCoreData.mediumCarbProfile = mediumCarbProfile
+                    saveToCoreData.highCarbProfile = highCarbProfile
+                    try? coredataContext.save()
                 }
             }
         }
@@ -144,9 +236,13 @@ extension AddTempTarget {
                 storage.storeTempTargets([preset])
                 showModal(for: nil)
 
+                settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
+                settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
+                settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+
                 coredataContext.performAndWait {
-                    var tempTargetsArray = [TempTargetsSlider]()
-                    let requestTempTargets = TempTargetsSlider.fetchRequest() as NSFetchRequest<TempTargetsSlider>
+                    var tempTargetsArray = [TempTargets]()
+                    let requestTempTargets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
                     let sortTT = NSSortDescriptor(key: "date", ascending: false)
                     requestTempTargets.sortDescriptors = [sortTT]
                     try? tempTargetsArray = coredataContext.fetch(requestTempTargets)
@@ -157,16 +253,15 @@ extension AddTempTarget {
                         let saveToCoreData = TempTargets(context: self.coredataContext)
                         saveToCoreData.active = true
                         saveToCoreData.date = Date()
-                        saveToCoreData.hbt = whichID?.hbt ?? 160
+                        // saveToCoreData.hbt = whichID?.hbt ?? 160
                         // saveToCoreData.id = id
                         saveToCoreData.startDate = Date()
                         saveToCoreData.duration = whichID?.duration ?? 0
+                        saveToCoreData.low = low as NSDecimalNumber
+                        saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
+                        saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
+                        saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
 
-                        try? self.coredataContext.save()
-                    } else {
-                        let saveToCoreData = TempTargets(context: self.coredataContext)
-                        saveToCoreData.active = false
-                        saveToCoreData.date = Date()
                         try? self.coredataContext.save()
                     }
                 }
@@ -178,17 +273,17 @@ extension AddTempTarget {
             storage.storePresets(presets)
         }
 
-        func computeHBT() -> Double {
-            let ratio = Decimal(percentage / 100)
-            let normalTarget: Decimal = 100
-            var target: Decimal = low
-            if units == .mmolL {
-                target = target.asMgdL }
-            var hbtcalc = Decimal(hbt)
-            if ratio != 1 {
-                hbtcalc = ((2 * ratio * normalTarget) - normalTarget - (ratio * target)) / (ratio - 1)
-            }
-            return round(Double(hbtcalc))
-        }
+//        func computeHBT() -> Double {
+//            let ratio = Decimal(percentage / 100)
+//            let normalTarget: Decimal = 100
+//            var target: Decimal = low
+//            if units == .mmolL {
+//                target = target.asMgdL }
+//            var hbtcalc = Decimal(hbt)
+//            if ratio != 1 {
+//                hbtcalc = ((2 * ratio * normalTarget) - normalTarget - (ratio * target)) / (ratio - 1)
+//            }
+//            return round(Double(hbtcalc))
+//        }
     }
 }

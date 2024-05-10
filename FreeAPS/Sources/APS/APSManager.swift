@@ -344,12 +344,18 @@ final class BaseAPSManager: APSManager, Injectable {
             return Just(false).eraseToAnyPublisher()
         }
 
-        // Only let glucose be flat when 400 mg/dl
-        if (glucoseStorage.recent().last?.glucose ?? 100) != 400 {
-            guard glucoseStorage.isGlucoseNotFlat() else {
-                debug(.apsManager, "Glucose data is too flat")
-                processError(APSError.glucoseError(message: "Glucose data is too flat"))
-                return Just(false).eraseToAnyPublisher()
+        // Attempt to retrieve user preferences or use default settings if not found
+        let preferences = storage
+            .retrieve(OpenAPS.Settings.preferences, as: Preferences.self) ?? Preferences(flatGlucoseCheck: false)
+
+        // Now proceed to check glucose flatness if the preference is enabled
+        if preferences.flatGlucoseCheck {
+            if (glucoseStorage.recent().last?.glucose ?? 100) != 400 {
+                guard glucoseStorage.isGlucoseNotFlat() else {
+                    debug(.apsManager, "Glucose data is too flat")
+                    processError(APSError.glucoseError(message: "Glucose data is too flat"))
+                    return Just(false).eraseToAnyPublisher()
+                }
             }
         }
 
@@ -788,6 +794,7 @@ final class BaseAPSManager: APSManager, Injectable {
                 let saveLastLoop = LastLoop(context: self.coredataContext)
                 saveLastLoop.iob = (enacted.iob ?? 0) as NSDecimalNumber
                 saveLastLoop.cob = (enacted.cob ?? 0) as NSDecimalNumber
+                saveLastLoop.rate = (enacted.rate ?? 0) as NSDecimalNumber
                 saveLastLoop.timestamp = (enacted.timestamp ?? .distantPast) as Date
                 try? self.coredataContext.save()
             }
@@ -809,6 +816,7 @@ final class BaseAPSManager: APSManager, Injectable {
                     saveToAutoISF.pp_ratio = (enacted.ppISFratio ?? 1) as NSDecimalNumber?
                     saveToAutoISF.delta_ratio = (enacted.deltaISFratio ?? 1) as NSDecimalNumber?
                     saveToAutoISF.dura_ratio = (enacted.duraISFratio ?? 1) as NSDecimalNumber?
+                    saveToAutoISF.iob = (enacted.iob ?? 1) as NSDecimalNumber?
                     saveToAutoISF.sensitivity_ratio = (enacted.sensitivityRatio ?? 1) as NSDecimalNumber?
                     saveToAutoISF.autoISF_ratio = (enacted.autoISFratio ?? 1) as NSDecimalNumber?
 //                    print("CoreData: catches autoISF Ratio: \(saveToAutoISF.autoISF_ratio ?? 0)")

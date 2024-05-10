@@ -9,9 +9,12 @@ struct TempTarget: JSON, Identifiable, Equatable, Hashable {
     let duration: Decimal
     let enteredBy: String?
     let reason: String?
+    let lowCarbProfile: Bool?
+    let mediumCarbProfile: Bool?
+    let highCarbProfile: Bool?
 
-    static let manual = "iAPS"
-    static let custom = "Temp target"
+    static let manual = "ezFCL"
+    static let custom = "Temp Profile"
     static let cancel = "Cancel"
 
     var displayName: String {
@@ -34,7 +37,10 @@ struct TempTarget: JSON, Identifiable, Equatable, Hashable {
             targetBottom: 0,
             duration: 0,
             enteredBy: TempTarget.manual,
-            reason: TempTarget.cancel
+            reason: TempTarget.cancel,
+            lowCarbProfile: true,
+            mediumCarbProfile: false,
+            highCarbProfile: false
         )
     }
 }
@@ -49,5 +55,8 @@ extension TempTarget {
         case duration
         case enteredBy
         case reason
+        case lowCarbProfile
+        case mediumCarbProfile
+        case highCarbProfile
     }
 }

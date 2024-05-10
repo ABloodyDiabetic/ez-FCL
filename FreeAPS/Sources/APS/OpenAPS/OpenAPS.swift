@@ -573,7 +573,13 @@ final class OpenAPS {
             worker.evaluate(script: Script(name: Bundle.determineBasal))
 
             if let middleware = self.middlewareScript(name: OpenAPS.Middleware.determineBasal) {
-                worker.evaluate(script: middleware)
+                let preferences = self.storage.retrieve(OpenAPS.Settings.preferences, as: Preferences.self)
+                let enableMiddleware = preferences?.enableMiddleware ?? false
+                if enableMiddleware {
+                    worker.evaluate(script: middleware)
+                } else {
+                    print("Middleware execution is disabled.")
+                }
             }
 
             return worker.call(

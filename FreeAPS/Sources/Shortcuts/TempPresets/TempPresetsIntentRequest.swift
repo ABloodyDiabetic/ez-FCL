@@ -117,7 +117,10 @@ import Foundation
             targetBottom: targetCorrectUnit,
             duration: duration,
             enteredBy: TempTarget.manual,
-            reason: TempTarget.custom
+            reason: TempTarget.custom,
+            lowCarbProfile: true,
+            mediumCarbProfile: false,
+            highCarbProfile: false
         )
         storage.storeTempTargets([entry])
         return entry
