@@ -3,6 +3,7 @@ import Foundation
 
 struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
+        let basal: Decimal
         let bg: String
         let direction: String?
         let change: String

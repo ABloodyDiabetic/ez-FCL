@@ -30,6 +30,7 @@ extension Home {
         @Published var carbs: [CarbsEntry] = []
         @Published var timerDate = Date()
         @Published var closedLoop = false
+//        @Published var autoisf = false
         @Published var pumpSuspended = false
         @Published var isLooping = false
         @Published var statusTitle = ""
@@ -100,6 +101,7 @@ extension Home {
             units = settingsManager.settings.units
             allowManualTemp = !settingsManager.settings.closedLoop
             closedLoop = settingsManager.settings.closedLoop
+//            autoisf = settingsManager.settings.autoisf
             lastLoopDate = apsManager.lastLoopDate
             carbsRequired = suggestion?.carbsReq
             alarm = provider.glucoseStorage.alarm

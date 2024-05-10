@@ -41,20 +41,20 @@ extension ISFEditor {
 
         var body: some View {
             Form {
-                if let autotune = state.autotune, !state.settingsManager.settings.onlyAutotuneBasals {
-                    Section(header: Text("Autotune")) {
-                        HStack {
-                            Text("Calculated Sensitivity")
-                            Spacer()
-                            if state.units == .mmolL {
-                                Text(rateFormatter.string(from: autotune.sensitivity.asMmolL as NSNumber) ?? "0")
-                            } else {
-                                Text(rateFormatter.string(from: autotune.sensitivity as NSNumber) ?? "0")
-                            }
-                            Text(state.units.rawValue + "/U").foregroundColor(.secondary)
-                        }
-                    }
-                }
+//                if let autotune = state.autotune, !state.settingsManager.settings.onlyAutotuneBasals {
+//                    Section(header: Text("Autotune")) {
+//                        HStack {
+//                            Text("Calculated Sensitivity")
+//                            Spacer()
+//                            if state.units == .mmolL {
+//                                Text(rateFormatter.string(from: autotune.sensitivity.asMmolL as NSNumber) ?? "0")
+//                            } else {
+//                                Text(rateFormatter.string(from: autotune.sensitivity as NSNumber) ?? "0")
+//                            }
+//                            Text(state.units.rawValue + "/U").foregroundColor(.secondary)
+//                        }
+//                    }
+//                }
                 if let newISF = state.autosensISF {
                     Section(
                         header: !state.settingsManager.preferences

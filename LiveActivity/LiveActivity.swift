@@ -48,10 +48,13 @@ struct LiveActivity: Widget {
     @ViewBuilder func mealLabel(context: ActivityViewContext<LiveActivityAttributes>) -> some View {
         VStack(alignment: .leading, spacing: 1, content: {
             HStack {
-                Text("COB: ").font(.caption)
+                Text("BR:  ").font(.caption)
                 Text(
-                    (carbsFormatter.string(from: context.state.cob as NSNumber) ?? "--") +
-                        NSLocalizedString(" g", comment: "grams of carbs")
+                    (bolusFormatter.string(from: context.state.basal as NSNumber) ?? "--") +
+                        NSLocalizedString(
+                            " U",
+                            comment: "Unit in number of units currently being delivered (keep the space character!)"
+                        )
                 ).font(.caption).fontWeight(.bold)
             }
             HStack {

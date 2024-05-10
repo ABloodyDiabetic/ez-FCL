@@ -10,8 +10,8 @@ extension Stat {
         @Environment(\.managedObjectContext) private var viewContext
 
         @State private var selectedEndTime = Date()
-        @State private var selectedTimeIntervalIndex = 1 // Default to 2 hours
-        let timeIntervalOptions = [1, 2, 4, 8] // Hours
+        @State private var selectedTimeIntervalIndex = 0 // Default to 24 hours
+        let timeIntervalOptions = [8, 16, 24, 48, 72] // Hours
 
         @State private var autoISFResults: [AutoISF] = [] // Holds the fetched results
         @Environment(\.horizontalSizeClass) var sizeClass
@@ -105,17 +105,22 @@ extension Stat {
                             Spacer()
                             Text("acce")
                             Spacer()
-                            Text("bg")
                             Spacer()
-                            Text("pp")
                             Spacer()
-                            Text("dura") }
+                            Text("Δ")
+                            Spacer()
+                            Spacer()
+                            Text("---")
+                            Spacer()
+                            Spacer()
+                            Text("isf")
+                            Spacer() }
                             .foregroundColor(.uam)
                         Spacer()
                         Group {
                             Text("SMB")
                             Spacer()
-                            Text("TBR")
+                            Text("IOB")
                             Spacer()
                             Text("req.")
                         }
@@ -148,6 +153,22 @@ extension Stat {
                 List {
                     ForEach(autoISFResults, id: \.self) { entry in
                         HStack(spacing: 2) {
+                            let iob = String(
+                                format: "%.2f",
+                                NSDecimalNumber(
+                                    decimal: (entry.iob ?? 0) as Decimal
+                                )
+                                .doubleValue
+                            )
+
+                            let insulinReq = String(
+                                format: "%.1f",
+                                NSDecimalNumber(
+                                    decimal: (entry.insulin_req ?? 0) as Decimal
+                                )
+                                .doubleValue
+                            )
+
                             Text(timeFormatter.string(from: entry.timestamp ?? Date()))
                                 .frame(width: 1.2 / slots * geometry.size.width, alignment: .leading)
 
@@ -157,15 +178,15 @@ extension Stat {
                             Group {
                                 Text("\(entry.autoISF_ratio ?? 1)")
                                 Text("\(entry.acce_ratio ?? 1)")
-                                Text("\(entry.bg_ratio ?? 1)")
                                 Text("\(entry.pp_ratio ?? 1)")
-                                Text("\(entry.dura_ratio ?? 1)") }
+                                Text("\(entry.dura_ratio ?? 1)")
+                                Text("\(entry.isf ?? 1)") }
                                 .frame(width: 0.9 / slots * geometry.size.width, alignment: .trailing)
                                 .foregroundColor(.uam)
                             Group {
                                 Text("\(entry.smb ?? 0)")
-                                Text("\(entry.tbr ?? 0)")
-                                Text("\(entry.insulin_req ?? 0)") }
+                                Text("\(iob)")
+                                Text("\(insulinReq)") }
                                 .frame(width: slotwidth / slots * geometry.size.width, alignment: .trailing)
                                 .foregroundColor(.insulin)
                         }
@@ -175,7 +196,7 @@ extension Stat {
                 .frame(maxWidth: .infinity)
                 //                .edgesIgnoringSafeArea(.all)
                 .listStyle(PlainListStyle())
-            }.navigationBarTitle(Text("autoISF History"), displayMode: .inline)
+            }.navigationBarTitle(Text("ezFCL History"), displayMode: .inline) // Line 206
         }
     }
 }
