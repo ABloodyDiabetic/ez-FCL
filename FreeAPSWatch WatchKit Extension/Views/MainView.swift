@@ -15,6 +15,7 @@ struct MainView: View {
     @State var isBolusActive = false
     @State private var pulse = 0
     @State private var steps = 0
+    @State private var scale: CGFloat = 1.0
 
     @GestureState var isDetectingLongPress = false
     @State var completedLongPress = false
@@ -25,6 +26,18 @@ struct MainView: View {
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
 
+    private var backgroundGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color.bgDarkBlue,
+                Color.bgDarkerDarkBlue,
+                Color.bgDarkBlue
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             if !completedLongPressOfBG {
@@ -32,13 +45,14 @@ struct MainView: View {
                     HStack {
                         withAnimation {
                             BlinkingView(count: 5, size: 3)
-                                .frame(width: 14, height: 14)
-                                .padding(2)
+                                .frame(width: 11, height: 11)
+                                .offset(x: 67, y: 80)
                         }
-                        Text("Updating...").font(.caption2).foregroundColor(.secondary)
+                        Text("").font(.caption2).foregroundColor(.secondary)
                     }
                 }
             }
+
             VStack {
                 if !completedLongPressOfBG {
                     header
@@ -66,155 +80,143 @@ struct MainView: View {
             state.timerDate = date
             state.requestState()
         }
+        .background(backgroundGradient)
+        .edgesIgnoringSafeArea(.all)
         .onAppear {
             state.requestState()
+        }
+        .overlay(
+            loopTime
+                .offset(x: 0, y: -3)
+        )
+    }
+
+    var glucoseView: some View {
+        CurrentGlucoseView(
+        )
+    }
+
+    var isf: some View {
+        Group {
+            let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
+            HStack {
+                Image(systemName: "arrow.up.arrow.down")
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 13, height: 13)
+                    .foregroundColor(.white)
+                    .offset(x: 1, y: 1)
+                Text(isfValue)
+                    .fontWeight(.semibold)
+                    .font(.caption2)
+                    .scaledToFill()
+                    .foregroundColor(.white)
+                    .minimumScaleFactor(0.5)
+            }
+        }
+    }
+
+    var cob: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
+                .fontWeight(.semibold)
+                .font(.caption2)
+                .scaledToFill()
+                .foregroundColor(Color.white)
+                .minimumScaleFactor(0.5)
+            Image("premeal")
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 14, height: 14)
+                .foregroundColor(.loopYellow)
+                .offset(x: -1, y: 2)
+        }
+    }
+
+    var iob: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
+                .fontWeight(.semibold)
+                .font(.caption2)
+                .scaledToFill()
+                .foregroundColor(Color.white)
+                .minimumScaleFactor(0.5)
+            Image(systemName: "drop.circle")
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 14, height: 14)
+                .foregroundColor(.insulin)
+                .offset(x: -1, y: 3)
+        }
+    }
+
+    var blinkyView: some View {
+        ZStack {
+            if !completedLongPressOfBG {
+                if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
+                    BlinkingView(count: 5, size: 3)
+                        .frame(width: 11, height: 11)
+                        .animation(Animation.default, value: state.timerDate) // Apply animation directly here
+                }
+            }
+        }
+    }
+
+    var loopTime: some View {
+        VStack {
+            if state.lastLoopDate != nil {
+                Text(timeString).font(.caption2).foregroundColor(.gray)
+            } else {
+                Text("--").font(.caption2).foregroundColor(.gray)
+            }
         }
     }
 
     var header: some View {
         VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(state.glucose).font(.title)
-                        Text(state.trend)
-                            .scaledToFill()
-                            .minimumScaleFactor(0.5)
-                    }
-                    /* IF YOU WANT TO DISPLAY MINUTES AGO, UNCOMMENT the gray code below
-                     let minutesAgo: TimeInterval = -1 * (state.glucoseDate ?? .distantPast).timeIntervalSinceNow / 60
-                     let minuteString = minutesAgo.formatted(.number.grouping(.never).rounded().precision(.fractionLength(0)))
-                     */
-                    HStack {
-                        /* if minutesAgo > 0 {
-                             Text(minuteString)
-                             Text("min")
-                         } */
-                        Text(state.delta)
-                    }
-                    .font(.caption2).foregroundColor(.gray)
-                }
-                Spacer()
-
-                VStack(spacing: 0) {
-                    HStack {
-                        Circle().stroke(color, lineWidth: 5).frame(width: 26, height: 26).padding(10)
-                    }
-
-                    if state.lastLoopDate != nil {
-                        Text(timeString).font(.caption2).foregroundColor(.gray)
-                    } else {
-                        Text("--").font(.caption2).foregroundColor(.gray)
-                    }
-                }
-            }
+            HStack(alignment: .top) {}
             Spacer()
-            HStack(alignment: .firstTextBaseline) {
-                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
-                    .font(.caption2)
-                    .scaledToFill()
-                    .foregroundColor(Color.white)
-                    .minimumScaleFactor(0.5)
-                Text("g").foregroundColor(.loopYellow)
-                    .font(.caption2)
-                    .scaledToFill()
-                    .minimumScaleFactor(0.5)
-                Spacer()
-                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
-                    .font(.caption2)
-                    .scaledToFill()
-                    .foregroundColor(Color.white)
-                    .minimumScaleFactor(0.5)
-
-                Text("U").foregroundColor(.insulin)
-                    .font(.caption2)
-                    .scaledToFill()
-                    .minimumScaleFactor(0.5)
-
-                switch state.displayOnWatch {
-                case .HR:
-                    Spacer()
-                    HStack {
-                        if completedLongPress {
-                            HStack {
-                                Text("❤️" + " \(pulse)")
-                                    .fontWeight(.regular)
-                                    .font(.custom("activated", size: 20))
-                                    .scaledToFill()
-                                    .foregroundColor(.white)
-                                    .minimumScaleFactor(0.5)
-                            }
-                            .scaleEffect(isDetectingLongPress ? 3 : 1)
-                            .gesture(longPress)
-
-                        } else {
-                            HStack {
-                                Text("❤️" + " \(pulse)")
-                                    .fontWeight(.regular)
-                                    .font(.caption2)
-                                    .scaledToFill()
-                                    .foregroundColor(.white)
-                                    .minimumScaleFactor(0.5)
-                            }
-                            .scaleEffect(isDetectingLongPress ? 3 : 1)
-                            .gesture(longPress)
-                        }
-                    }
-                case .BGTarget:
-                    if let eventualBG = state.eventualBG.nonEmpty {
-                        Spacer()
-                        HStack {
-                            Text(eventualBG)
-                                .font(.caption2)
-                                .scaledToFill()
-                                .foregroundColor(.secondary)
-                                .minimumScaleFactor(0.5)
-                        }
-                    }
-                case .steps:
-                    Spacer()
-                    HStack {
-                        Text("🦶" + " \(steps)")
-                            .fontWeight(.regular)
-                            .font(.caption2)
-                            .scaledToFill()
-                            .foregroundColor(.white)
-                            .minimumScaleFactor(0.5)
-                    }
-                case .isf:
-                    Spacer()
-                    let isf: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
-                    HStack {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 12, height: 12)
-                            .foregroundColor(.loopGreen)
-                        Text("\(isf)")
-                            .fontWeight(.regular)
-                            .font(.caption2)
-                            .scaledToFill()
-                            .foregroundColor(.white)
-                            .minimumScaleFactor(0.5)
-                    }
-                case .override:
-                    Spacer()
-                    let override: String = state.override != nil ? state.override! : "-"
-                    HStack {
-                        Text("👤 \(override)")
-                            .fontWeight(.regular)
-                            .font(.caption2)
-                            .scaledToFill()
-                            .foregroundColor(.white)
-                            .minimumScaleFactor(0.5)
-                    }
-                }
-            }
             Spacer()
                 .onAppear(perform: start)
+                .overlay(
+                    glucoseView
+                        .scaleEffect(0.75) // Adjust the scaling factor as needed
+                        .offset(x: 0, y: -5), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
+                .overlay(
+                    Circle()
+                        .fill(color)
+                        .frame(width: 11, height: 11)
+                        .scaleEffect(1) // Adjust the scaling factor as needed
+                        .offset(x: 0, y: -37), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
+                .overlay(
+                    blinkyView
+                        .scaleEffect(1) // Adjust the scaling factor as needed
+                        .offset(x: 0, y: 28), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
+                .overlay(
+                    isf
+                        .scaleEffect(1) // Adjust the scaling factor as needed
+                        .offset(x: 49, y: 49), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
+                .overlay(
+                    cob
+                        .scaleEffect(1) // Adjust the scaling factor as needed
+                        .offset(x: -49, y: -58), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
+                .overlay(
+                    iob
+                        .scaleEffect(1) // Adjust the scaling factor as needed
+                        .offset(x: -49, y: 49), // Start with centered, adjust as needed
+                    alignment: .center // Ensures that the overlay is centered in the VStack
+                )
         }
-        .padding()
-        // .scaleEffect(isDetectingLongPressOfBG ? 3 : 1)
         .gesture(longPresBGs)
     }
 
@@ -222,14 +224,17 @@ struct MainView: View {
         VStack(alignment: .center) {
             HStack {
                 Text(state.glucose).font(.custom("Big BG", size: 55))
+                    .minimumScaleFactor(1) // Allows the text size to adjust to fit the space
+                    .lineLimit(1) // Ensures the text does not wrap
+                    .frame(minWidth: 0, maxWidth: .infinity) // Adjust maxWidth as needed
                 Text(state.trend != "→" ? state.trend : "")
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
             }.padding(.bottom, 35)
 
-            HStack {
-                Circle().stroke(color, lineWidth: 5).frame(width: 20, height: 20).padding(10)
-            }
+//            HStack {
+//                Circle().stroke(color, lineWidth: 5).frame(width: 20, height: 20).padding(10)
+//            }
         }
         .gesture(longPresBGs)
     }
@@ -261,78 +266,87 @@ struct MainView: View {
     }
 
     var buttons: some View {
-        HStack(alignment: .center) {
-            NavigationLink(isActive: $state.isCarbsViewActive) {
-                CarbsView()
-                    .environmentObject(state)
-            } label: {
-                Image("carbs", bundle: nil)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.loopYellow)
-            }
+        GeometryReader { geometry in
+            ZStack {
+                Rectangle()
+                    .fill(Color("Color"))
+                    .frame(height: geometry.size.height / 1.875)
+                    .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.75), radius: 5)
+                    .padding([.leading, .trailing], 3.25)
 
-            if state.profilesOrTempTargets {
-                NavigationLink(isActive: $state.isTempTargetViewActive) {
-                    TempTargetsView()
-                        .environmentObject(state)
-                } label: {
-                    VStack {
-                        Image("target", bundle: nil)
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.loopGreen)
-                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                            Text(until, style: .timer)
-                                .scaledToFill()
-                                .font(.system(size: 8))
-                        }
-                    }
-                }
-            } else {
-                NavigationLink(isActive: $state.isOverridesViewActive) {
-                    OverridesView()
-                        .environmentObject(state)
-                } label: {
-                    VStack {
-                        if let until = state.overrides.compactMap(\.until).first, until > Date.now {
-                            Image(systemName: "person.fill")
+                VStack {
+                    Spacer()
+                    HStack(alignment: .center) {
+                        NavigationLink(isActive: $state.isCarbsViewActive) {
+                            CarbsView()
+                                .environmentObject(state)
+                        } label: {
+                            Image("carbs1", bundle: nil)
                                 .renderingMode(.template)
                                 .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.purple)
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.leading, 12) // Custom padding on the left of the first button
 
-                            if until > Date.now.addingTimeInterval(48.hours.timeInterval) {
-                                Text("> 48h")
-                                    .scaledToFill()
-                                    .font(.system(size: 7))
-                            } else {
-                                Text(until, style: .timer)
-                                    .font(.system(size: 8))
+                        Spacer() // Keeps buttons spaced out if no specific adjustment is needed here
+
+                        if state.profilesOrTempTargets {
+                            NavigationLink(isActive: $state.isTempTargetViewActive) {
+                                TempTargetsView()
+                                    .environmentObject(state)
+                            } label: {
+                                VStack {
+                                    Image("target1", bundle: nil)
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                        .foregroundColor(.white)
+                                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                                        Text(until, style: .timer)
+                                            .scaledToFill()
+                                            .font(.system(size: 8))
+                                    }
+                                }
                             }
+                            .padding(.leading, -40.5) // Increase to move the middle button right
                         } else {
-                            Image(systemName: "person")
+                            NavigationLink(isActive: $state.isOverridesViewActive) {
+                                OverridesView()
+                                    .environmentObject(state)
+                            } label: {
+                                VStack {
+                                    Image(systemName: "person.fill")
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                        .foregroundColor(.purple)
+                                }
+                                .padding(.leading, 0)
+                            }
+                            .padding(.leading, 0) // Adjust as needed for alignment
+                        }
+
+                        NavigationLink(isActive: $state.isBolusViewActive) {
+                            BolusView()
+                                .environmentObject(state)
+                        } label: {
+                            Image("bolus", bundle: nil)
                                 .renderingMode(.template)
                                 .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.purple)
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(.white)
                         }
+                        .padding(.trailing, 10) // Custom padding on the right of the last button
                     }
+                    Spacer()
                 }
+                .buttonStyle(PlainButtonStyle())
             }
-
-            NavigationLink(isActive: $state.isBolusViewActive) {
-                BolusView()
-                    .environmentObject(state)
-            } label: {
-                Image("bolus", bundle: nil)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.insulin)
-            }
+            .frame(height: geometry.size.height)
+            .scaleEffect(1.0625)
+            .offset(x: 0, y: 20)
         }
     }
 
