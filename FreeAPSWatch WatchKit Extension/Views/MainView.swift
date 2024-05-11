@@ -188,13 +188,10 @@ struct MainView: View {
 
     var blinkyView: some View {
         ZStack {
-            if !completedLongPressOfBG {
-                if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
-                    PulsatingCircleView(color: color, size: 11)
-                }
-            }
+            PulsatingCircleView(color: color, size: 11, shouldAnimate: state.timerDate.timeIntervalSince(state.lastUpdate) > 10)
         }
     }
+
 
     var loopTime: some View {
         VStack {
@@ -525,20 +522,16 @@ struct ContentView_Previews: PreviewProvider {
 
 struct PulsatingCircleView: View {
     var color: Color
-    var size: CGFloat = 20.0
-    @State private var animate = false
+    var size: CGFloat
+    var shouldAnimate: Bool
 
     var body: some View {
         Circle()
             .fill(color)
             .frame(width: size, height: size)
-            .scaleEffect(animate ? 1.225 : 1.0)
-            .animation(
-                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                value: animate
-            )
-            .onAppear {
-                self.animate = true
-            }
+            .scaleEffect(shouldAnimate ? 1.225 : 1.0)
+            .animation(shouldAnimate ? .easeInOut(duration: 1).repeatForever(autoreverses: true) : nil, value: shouldAnimate)
     }
 }
+
+
