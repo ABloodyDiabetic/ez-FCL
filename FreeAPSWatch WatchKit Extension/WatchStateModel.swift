@@ -9,7 +9,7 @@ enum AwConfig: String, CaseIterable, Identifiable, Codable {
     case BGTarget
     case steps
     case isf
-    case override
+    // case override
 }
 
 class WatchStateModel: NSObject, ObservableObject {

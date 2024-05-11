@@ -11,7 +11,6 @@ struct MainView: View {
 
     @State var isCarbsActive = false
     @State var isTargetsActive = false
-    @State var isOverrideActive = false
     @State var isBolusActive = false
     @State private var pulse = 0
     @State private var steps = 0
@@ -43,12 +42,7 @@ struct MainView: View {
             if !completedLongPressOfBG {
                 if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
                     HStack {
-                        withAnimation {
-                            BlinkingView(count: 5, size: 3)
-                                .frame(width: 11, height: 11)
-                                .offset(x: 67, y: 80)
-                        }
-                        Text("").font(.caption2).foregroundColor(.secondary)
+                        Text("").fontWeight(.semibold).font(.caption2)
                     }
                 }
             }
@@ -98,20 +92,62 @@ struct MainView: View {
 
     var isf: some View {
         Group {
-            let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
-            HStack {
-                Image(systemName: "arrow.up.arrow.down")
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 13, height: 13)
-                    .foregroundColor(.white)
-                    .offset(x: 1, y: 1)
-                Text(isfValue)
-                    .fontWeight(.semibold)
+            switch state.displayOnWatch {
+            case .HR:
+                HStack {
+                    if completedLongPress {
+                        Text("❤️ \(pulse)")
+                            .fontWeight(.regular)
+                            .font(.custom("activated", size: 20))
+                            .scaledToFill()
+                            .foregroundColor(.white)
+                            .minimumScaleFactor(0.5)
+                            .scaleEffect(isDetectingLongPress ? 3 : 1)
+                            .gesture(longPress)
+                    } else {
+                        Text("❤️ \(pulse)")
+                            .fontWeight(.regular)
+                            .font(.caption2)
+                            .scaledToFill()
+                            .foregroundColor(.white)
+                            .minimumScaleFactor(0.5)
+                            .scaleEffect(isDetectingLongPress ? 3 : 1)
+                            .gesture(longPress)
+                    }
+                }
+            case .BGTarget:
+                if let eventualBG = state.eventualBG.nonEmpty {
+                    Text(eventualBG)
+                        .font(.caption2)
+                        .scaledToFill()
+                        .foregroundColor(.secondary)
+                        .minimumScaleFactor(0.5)
+                } else {
+                    EmptyView()
+                }
+            case .steps:
+                Text("🦶 \(steps)")
+                    .fontWeight(.regular)
                     .font(.caption2)
                     .scaledToFill()
                     .foregroundColor(.white)
                     .minimumScaleFactor(0.5)
+            case .isf:
+                let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
+                HStack {
+                    Image(systemName: "arrow.up.arrow.down")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 13, height: 13)
+                        .foregroundColor(.white)
+                        .offset(x: 1, y: 1)
+                    Text(isfValue)
+                        .fontWeight(.semibold)
+                        .font(.caption2)
+                        .scaledToFill()
+                        .foregroundColor(.white)
+                        .minimumScaleFactor(0.5)
+                }
             }
         }
     }
@@ -154,9 +190,7 @@ struct MainView: View {
         ZStack {
             if !completedLongPressOfBG {
                 if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
-                    BlinkingView(count: 5, size: 3)
-                        .frame(width: 11, height: 11)
-                        .animation(Animation.default, value: state.timerDate) // Apply animation directly here
+                    PulsatingCircleView(color: color, size: 11)
                 }
             }
         }
@@ -165,9 +199,14 @@ struct MainView: View {
     var loopTime: some View {
         VStack {
             if state.lastLoopDate != nil {
-                Text(timeString).font(.caption2).foregroundColor(.gray)
+                let minutesPassed = Int(timeString) ?? 0
+                if minutesPassed > 5 {
+                    Text(timeString).fontWeight(.semibold).font(.caption2)
+                } else {
+                    Text("").fontWeight(.semibold).font(.caption2)
+                }
             } else {
-                Text("--").font(.caption2).foregroundColor(.gray)
+                Text("--").fontWeight(.semibold).font(.caption2)
             }
         }
     }
@@ -184,37 +223,37 @@ struct MainView: View {
                         .offset(x: 0, y: -5), // Start with centered, adjust as needed
                     alignment: .center // Ensures that the overlay is centered in the VStack
                 )
-                .overlay(
-                    Circle()
-                        .fill(color)
-                        .frame(width: 11, height: 11)
-                        .scaleEffect(1) // Adjust the scaling factor as needed
-                        .offset(x: 0, y: -37), // Start with centered, adjust as needed
-                    alignment: .center // Ensures that the overlay is centered in the VStack
-                )
+                /* .overlay(
+                     Circle()
+                         .fill(color)
+                         .frame(width: 11, height: 11)
+                         .scaleEffect(1)
+                         .offset(x: 0, y: -37),
+                     alignment: .center
+                 ) */
                 .overlay(
                     blinkyView
-                        .scaleEffect(1) // Adjust the scaling factor as needed
-                        .offset(x: 0, y: 28), // Start with centered, adjust as needed
-                    alignment: .center // Ensures that the overlay is centered in the VStack
+                        .scaleEffect(1)
+                        .offset(x: 0, y: -37),
+                    alignment: .center
                 )
                 .overlay(
                     isf
-                        .scaleEffect(1) // Adjust the scaling factor as needed
-                        .offset(x: 49, y: 49), // Start with centered, adjust as needed
-                    alignment: .center // Ensures that the overlay is centered in the VStack
+                        .scaleEffect(1)
+                        .offset(x: 49, y: 49),
+                    alignment: .center
                 )
                 .overlay(
                     cob
-                        .scaleEffect(1) // Adjust the scaling factor as needed
-                        .offset(x: -49, y: -58), // Start with centered, adjust as needed
-                    alignment: .center // Ensures that the overlay is centered in the VStack
+                        .scaleEffect(1)
+                        .offset(x: -49, y: -58),
+                    alignment: .center
                 )
                 .overlay(
                     iob
-                        .scaleEffect(1) // Adjust the scaling factor as needed
-                        .offset(x: -49, y: 49), // Start with centered, adjust as needed
-                    alignment: .center // Ensures that the overlay is centered in the VStack
+                        .scaleEffect(1)
+                        .offset(x: -49, y: 49),
+                    alignment: .center
                 )
         }
         .gesture(longPresBGs)
@@ -231,10 +270,6 @@ struct MainView: View {
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
             }.padding(.bottom, 35)
-
-//            HStack {
-//                Circle().stroke(color, lineWidth: 5).frame(width: 20, height: 20).padding(10)
-//            }
         }
         .gesture(longPresBGs)
     }
@@ -265,6 +300,54 @@ struct MainView: View {
             }
     }
 
+    var carbs: some View {
+        NavigationLink(isActive: $state.isCarbsViewActive) {
+            CarbsView()
+                .environmentObject(state)
+        } label: {
+            Image("carbs1", bundle: nil)
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 32, height: 32)
+                .foregroundColor(.white)
+        }
+    }
+
+    var target: some View {
+        HStack {
+            if state.profilesOrTempTargets {
+                NavigationLink(isActive: $state.isTempTargetViewActive) {
+                    TempTargetsView()
+                        .environmentObject(state)
+                } label: {
+                    Image("target1", bundle: nil)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.white)
+                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                        Text(until, style: .timer)
+                            .scaledToFill()
+                            .font(.system(size: 8))
+                    }
+                }
+            }
+        }
+    }
+
+    var bolus: some View {
+        NavigationLink(isActive: $state.isBolusViewActive) {
+            BolusView()
+                .environmentObject(state)
+        } label: {
+            Image("bolus", bundle: nil)
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 32, height: 32)
+                .foregroundColor(.white)
+        }
+    }
+
     var buttons: some View {
         GeometryReader { geometry in
             ZStack {
@@ -274,76 +357,26 @@ struct MainView: View {
                     .cornerRadius(15)
                     .shadow(color: Color.black.opacity(0.75), radius: 5)
                     .padding([.leading, .trailing], 3.25)
-
-                VStack {
-                    Spacer()
-                    HStack(alignment: .center) {
-                        NavigationLink(isActive: $state.isCarbsViewActive) {
-                            CarbsView()
-                                .environmentObject(state)
-                        } label: {
-                            Image("carbs1", bundle: nil)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.leading, 12) // Custom padding on the left of the first button
-
-                        Spacer() // Keeps buttons spaced out if no specific adjustment is needed here
-
-                        if state.profilesOrTempTargets {
-                            NavigationLink(isActive: $state.isTempTargetViewActive) {
-                                TempTargetsView()
-                                    .environmentObject(state)
-                            } label: {
-                                VStack {
-                                    Image("target1", bundle: nil)
-                                        .renderingMode(.template)
-                                        .resizable()
-                                        .frame(width: 32, height: 32)
-                                        .foregroundColor(.white)
-                                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                                        Text(until, style: .timer)
-                                            .scaledToFill()
-                                            .font(.system(size: 8))
-                                    }
-                                }
-                            }
-                            .padding(.leading, -40.5) // Increase to move the middle button right
-                        } else {
-                            NavigationLink(isActive: $state.isOverridesViewActive) {
-                                OverridesView()
-                                    .environmentObject(state)
-                            } label: {
-                                VStack {
-                                    Image(systemName: "person.fill")
-                                        .renderingMode(.template)
-                                        .resizable()
-                                        .frame(width: 32, height: 32)
-                                        .foregroundColor(.purple)
-                                }
-                                .padding(.leading, 0)
-                            }
-                            .padding(.leading, 0) // Adjust as needed for alignment
-                        }
-
-                        NavigationLink(isActive: $state.isBolusViewActive) {
-                            BolusView()
-                                .environmentObject(state)
-                        } label: {
-                            Image("bolus", bundle: nil)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.trailing, 10) // Custom padding on the right of the last button
-                    }
-                    Spacer()
-                }
-                .buttonStyle(PlainButtonStyle())
             }
+            .overlay(
+                carbs
+                    .scaleEffect(1)
+                    .offset(x: -42.5, y: 0),
+                alignment: .center
+            )
+            .overlay(
+                target
+                    .scaleEffect(1)
+                    .offset(x: 1.5, y: 0),
+                alignment: .center
+            )
+            .overlay(
+                bolus
+                    .scaleEffect(1)
+                    .offset(x: 42.5, y: 0),
+                alignment: .center
+            )
+            .buttonStyle(PlainButtonStyle())
             .frame(height: geometry.size.height)
             .scaleEffect(1.0625)
             .offset(x: 0, y: 20)
@@ -487,5 +520,25 @@ struct ContentView_Previews: PreviewProvider {
             MainView().previewDevice("Apple Watch Series 5 - 40mm")
             MainView().previewDevice("Apple Watch Series 3 - 38mm")
         }.environmentObject(state)
+    }
+}
+
+struct PulsatingCircleView: View {
+    var color: Color
+    var size: CGFloat = 20.0
+    @State private var animate = false
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .frame(width: size, height: size)
+            .scaleEffect(animate ? 1.225 : 1.0)
+            .animation(
+                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                value: animate
+            )
+            .onAppear {
+                self.animate = true
+            }
     }
 }
