@@ -326,20 +326,23 @@ struct MainView: View {
                     TempTargetsView()
                         .environmentObject(state)
                 } label: {
-                    Image("target1", bundle: nil)
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foregroundColor(.white)
-                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                        Text(until, style: .timer)
-                            .scaledToFill()
-                            .font(.system(size: 8))
+                    VStack {
+                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                            Text(until, style: .timer)
+                                .scaledToFill()
+                                .font(.system(size: 8))
+                        }
+                        Image("target1", bundle: nil)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                            .foregroundColor(.white)
                     }
                 }
             }
         }
     }
+
 
     var bolus: some View {
         NavigationLink(isActive: $state.isBolusViewActive) {
@@ -538,7 +541,7 @@ struct PulsatingCircleView: View {
         Circle()
             .fill(color)
             .frame(width: size, height: size)
-            .scaleEffect(animate ? 1.2 : 1.0)
+            .scaleEffect(animate ? 1.225 : 1.0)
             .animation(
                 Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                 value: animate
