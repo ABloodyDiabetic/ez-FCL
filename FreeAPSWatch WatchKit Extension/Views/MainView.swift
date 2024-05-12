@@ -163,7 +163,7 @@ struct MainView: View {
             Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
-                .frame(alignment: .leading)
+                .frame(width: 60, alignment: .leading)
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
@@ -180,7 +180,7 @@ struct MainView: View {
             Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
-                .frame(alignment: .leading)
+                .frame(width: 60, alignment: .leading)
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
