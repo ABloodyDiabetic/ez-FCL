@@ -154,35 +154,35 @@ struct MainView: View {
 
     var cob: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
-                .fontWeight(.semibold)
-                .font(.caption2)
-                .scaledToFill()
-                .foregroundColor(Color.white)
-                .minimumScaleFactor(0.5)
             Image("premeal")
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.loopYellow)
                 .offset(x: -1, y: 2)
-        }
-    }
-
-    var iob: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
+            Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
                 .scaledToFill()
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
+        }
+    }
+
+    var iob: some View {
+        HStack(alignment: .firstTextBaseline) {
             Image(systemName: "drop.circle")
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.insulin)
                 .offset(x: -1, y: 3)
+            Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
+                .fontWeight(.semibold)
+                .font(.caption2)
+                .scaledToFill()
+                .foregroundColor(Color.white)
+                .minimumScaleFactor(0.5)
         }
     }
 
@@ -326,17 +326,27 @@ struct MainView: View {
                     TempTargetsView()
                         .environmentObject(state)
                 } label: {
-                    VStack {
-                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                            Text(until, style: .timer)
-                                .scaledToFill()
-                                .font(.system(size: 8))
-                        }
                         Image("target1", bundle: nil)
                             .renderingMode(.template)
                             .resizable()
                             .frame(width: 32, height: 32)
                             .foregroundColor(.white)
+                }
+            }
+        }
+    }
+    
+    var targetTimeRemaining: some View {
+        HStack {
+            if state.profilesOrTempTargets {
+                NavigationLink(isActive: $state.isTempTargetViewActive) {
+                    TempTargetsView()
+                        .environmentObject(state)
+                } label: {
+                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                            Text(until, style: .timer)
+                                .scaledToFill()
+                                .font(.system(size: 8))
                     }
                 }
             }
@@ -371,6 +381,12 @@ struct MainView: View {
                 carbs
                     .scaleEffect(1)
                     .offset(x: -42.5, y: 0),
+                alignment: .center
+            )
+            .overlay(
+                targetTimeRemaining
+                    .scaleEffect(1)
+                    .offset(x: 1.5, y: -28),
                 alignment: .center
             )
             .overlay(
@@ -541,7 +557,7 @@ struct PulsatingCircleView: View {
         Circle()
             .fill(color)
             .frame(width: size, height: size)
-            .scaleEffect(animate ? 1.225 : 1.0)
+            .scaleEffect(animate ? 1.225 : 0.775)
             .animation(
                 Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                 value: animate
