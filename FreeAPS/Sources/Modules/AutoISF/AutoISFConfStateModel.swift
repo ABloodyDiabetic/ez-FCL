@@ -529,10 +529,10 @@ extension AutoISFConf {
             ]
 
             sections = [
-                FieldSection(
+/*                FieldSection(
                     displayName: NSLocalizedString("Target Control", comment: "AutoISF control via Targets"),
                     fields: autoisfConfig
-                ),
+                ),*/
 //                FieldSection(
 //                    displayName: NSLocalizedString(
 //                        "Toggles & general Settings",
@@ -603,10 +603,10 @@ extension AutoISFConf {
 //                    ),
 //                    fields: xpmSMB
 //                ),
-                FieldSection(
+/*                FieldSection(
                     displayName: NSLocalizedString("B30 settings", comment: "AIMI B30  settings"),
                     fields: xpmB30
-                ),
+                ),*/
                 FieldSection(
                     displayName: NSLocalizedString("Profile Control", comment: "AutoISF control via Targets"),
                     fields: profileControls

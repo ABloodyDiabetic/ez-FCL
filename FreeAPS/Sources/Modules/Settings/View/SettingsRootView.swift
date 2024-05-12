@@ -49,7 +49,7 @@ extension Settings {
                 Section {
                     Text("ezFCL").navigationLink(to: .autoISFConf, from: self)
                     Text("Oref1").navigationLink(to: .preferencesEditor, from: self)
-                    Text("AIMI B30").navigationLink(to: .B30Conf, from: self)
+//                    Text("AIMI B30").navigationLink(to: .B30Conf, from: self)
 //                    Text("Ketoacidosis Protection").navigationLink(to: .KetoConfig, from: self)
 //                    Text("Dynamic ISF").navigationLink(to: .dynamicISF, from: self)
 //                    Text("Dynamic ISF").navigationLink(to: .dynamicISF, from: self)

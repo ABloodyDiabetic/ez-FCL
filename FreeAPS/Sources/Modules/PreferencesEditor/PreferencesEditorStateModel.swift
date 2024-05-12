@@ -148,12 +148,31 @@ extension PreferencesEditor {
                         comment: "Calculate ISF From TDD Numerator Divisor"
                     ),
                     settable: self
-                ),                Field(
+                ),
+                Field(
                     displayName: "Basal Multiplier",
                     type: .decimal(keypath: \.basalMultiplier),
                     infoText: NSLocalizedString(
                         "Increase or decrese basal rates relative to the TDD ISF to improve alignment.",
                         comment: "Basal Multiplier"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Basal Slope",
+                    type: .decimal(keypath: \.basalSlope),
+                    infoText: NSLocalizedString(
+                        "Increase or decrese basal rates relative to a slope value.",
+                        comment: "Basal Slope"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Basal Intercept",
+                    type: .decimal(keypath: \.basalIntercept),
+                    infoText: NSLocalizedString(
+                        "Increase or decrese basal rates relative to an intercept value.",
+                        comment: "Basal Intercept"
                     ),
                     settable: self
                 ),

@@ -1,6 +1,8 @@
 import Foundation
 
 struct Preferences: JSON {
+    var basalSlope: Decimal = 0.0041
+    var basalIntercept: Decimal = 0.2593
     var sevenDayTDDPlaceholder: Decimal = 20
     var twentyFourHrTDDPlaceholder: Decimal = 20
     var carbProfileDuration: Decimal = 210
@@ -10,17 +12,17 @@ struct Preferences: JSON {
     var automaticSleepMode: Bool = false
     var sleepMode: Bool = false
     var enableMaxIobDeadbands: Bool = true
-    var maxIobTightDeadband: Decimal = 1.25
-    var maxIobLooseDeadband: Decimal = 2.5
+    var maxIobTightDeadband: Decimal = 1.5
+    var maxIobLooseDeadband: Decimal = 3
     var tightDeadbandRange: Decimal = 5
     var looseDeadbandRange: Decimal = 10
-    var calculateIsfFromTddNumeratorDivisor: Decimal = 0.75
+    var calculateIsfFromTddNumeratorDivisor: Decimal = 1
     var adjustBasalInverselyToAutosensIsf: Bool = false
     var useAutosensIsfToCalculateAutoIsfSens: Bool = true
     var flatGlucoseCheck: Bool = false
     var glucoseCalibrationSlope: Decimal = 1
     var glucoseCalibrationIntercept: Decimal = 0
-    var maxIOB: Decimal = 33.33
+    var maxIOB: Decimal = 40
     var maxDailySafetyMultiplier: Decimal = 3
     var currentBasalSafetyMultiplier: Decimal = 4
     var enableAutosens = true
@@ -97,16 +99,16 @@ struct Preferences: JSON {
     var smbDeliveryRatioMin: Decimal = 0.85
     var smbDeliveryRatioMax: Decimal = 0.85
     var enableautoISFwithCOB: Bool = false
-    var autoISFhourlyChange: Decimal = 3.61
+    var autoISFhourlyChange: Decimal = 1.35
     var higherISFrangeWeight: Decimal = 0
     var lowerISFrangeWeight: Decimal = 0
     var deltaISFrangeWeight: Decimal = 0
     var postMealISFalways: Bool = true
-    var postMealISFweight: Decimal = 0.29
+    var postMealISFweight: Decimal = 0.454
     var postMealISFduration: Decimal = 3
     var enableBGacceleration: Bool = true
-    var bgAccelISFweight: Decimal = 0.875
-    var bgBrakeISFweight: Decimal = 0.569
+    var bgAccelISFweight: Decimal = 1.368
+    var bgBrakeISFweight: Decimal = 0.889
     var iobThresholdPercent: Decimal = 100
     var enableSMBEvenOnOddOff: Bool = false
     var enableSMBEvenOnOddOffalways: Bool = false
@@ -123,6 +125,8 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case basalSlope
+        case basalIntercept
         case sevenDayTDDPlaceholder
         case twentyFourHrTDDPlaceholder
         case carbProfileDuration

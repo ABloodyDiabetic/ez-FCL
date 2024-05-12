@@ -39,6 +39,7 @@ struct CurrentGlucoseView: View {
                         Text(minuteString)
                         Text("min  ")
                         Text(state.delta)
+                        Text(state.trend)
                     }
                 }
             }
