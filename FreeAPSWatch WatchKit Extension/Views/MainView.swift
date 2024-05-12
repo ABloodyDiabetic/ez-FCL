@@ -252,13 +252,13 @@ struct MainView: View {
                 .overlay(
                     cob
                         .scaleEffect(1)
-                        .offset(x: -49, y: -58),
+                        .offset(x: -45, y: -58),
                     alignment: .center
                 )
                 .overlay(
                     iob
                         .scaleEffect(1)
-                        .offset(x: -49, y: 49),
+                        .offset(x: -45, y: 49),
                     alignment: .center
                 )
         }
