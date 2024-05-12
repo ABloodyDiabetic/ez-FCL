@@ -86,8 +86,8 @@ struct Preferences: JSON {
     var lowCarbezFCLProfile: Bool = true
     var moderateCarbezFCLProfile: Bool = false
     var highCarbezFCLProfile: Bool = false
-    var lowCarbezFCLProfileMultiplier: Decimal = 0.14
-    var moderateCarbezFCLProfileMultiplier: Decimal = 0.666
+    var lowCarbezFCLProfileMultiplier: Decimal = 0.05
+    var moderateCarbezFCLProfileMultiplier: Decimal = 0.5
     var highCarbezFCLProfileMultiplier: Decimal = 1
     var floatingcarbs: Bool = true
     var autoisf: Bool = true

@@ -163,7 +163,7 @@ struct MainView: View {
             Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
-                .scaledToFill()
+                .frame(alignment: .leading)
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
@@ -180,7 +180,7 @@ struct MainView: View {
             Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
-                .scaledToFill()
+                .frame(alignment: .leading)
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
@@ -346,7 +346,12 @@ struct MainView: View {
                         if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
                             Text(until, style: .timer)
                                 .scaledToFill()
-                                .font(.system(size: 8))
+                                .font(.system(size: 10))
+                                /*.fontWeight(.regular)
+                                .font(.caption2)
+                                .scaledToFill()
+                                .foregroundColor(.white)
+                                .minimumScaleFactor(0.375)*/
                     }
                 }
             }

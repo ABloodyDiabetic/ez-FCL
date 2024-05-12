@@ -48,13 +48,14 @@ struct CurrentGlucoseView: View {
             updateRotationBasedOnTrend(state.trend)
         }
         .onChange(of: state.trend) { newTrend in
-            withAnimation {
+            withAnimation(.easeInOut(duration: 0.5)) {
                 updateRotationBasedOnTrend(newTrend)
             }
         }
     }
 
     private func updateRotationBasedOnTrend(_ trend: String?) {
+        let oldDegrees = rotationDegrees
         switch trend {
         case "→":
             rotationDegrees = 0
@@ -69,6 +70,7 @@ struct CurrentGlucoseView: View {
         default:
             rotationDegrees = 0
         }
+        print("Updated rotation from \(oldDegrees) to \(rotationDegrees) for trend \(trend ?? "unknown")")
     }
 }
 
