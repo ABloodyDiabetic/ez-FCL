@@ -140,7 +140,7 @@ struct MainView: View {
                         .resizable()
                         .frame(width: 13, height: 13)
                         .foregroundColor(.white)
-                        .offset(x: 1, y: 1)
+                        .offset(y: 1)
                     Text(isfValue)
                         .fontWeight(.semibold)
                         .font(.caption2)
