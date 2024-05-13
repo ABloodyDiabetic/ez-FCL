@@ -89,19 +89,20 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
         if tempTargetActive || presetActive {
             let duration = tempTargetsArray.first?.duration ?? 0
             let startDate = tempTargetsArray.first?.startDate ?? currentTime
-            let durationPlusStart = startDate.addingTimeInterval(TimeInterval((duration as Decimal) * 60))
+            let durationPlusStart = startDate.addingTimeInterval(TimeInterval(Double(truncating: duration) * 60))
             let timeRemaining = max(0, durationPlusStart.timeIntervalSinceNow / 60) // in minutes
 
             var totalPresetTimeRemaining = 0.0
 
             for preset in tempPresetsArray {
-                let presetDuration = preset.duration
-                let presetStartDate = preset.startDate ?? currentTime
-                let presetDurationPlusStart = (presetStartDate as AnyObject).addingTimeInterval(TimeInterval(presetDuration * 60))
-                let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
-                totalPresetTimeRemaining += presetTimeRemaining
+                let presetDuration = preset.duration // Directly use presetDuration as it is not optional.
+                if let presetStartDate = preset.startDate as? Date { // Check for optional startDate and cast to Date.
+                    let presetDurationPlusStart = presetStartDate.addingTimeInterval(TimeInterval(presetDuration * 60))
+                    let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
+                    totalPresetTimeRemaining += presetTimeRemaining
 
-                debug(.deviceManager, "Preset \(String(describing: preset.name)) duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
+                    debug(.deviceManager, "Preset \(String(describing: preset.name)) duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
+                }
             }
 
             debug(.deviceManager, "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes")

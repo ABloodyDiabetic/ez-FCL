@@ -148,6 +148,7 @@ struct MainView: View {
                         .foregroundColor(.white)
                         .minimumScaleFactor(0.5)
                 }
+                .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
     }
