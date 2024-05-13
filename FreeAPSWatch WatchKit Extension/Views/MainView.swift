@@ -135,20 +135,19 @@ struct MainView: View {
             case .isf:
                 let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
                 HStack(alignment: .lastTextBaseline) {
-                    Image(systemName: "arrow.up.arrow.down")
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 13, height: 13)
-                        .foregroundColor(.white)
-                        .offset(y: 1)
                     Text(isfValue)
                         .fontWeight(.semibold)
                         .font(.caption2)
                         .frame(width: 60, alignment: .trailing)
                         .foregroundColor(.white)
                         .minimumScaleFactor(0.5)
+                    Image(systemName: "arrow.up.arrow.down")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 13, height: 13)
+                        .foregroundColor(.white)
+                        .offset(x: 1, y: 2)
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
     }
@@ -160,7 +159,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.loopYellow)
-                .offset(x: 1, y: 2)
+                .offset(x: 1, y: 1)
             Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -177,7 +176,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.insulin)
-                .offset(x: 1, y: 3)
+                .offset(x: 1, y: 2)
             Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -247,19 +246,19 @@ struct MainView: View {
                 .overlay(
                     isf
                         .scaleEffect(1)
-                        .offset(x: 35, y: 49),
+                        .offset(x: 36, y: 50),
                     alignment: .center
                 )
                 .overlay(
                     cob
                         .scaleEffect(1)
-                        .offset(x: -35, y: -58),
+                        .offset(x: -36, y: -59),
                     alignment: .center
                 )
                 .overlay(
                     iob
                         .scaleEffect(1)
-                        .offset(x: -35, y: 49),
+                        .offset(x: -36, y: 50),
                     alignment: .center
                 )
         }

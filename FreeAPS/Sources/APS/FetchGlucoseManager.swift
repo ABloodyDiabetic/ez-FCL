@@ -97,7 +97,7 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
             for preset in tempPresetsArray {
                 let presetDuration = preset.duration // Directly use presetDuration as it is not optional.
                 if let presetStartDate = preset.startDate as? Date { // Check for optional startDate and cast to Date.
-                    let presetDurationPlusStart = presetStartDate.addingTimeInterval(TimeInterval(presetDuration * 60))
+                    let presetDurationPlusStart = presetStartDate.addingTimeInterval(TimeInterval(Double(truncating: presetDuration as NSNumber) * 60))
                     let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
                     totalPresetTimeRemaining += presetTimeRemaining
 
