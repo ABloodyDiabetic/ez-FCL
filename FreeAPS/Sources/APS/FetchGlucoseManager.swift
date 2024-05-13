@@ -104,7 +104,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
             debug(.deviceManager, "Preset duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
 
             if timeRemaining > 0.1 || presetTimeRemaining > 0.1 {
-                settingsManager.setLowCarbProfileEnabled(false)
                 debug(.deviceManager, "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes or Preset with \(presetTimeRemaining) minutes remaining")
             } else {
                 settingsManager.setLowCarbProfileEnabled(true)
