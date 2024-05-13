@@ -225,11 +225,14 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
             high = high?.asMmolL
         }
 
-        let description =
-            "\(targetFormatter.string(from: (low ?? 0) as NSNumber)!) - \(targetFormatter.string(from: (high ?? 0) as NSNumber)!)" +
-            " for \(targetFormatter.string(from: target.duration as NSNumber)!) min"
+        let duration = targetFormatter.string(from: target.duration as NSNumber)!
+        if let low = low {
+            if low > 0 {
+                return "Target \(targetFormatter.string(from: low as NSNumber)!)," + " \(duration) minutes"
+            }
+        }
 
-        return description
+        return "Target unchanged, \(duration) minutes"
     }
 
     private func eventualBGString() -> String? {
@@ -448,6 +451,12 @@ extension BaseWatchManager: WCSessionDelegate {
             if var preset = tempTargetsStorage.presets().first(where: { $0.id == tempTargetID }) {
                 preset.createdAt = Date()
                 tempTargetsStorage.storeTempTargets([preset])
+
+                // Update carb profile settings based on the preset values
+                settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
+                settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
+                settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+
                 replyHandler(["confirmation": true])
                 return
             } else if tempTargetID == "cancel" {

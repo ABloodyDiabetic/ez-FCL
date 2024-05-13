@@ -102,13 +102,13 @@ struct ListStateView: View {
         case "DoubleUp",
              "SingleUp",
              "TripleUp":
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.up")
         case "FortyFiveUp":
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.up.right")
         case "Flat":
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.forward")
         case "FortyFiveDown":
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.down.forward")
         case "DoubleDown",
              "SingleDown",
              "TripleDown":
@@ -117,9 +117,9 @@ struct ListStateView: View {
         case "NONE",
              "NOT COMPUTABLE",
              "RATE OUT OF RANGE":
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.left.and.right")
         default:
-            return Image(systemName: "arrow.down")
+            return Image(systemName: "arrow.left.and.right")
         }
     }
 }

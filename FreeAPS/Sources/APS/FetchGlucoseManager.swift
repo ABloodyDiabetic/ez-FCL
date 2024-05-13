@@ -17,6 +17,7 @@ protocol FetchGlucoseManager: SourceInfoProvider {
 
 final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
     private let processQueue = DispatchQueue(label: "BaseGlucoseManager.processQueue")
+   /* @Injected() var tempTargetsStorage: TempTargetsStorage! */
     @Injected() var glucoseStorage: GlucoseStorage!
     @Injected() var nightscoutManager: NightscoutManager!
     @Injected() var apsManager: APSManager!
@@ -141,7 +142,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         debug(.deviceManager, "CGM BLE FETCHGLUCOSE  : SyncDate is \(syncDate)")
         glucoseStoreAndHeartDecision(syncDate: syncDate, glucose: newBloodGlucose)
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     /// function to try to force the refresh of the CGM - generally provide by the pump heartbeat
@@ -161,7 +161,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         }
         .store(in: &lifetime)
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     private func glucoseStoreAndHeartDecision(syncDate: Date, glucose: [BloodGlucose], glucoseFromHealth: [BloodGlucose] = []) {
@@ -232,7 +231,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         healthKitManager.saveIfNeeded(bloodGlucose: glucoseForHealth)
 
         processTempTargets()
-//        processTempTargetPresets()
     }
 
     /// The function used to start the timer sync - Function of the variable defined in config

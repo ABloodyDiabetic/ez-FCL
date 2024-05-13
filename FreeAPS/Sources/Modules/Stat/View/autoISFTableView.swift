@@ -162,7 +162,7 @@ extension Stat {
                             )
 
                             let insulinReq = String(
-                                format: "%.1f",
+                                format: "%.2f",
                                 NSDecimalNumber(
                                     decimal: (entry.insulin_req ?? 0) as Decimal
                                 )

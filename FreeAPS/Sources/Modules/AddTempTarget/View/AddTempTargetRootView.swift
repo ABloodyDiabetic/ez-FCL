@@ -272,16 +272,16 @@ extension AddTempTarget {
                                 .font(.caption)
                         } else {
                             Text(
-                                "Target \(formatter.string(from: (low ?? 0) as NSNumber)!)" // - \(formatter.string(from: (high ?? 0) as NSNumber)!)"
+                                "Target \(formatter.string(from: (low ?? 0) as NSNumber)!)," // - \(formatter.string(from: (high ?? 0) as NSNumber)!)"
                             )
                             .foregroundColor(.secondary)
                             .font(.caption)
                             Text(state.units.rawValue)
                                 .foregroundColor(.secondary)
                                 .font(.caption)
-                            Text("for")
+                            /* Text("for")
                                 .foregroundColor(.secondary)
-                                .font(.caption)
+                                .font(.caption) */
                         }
                         Text("\(formatter.string(from: preset.duration as NSNumber)!)")
                             .foregroundColor(.secondary)

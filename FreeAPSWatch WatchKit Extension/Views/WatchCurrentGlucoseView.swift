@@ -25,7 +25,6 @@ struct CurrentGlucoseView: View {
 
             VStack(alignment: .center) {
                 let minutesAgo: TimeInterval = -1 * (state.glucoseDate ?? .distantPast).timeIntervalSinceNow / 60
-                // Choose a reasonable threshold, like 10080 minutes (one week)
                 let minuteString = minutesAgo > 99 ? "--" : minutesAgo.formatted(.number.grouping(.never).rounded().precision(.fractionLength(0)))
                 HStack {
                     Text(state.glucose)
