@@ -15,9 +15,9 @@ enum AwConfig: String, CaseIterable, Identifiable, Codable {
 class WatchStateModel: NSObject, ObservableObject {
     var session: WCSession
 
-    @Published var glucose = "000"
+    @Published var glucose = "---"
     @Published var trend = "→"
-    @Published var delta = "+00"
+    @Published var delta = "---"
     @Published var lastLoopDate: Date?
     @Published var glucoseDate: Date?
     @Published var bolusIncrement: Decimal?

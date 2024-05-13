@@ -144,7 +144,7 @@ struct MainView: View {
                     Text(isfValue)
                         .fontWeight(.semibold)
                         .font(.caption2)
-                        .scaledToFill()
+                        .frame(width: 60, alignment: .trailing)
                         .foregroundColor(.white)
                         .minimumScaleFactor(0.5)
                 }
@@ -190,11 +190,11 @@ struct MainView: View {
         ZStack {
             if !completedLongPressOfBG {
                 if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
-                    PulsatingCircleView(color: color, size: 11)
+                    PulsatingCircleView(color: color, size: 12)
                 } else {
                     Circle()
                         .fill(color)
-                        .frame(width: 11, height: 11)
+                        .frame(width: 12, height: 12)
                         .scaleEffect(1)
                 }
             }
@@ -246,19 +246,19 @@ struct MainView: View {
                 .overlay(
                     isf
                         .scaleEffect(1)
-                        .offset(x: 49, y: 49),
+                        .offset(x: 38, y: 49),
                     alignment: .center
                 )
                 .overlay(
                     cob
                         .scaleEffect(1)
-                        .offset(x: -45, y: -58),
+                        .offset(x: -38, y: -58),
                     alignment: .center
                 )
                 .overlay(
                     iob
                         .scaleEffect(1)
-                        .offset(x: -45, y: 49),
+                        .offset(x: -38, y: 49),
                     alignment: .center
                 )
         }
@@ -346,7 +346,7 @@ struct MainView: View {
                         if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
                             Text(until, style: .timer)
                                 .scaledToFill()
-                                .font(.system(size: 10))
+                                .font(.system(size: 11))
                                 /*.fontWeight(.regular)
                                 .font(.caption2)
                                 .scaledToFill()
@@ -562,7 +562,7 @@ struct PulsatingCircleView: View {
         Circle()
             .fill(color)
             .frame(width: size, height: size)
-            .scaleEffect(animate ? 1.225 : 0.775)
+            .scaleEffect(animate ? 1.2 : 0.4)
             .animation(
                 Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                 value: animate
