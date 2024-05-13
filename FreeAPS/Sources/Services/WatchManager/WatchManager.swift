@@ -472,6 +472,7 @@ extension BaseWatchManager: WCSessionDelegate {
                     mediumCarbProfile: false,
                     highCarbProfile: false
                 )
+                settingsManager.setLowCarbProfileEnabled(true)
                 tempTargetsStorage.storeTempTargets([entry])
                 replyHandler(["confirmation": true])
                 return

@@ -134,11 +134,11 @@ struct MainView: View {
                     .minimumScaleFactor(0.5)
             case .isf:
                 let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
-                HStack {
+                HStack(alignment: .firstTextBaseline) {
                     Image(systemName: "arrow.up.arrow.down")
                         .renderingMode(.template)
                         .resizable()
-                        .frame(width: 13, height: 13, alignment: .trailing)
+                        .frame(width: 13, height: 13)
                         .foregroundColor(.white)
                         .offset(x: 1, y: 1)
                     Text(isfValue)
@@ -159,7 +159,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.loopYellow)
-                .offset(x: -1, y: 2)
+                .offset(x: 1, y: 2)
             Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -176,7 +176,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.insulin)
-                .offset(x: -1, y: 3)
+                .offset(x: 1, y: 3)
             Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -246,19 +246,19 @@ struct MainView: View {
                 .overlay(
                     isf
                         .scaleEffect(1)
-                        .offset(x: 34, y: 49),
+                        .offset(x: 35, y: 49),
                     alignment: .center
                 )
                 .overlay(
                     cob
                         .scaleEffect(1)
-                        .offset(x: -34, y: -58),
+                        .offset(x: -35, y: -58),
                     alignment: .center
                 )
                 .overlay(
                     iob
                         .scaleEffect(1)
-                        .offset(x: -34, y: 49),
+                        .offset(x: -35, y: 49),
                     alignment: .center
                 )
         }

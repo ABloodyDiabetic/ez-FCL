@@ -15,9 +15,11 @@ protocol FetchGlucoseManager: SourceInfoProvider {
     var preferences: Preferences { get }
 }
 
-final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
+final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable, TempTargetsObserver {
+    func tempTargetsDidUpdate(_ targets: [TempTarget]) {}
+    
     private let processQueue = DispatchQueue(label: "BaseGlucoseManager.processQueue")
-   /* @Injected() var tempTargetsStorage: TempTargetsStorage! */
+    @Injected() var tempTargetsStorage: TempTargetsStorage!
     @Injected() var glucoseStorage: GlucoseStorage!
     @Injected() var nightscoutManager: NightscoutManager!
     @Injected() var apsManager: APSManager!
@@ -54,6 +56,7 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
         settings = storage.retrieve(OpenAPS.FreeAPS.settings, as: FreeAPSSettings.self)
             ?? FreeAPSSettings(from: OpenAPS.defaults(for: OpenAPS.FreeAPS.settings))
             ?? FreeAPSSettings()
+        broadcaster.register(TempTargetsObserver.self, observer: self)
         injectServices(resolver)
         updateGlucoseSource()
         subscribe()
@@ -72,34 +75,44 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
     func processTempTargets() {
         let cd = CoreDataStorage()
         let tempTargetsArray = cd.fetchTempTargets()
-        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets.")
+        let tempPresetsArray = tempTargetsStorage.presets()
+        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets and \(tempPresetsArray.count) presets.")
 
+        // Determine if the first temp target or preset is active based on whether they exist and possibly other conditions
         let tempTargetActive = tempTargetsArray.first?.active ?? false
+        let presetActive = tempPresetsArray.first != nil // Assuming existence means active; adjust if there's a specific 'active' field
+
         debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
+        debug(.deviceManager, "Is first temp preset active? \(presetActive)")
 
-        if tempTargetActive {
-            let duration = Int(truncating: tempTargetsArray.first?.duration ?? 0)
-            let startDate = tempTargetsArray.first?.startDate ?? Date()
-            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
-            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
-            debug(
-                .deviceManager,
-                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
-            )
+        let currentTime = Date()
+        
+        if tempTargetActive || presetActive {
+            // Calculate time remaining for the first temp target
+            let duration = tempTargetsArray.first?.duration ?? 0
+            let startDate = tempTargetsArray.first?.startDate ?? currentTime
+            let durationPlusStart = startDate.addingTimeInterval(TimeInterval((duration as Decimal) * 60))
+            let timeRemaining = max(0, durationPlusStart.timeIntervalSinceNow / 60) // in minutes
 
-            if timeRemaining > 0.1 {
-                // settingsManager.setLowCarbProfileEnabled(false)
-                debug(
-                    .deviceManager,
-                    "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
-                )
+            // Calculate time remaining for the first preset
+            let presetDuration = tempPresetsArray.first?.duration ?? 0
+            let presetStartDate = tempPresetsArray.first?.startDate ?? currentTime
+            let presetDurationPlusStart = (presetStartDate as AnyObject).addingTimeInterval(TimeInterval(presetDuration * 60))
+            let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
+
+            debug(.deviceManager, "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes")
+            debug(.deviceManager, "Preset duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
+
+            if timeRemaining > 0.1 || presetTimeRemaining > 0.1 {
+                settingsManager.setLowCarbProfileEnabled(false)
+                debug(.deviceManager, "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes or Preset with \(presetTimeRemaining) minutes remaining")
             } else {
                 settingsManager.setLowCarbProfileEnabled(true)
-                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
+                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target or Preset expired")
             }
         } else {
             settingsManager.setLowCarbProfileEnabled(true)
-            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets are active")
+            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets or Presets are active")
         }
     }
 
