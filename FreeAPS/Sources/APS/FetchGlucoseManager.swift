@@ -15,8 +15,8 @@ protocol FetchGlucoseManager: SourceInfoProvider {
     var preferences: Preferences { get }
 }
 
-final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable, TempTargetsObserver {
-    func tempTargetsDidUpdate(_ targets: [TempTarget]) {}
+final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTargetsObserver */ {
+   /* func tempTargetsDidUpdate(_ targets: [TempTarget]) {} */
     
     private let processQueue = DispatchQueue(label: "BaseGlucoseManager.processQueue")
     @Injected() var tempTargetsStorage: TempTargetsStorage!
@@ -56,7 +56,7 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable, TempTarget
         settings = storage.retrieve(OpenAPS.FreeAPS.settings, as: FreeAPSSettings.self)
             ?? FreeAPSSettings(from: OpenAPS.defaults(for: OpenAPS.FreeAPS.settings))
             ?? FreeAPSSettings()
-        broadcaster.register(TempTargetsObserver.self, observer: self)
+       /* broadcaster.register(TempTargetsObserver.self, observer: self) */
         injectServices(resolver)
         updateGlucoseSource()
         subscribe()
