@@ -134,7 +134,7 @@ struct MainView: View {
                     .minimumScaleFactor(0.5)
             case .isf:
                 let isfValue: String = state.isf != nil ? "\(state.isf ?? 0)" : "-"
-                HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .lastTextBaseline) {
                     Image(systemName: "arrow.up.arrow.down")
                         .renderingMode(.template)
                         .resizable()
