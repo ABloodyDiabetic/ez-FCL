@@ -14,8 +14,7 @@ struct LoopView: View {
     @Binding var isLooping: Bool
     @Binding var lastLoopDate: Date
     @Binding var manualTempBasal: Bool
-
-    @State private var animate = false
+    @State private var scale: CGFloat = 1.0
 
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -23,28 +22,18 @@ struct LoopView: View {
         return formatter
     }
 
-    private let rect = CGRect(x: 0, y: 0, width: 24, height: 24)
-    
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
-                Circle()
-                    .strokeBorder(color, lineWidth: 4)
-                    .frame(width: rect.width, height: rect.height, alignment: .center)
-                    .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
-                    .scaleEffect(animate ? 1.3 : 0.7)
-                    .animation(
-                        Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                        value: animate
-                    )
-                    .onAppear {
-                        if isLooping {
-                            self.animate = true
-                        }
-                    }
-                    .onChange(of: isLooping) { newValue in
-                        self.animate = newValue
-                    }
+                if isLooping {
+                    PulsatingCircleView(color: color)
+                    ProgressView()
+                } else {
+                    Circle()
+                        .strokeBorder(color, lineWidth: 4)
+                        .frame(width: 24, height: 24)
+                        .scaleEffect(1)
+                }
             }
             if isLooping {
                 Text("looping").font(.caption2)
@@ -102,5 +91,41 @@ struct LoopView: View {
         } else {
             return suggestion
         }
+    }
+}
+
+/* extension View {
+    func animateForever(
+        using animation: Animation = Animation.easeInOut(duration: 1),
+        autoreverses: Bool = false,
+        _ action: @escaping () -> Void
+    ) -> some View {
+        let repeated = animation.repeatForever(autoreverses: autoreverses)
+
+        return onAppear {
+            withAnimation(repeated) {
+                action()
+            }
+        }
+    }
+} */
+
+struct PulsatingCircleView: View {
+    var color: Color
+    var size: CGFloat = 20.0
+    @State private var animate = false
+
+    var body: some View {
+        Circle()
+            .strokeBorder(color, lineWidth: 4)
+            .frame(width: 24, height: 24)
+            .scaleEffect(animate ? 1.2 : 0.8)
+            .animation(
+                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                value: animate
+            )
+            .onAppear {
+                self.animate = true
+            }
     }
 }
