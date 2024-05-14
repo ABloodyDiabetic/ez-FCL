@@ -15,11 +15,9 @@ protocol FetchGlucoseManager: SourceInfoProvider {
     var preferences: Preferences { get }
 }
 
-final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTargetsObserver */ {
-   /* func tempTargetsDidUpdate(_ targets: [TempTarget]) {} */
-    
+final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
     private let processQueue = DispatchQueue(label: "BaseGlucoseManager.processQueue")
-    @Injected() var tempTargetsStorage: TempTargetsStorage!
+   /* @Injected() var tempTargetsStorage: TempTargetsStorage! */
     @Injected() var glucoseStorage: GlucoseStorage!
     @Injected() var nightscoutManager: NightscoutManager!
     @Injected() var apsManager: APSManager!
@@ -56,7 +54,6 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
         settings = storage.retrieve(OpenAPS.FreeAPS.settings, as: FreeAPSSettings.self)
             ?? FreeAPSSettings(from: OpenAPS.defaults(for: OpenAPS.FreeAPS.settings))
             ?? FreeAPSSettings()
-       /* broadcaster.register(TempTargetsObserver.self, observer: self) */
         injectServices(resolver)
         updateGlucoseSource()
         subscribe()
@@ -73,51 +70,38 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
     }
 
     func processTempTargets() {
-          let cd = CoreDataStorage()
-          let tempTargetsArray = cd.fetchTempTargets()
-          let tempPresetsArray = tempTargetsStorage.presets()
-          debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets and \(tempPresetsArray.count) presets.")
+        let cd = CoreDataStorage()
+        let tempTargetsArray = cd.fetchTempTargets()
+        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets.")
 
-          let tempTargetActive = tempTargetsArray.first?.active ?? false
-          let presetActive = !tempPresetsArray.isEmpty
+        let tempTargetActive = tempTargetsArray.first?.active ?? false
+        debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
 
-          debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
-          debug(.deviceManager, "Is any temp preset active? \(presetActive)")
+        if tempTargetActive {
+            let duration = Int(truncating: tempTargetsArray.first?.duration ?? 0)
+            let startDate = tempTargetsArray.first?.startDate ?? Date()
+            let durationPlusStart = startDate.addingTimeInterval(duration.minutes.timeInterval)
+            let timeRemaining = durationPlusStart.timeIntervalSinceNow.minutes
+            debug(
+                .deviceManager,
+                "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes"
+            )
 
-          let currentTime = Date()
-
-          if tempTargetActive || presetActive {
-              let duration = tempTargetsArray.first?.duration ?? 0
-              let startDate = tempTargetsArray.first?.startDate ?? currentTime
-              let durationPlusStart = startDate.addingTimeInterval(TimeInterval((duration as Decimal) * 60))
-              let timeRemaining = max(0, durationPlusStart.timeIntervalSinceNow / 60) // in minutes
-
-              var totalPresetTimeRemaining = 0.0
-
-              for preset in tempPresetsArray {
-                  let presetDuration = preset.duration
-                  let presetStartDate = preset.startDate ?? currentTime
-                  let presetDurationPlusStart = (presetStartDate as AnyObject).addingTimeInterval(TimeInterval(presetDuration * 60))
-                  let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
-                  totalPresetTimeRemaining += presetTimeRemaining
-
-                  debug(.deviceManager, "Preset \(String(describing: preset.name)) duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
-              }
-
-              debug(.deviceManager, "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes")
-              debug(.deviceManager, "Total Preset time remaining: \(totalPresetTimeRemaining) minutes")
-
-              if timeRemaining > 0.1 || totalPresetTimeRemaining > 0.1 {
-                  debug(.deviceManager, "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes or total Preset time remaining: \(totalPresetTimeRemaining) minutes")
-              } else {
-                  settingsManager.setLowCarbProfileEnabled(true)
-                  debug(.deviceManager, "Enabled Low Carb Profile because Temp Target or Preset expired")
-              }
-          } else {
-              settingsManager.setLowCarbProfileEnabled(true)
-              debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets or Presets are active")
-          }
-      }
+            if timeRemaining > 0.1 {
+                // settingsManager.setLowCarbProfileEnabled(false)
+                debug(
+                    .deviceManager,
+                    "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
+                )
+            } else {
+                settingsManager.setLowCarbProfileEnabled(true)
+                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
+            }
+        } else {
+            settingsManager.setLowCarbProfileEnabled(true)
+            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets are active")
+        }
+    }
 
     var glucoseSource: GlucoseSource!
 
