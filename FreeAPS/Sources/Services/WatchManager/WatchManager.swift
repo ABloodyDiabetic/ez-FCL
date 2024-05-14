@@ -19,6 +19,8 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Injected() private var tempTargetsStorage: TempTargetsStorage!
     @Injected() private var garmin: GarminManager!
     @Injected() private var nightscout: NightscoutManager!
+    @Published var low: Decimal = 0
+    @Published var presets: [TempTarget] = []
 
     let coreDataStorage = CoreDataStorage()
     let coredataContext = CoreDataStack.shared.persistentContainer.viewContext
@@ -451,7 +453,9 @@ extension BaseWatchManager: WCSessionDelegate {
 
         if let tempTargetID = message["tempTarget"] as? String {
             if var preset = tempTargetsStorage.presets().first(where: { $0.id == tempTargetID }) {
-                preset.createdAt = Date()
+                enactPreset(id: preset.id)
+                
+               /* preset.createdAt = Date()
                 tempTargetsStorage.storeTempTargets([preset])
 
                 // Update carb profile settings based on the preset values
@@ -479,7 +483,7 @@ extension BaseWatchManager: WCSessionDelegate {
 
                         try? self.coredataContext.save()
                     }
-                }
+                } */
 
                 replyHandler(["confirmation": true])
                 return
@@ -500,6 +504,43 @@ extension BaseWatchManager: WCSessionDelegate {
                 tempTargetsStorage.storeTempTargets([entry])
                 replyHandler(["confirmation": true])
                 return
+            }
+        }
+        
+        func enactPreset(id: String) {
+            if var preset = presets.first(where: { $0.id == id }) {
+                preset.createdAt = Date()
+                tempTargetsStorage.storeTempTargets([preset])
+
+                settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
+                settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
+                settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+
+                coredataContext.performAndWait {
+                    var tempTargetsArray = [TempTargets]()
+                    let requestTempTargets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
+                    let sortTT = NSSortDescriptor(key: "date", ascending: false)
+                    requestTempTargets.sortDescriptors = [sortTT]
+                    try? tempTargetsArray = coredataContext.fetch(requestTempTargets)
+
+                    let whichID = tempTargetsArray.first(where: { $0.id == id })
+
+                    if whichID != nil {
+                        let saveToCoreData = TempTargets(context: self.coredataContext)
+                        saveToCoreData.active = true
+                        saveToCoreData.date = Date()
+                        // saveToCoreData.hbt = whichID?.hbt ?? 160
+                        // saveToCoreData.id = id
+                        saveToCoreData.startDate = Date()
+                        saveToCoreData.duration = whichID?.duration ?? 0
+                        saveToCoreData.low = low as NSDecimalNumber
+                        saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
+                        saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
+                        saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
+
+                        try? self.coredataContext.save()
+                    }
+                }
             }
         }
 
