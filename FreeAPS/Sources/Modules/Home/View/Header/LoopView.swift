@@ -15,6 +15,8 @@ struct LoopView: View {
     @Binding var lastLoopDate: Date
     @Binding var manualTempBasal: Bool
 
+    @State private var animate = false
+
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -22,6 +24,7 @@ struct LoopView: View {
     }
 
     private let rect = CGRect(x: 0, y: 0, width: 24, height: 24)
+    
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
@@ -29,9 +32,19 @@ struct LoopView: View {
                     .strokeBorder(color, lineWidth: 4)
                     .frame(width: rect.width, height: rect.height, alignment: .center)
                     .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
-                if isLooping {
-                    ProgressView()
-                }
+                    .scaleEffect(animate ? 1.3 : 0.7)
+                    .animation(
+                        Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                        value: animate
+                    )
+                    .onAppear {
+                        if isLooping {
+                            self.animate = true
+                        }
+                    }
+                    .onChange(of: isLooping) { newValue in
+                        self.animate = newValue
+                    }
             }
             if isLooping {
                 Text("looping").font(.caption2)
@@ -88,22 +101,6 @@ struct LoopView: View {
             return enactedSuggestion ?? suggestion
         } else {
             return suggestion
-        }
-    }
-}
-
-extension View {
-    func animateForever(
-        using animation: Animation = Animation.easeInOut(duration: 1),
-        autoreverses: Bool = false,
-        _ action: @escaping () -> Void
-    ) -> some View {
-        let repeated = animation.repeatForever(autoreverses: autoreverses)
-
-        return onAppear {
-            withAnimation(repeated) {
-                action()
-            }
         }
     }
 }

@@ -19,6 +19,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Injected() private var tempTargetsStorage: TempTargetsStorage!
     @Injected() private var garmin: GarminManager!
     @Injected() private var nightscout: NightscoutManager!
+    @Injected() var deviceDataManager: DeviceDataManager!
     @Published var low: Decimal = 0
     @Published var presets: [TempTarget] = []
 
@@ -452,39 +453,11 @@ extension BaseWatchManager: WCSessionDelegate {
         }
 
         if let tempTargetID = message["tempTarget"] as? String {
+            debug(.deviceManager, "Received tempTargetID: \(tempTargetID)")
+            
             if var preset = tempTargetsStorage.presets().first(where: { $0.id == tempTargetID }) {
-                enactPreset(id: preset.id)
-                
-               /* preset.createdAt = Date()
-                tempTargetsStorage.storeTempTargets([preset])
-
-                // Update carb profile settings based on the preset values
-                settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
-                settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
-                settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
-                
-                coredataContext.performAndWait {
-                    var tempTargetsArray = [TempTargets]()
-                    let requestTempTargets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
-                    let sortTT = NSSortDescriptor(key: "date", ascending: false)
-                    requestTempTargets.sortDescriptors = [sortTT]
-                    try? tempTargetsArray = coredataContext.fetch(requestTempTargets)
-                    
-                    let whichID = tempTargetsArray.first(where: { $0.id == tempTargetID })
-
-                    if tempTargetID != nil {
-                        let saveToCoreData = TempTargets(context: self.coredataContext)
-                        saveToCoreData.active = true
-                        saveToCoreData.date = Date()
-                        saveToCoreData.startDate = Date()
-                        saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
-                        saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
-                        saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
-
-                        try? self.coredataContext.save()
-                    }
-                } */
-
+                debug(.deviceManager, "Found preset with ID: \(tempTargetID)")
+                enactPreset(id: tempTargetID)
                 replyHandler(["confirmation": true])
                 return
             } else if tempTargetID == "cancel" {
@@ -508,20 +481,31 @@ extension BaseWatchManager: WCSessionDelegate {
         }
         
         func enactPreset(id: String) {
+            debug(.deviceManager, "Enacting preset with ID: \(id)")
+            presets = tempTargetsStorage.presets()
+            
             if var preset = presets.first(where: { $0.id == id }) {
+                debug(.deviceManager, "Preset found with ID: \(id), updating createdAt and storing")
                 preset.createdAt = Date()
                 tempTargetsStorage.storeTempTargets([preset])
+                debug(.deviceManager, "Stored updated preset: \(preset)")
 
                 settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
                 settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
                 settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
 
                 coredataContext.performAndWait {
+                    debug(.deviceManager, "Fetching TempTargets from Core Data")
                     var tempTargetsArray = [TempTargets]()
                     let requestTempTargets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
                     let sortTT = NSSortDescriptor(key: "date", ascending: false)
                     requestTempTargets.sortDescriptors = [sortTT]
-                    try? tempTargetsArray = coredataContext.fetch(requestTempTargets)
+                    do {
+                        tempTargetsArray = try coredataContext.fetch(requestTempTargets)
+                        debug(.deviceManager, "Fetched temp targets: \(tempTargetsArray)")
+                    } catch {
+                        debug(.deviceManager, "Error fetching temp targets: \(error)")
+                    }
 
                     let whichID = tempTargetsArray.first(where: { $0.id == id })
 
@@ -529,8 +513,6 @@ extension BaseWatchManager: WCSessionDelegate {
                         let saveToCoreData = TempTargets(context: self.coredataContext)
                         saveToCoreData.active = true
                         saveToCoreData.date = Date()
-                        // saveToCoreData.hbt = whichID?.hbt ?? 160
-                        // saveToCoreData.id = id
                         saveToCoreData.startDate = Date()
                         saveToCoreData.duration = whichID?.duration ?? 0
                         saveToCoreData.low = low as NSDecimalNumber
@@ -538,9 +520,20 @@ extension BaseWatchManager: WCSessionDelegate {
                         saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
                         saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
 
-                        try? self.coredataContext.save()
+                        debug(.deviceManager, "Saving new temp target to Core Data: \(saveToCoreData)")
+
+                        do {
+                            try self.coredataContext.save()
+                            debug(.deviceManager, "Successfully saved temp target to Core Data")
+                        } catch {
+                            debug(.deviceManager, "Error saving temp target to Core Data: \(error)")
+                        }
+                    } else {
+                        debug(.deviceManager, "No matching ID found in Core Data for ID: \(id)")
                     }
                 }
+            } else {
+                debug(.deviceManager, "No preset found with ID: \(id)")
             }
         }
 
