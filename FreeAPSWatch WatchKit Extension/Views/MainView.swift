@@ -89,12 +89,26 @@ struct MainView: View {
         CurrentGlucoseView(
         )
     }
+    
+    var eventualBG: some View {
+        HStack(alignment: .lastTextBaseline) {
+            if let eventualBG = state.eventualBG.nonEmpty {
+                Text(eventualBG)
+                    .font(.caption2)
+                    .scaledToFill()
+                    .foregroundColor(.secondary)
+                    .minimumScaleFactor(0.5)
+            } else {
+                EmptyView()
+            }
+        }
+    }
 
     var isf: some View {
         Group {
             switch state.displayOnWatch {
             case .HR:
-                HStack {
+                HStack(alignment: .lastTextBaseline) {
                     if completedLongPress {
                         Text("❤️ \(pulse)")
                             .fontWeight(.regular)
@@ -261,6 +275,12 @@ struct MainView: View {
                         .offset(x: -40, y: 49),
                     alignment: .center
                 )
+                .overlay(
+                    eventualBG
+                        .scaleEffect(1)
+                        .offset(x: 0, y: 10),
+                    alignment: .center
+                )
         }
         .gesture(longPresBGs)
     }
@@ -294,15 +314,13 @@ struct MainView: View {
     }
 
     var longPresBGs: some Gesture {
-        LongPressGesture(minimumDuration: 1)
-            .updating($isDetectingLongPressOfBG) { currentState, gestureState,
-                _ in
-                gestureState = currentState
-            }
-            .onEnded { _ in
+        TapGesture()
+            .onEnded {
                 if completedLongPressOfBG {
                     completedLongPressOfBG = false
-                } else { completedLongPressOfBG = true }
+                } else {
+                    completedLongPressOfBG = true
+                }
             }
     }
 

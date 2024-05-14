@@ -2,6 +2,18 @@ import SwiftDate
 import SwiftUI
 import UIKit
 
+private var backgroundGradient: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(colors: [
+            Color.bgDarkBlue,
+            Color.bgDarkerDarkBlue,
+            Color.bgDarkBlue
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+}
+
 struct LoopView: View {
     private enum Config {
         static let lag: TimeInterval = 30
@@ -118,16 +130,28 @@ struct PulsatingCircleView: View {
     @State private var animate = false
 
     var body: some View {
-        Circle()
-            .strokeBorder(color, lineWidth: 4)
-            .frame(width: 24, height: 24)
-            .scaleEffect(animate ? 1.2 : 0.8)
-            .animation(
-                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                value: animate
-            )
-            .onAppear {
-                self.animate = true
-            }
+        ZStack {
+            Circle()
+                .fill(backgroundGradient)
+                .frame(width: 16, height: 16)
+                .scaleEffect(animate ? 1.0 : 0.0)
+                .animation(
+                    Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                    value: animate
+                )
+            
+            Circle()
+                .fill(color)
+                .frame(width: 24, height: 24)
+                .scaleEffect(animate ? 1.2 : 0.6)
+                .animation(
+                    Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                    value: animate
+                )
+        }
+        .onAppear {
+            self.animate = true
+        }
     }
 }
+
