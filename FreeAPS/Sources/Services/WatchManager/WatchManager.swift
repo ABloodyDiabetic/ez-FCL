@@ -22,6 +22,9 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Injected() var deviceDataManager: DeviceDataManager!
     @Published var low: Decimal = 0
     @Published var presets: [TempTarget] = []
+    @Published var lowCarbProfile: Bool = false
+    @Published var mediumCarbProfile: Bool = false
+    @Published var highCarbProfile: Bool = false
 
     let coreDataStorage = CoreDataStorage()
     let coredataContext = CoreDataStack.shared.persistentContainer.viewContext
@@ -461,7 +464,8 @@ extension BaseWatchManager: WCSessionDelegate {
                 replyHandler(["confirmation": true])
                 return
             } else if tempTargetID == "cancel" {
-                let entry = TempTarget(
+                cancel()
+               /* let entry = TempTarget(
                     name: TempTarget.cancel,
                     createdAt: Date(),
                     targetTop: 0,
@@ -474,7 +478,7 @@ extension BaseWatchManager: WCSessionDelegate {
                     highCarbProfile: false
                 )
                 settingsManager.setLowCarbProfileEnabled(true)
-                tempTargetsStorage.storeTempTargets([entry])
+                tempTargetsStorage.storeTempTargets([entry]) */
                 replyHandler(["confirmation": true])
                 return
             }
@@ -534,6 +538,25 @@ extension BaseWatchManager: WCSessionDelegate {
                 }
             } else {
                 debug(.deviceManager, "No preset found with ID: \(id)")
+            }
+        }
+        
+        func cancel() {
+            tempTargetsStorage.storeTempTargets([TempTarget.cancel(at: Date())])
+
+            settingsManager.setLowCarbProfileEnabled(true)
+            lowCarbProfile = true
+            mediumCarbProfile = false
+            highCarbProfile = false
+
+            coredataContext.performAndWait {
+                let saveToCoreData = TempTargets(context: self.coredataContext)
+                saveToCoreData.active = false
+                saveToCoreData.date = Date()
+                saveToCoreData.lowCarbProfile = lowCarbProfile
+                saveToCoreData.mediumCarbProfile = mediumCarbProfile
+                saveToCoreData.highCarbProfile = highCarbProfile
+                try? self.coredataContext.save()
             }
         }
 

@@ -54,7 +54,7 @@ public enum BatteryChemistryType: Int, CustomStringConvertible, Identifiable, Ca
         case .rechargeableLithium:
             return 1.32
         case .duracellRechargeable:
-            return 1.18
+            return 1.19
         }
     }
 

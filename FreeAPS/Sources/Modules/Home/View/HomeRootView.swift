@@ -447,7 +447,7 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue * 0.0555 >= 0 && latestGlucoseValue * 0.0555 <
                                     tightBandUpperLimitmgdL && !state.settingsManager.preferences
                                     .moderateCarbezFCLProfile && !state.settingsManager.preferences
@@ -459,7 +459,7 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue >= tightBandUpperLimitmgdL && latestGlucoseValue <=
                                     looseBandUpperLimitmgdL && !state.settingsManager.preferences
                                     .moderateCarbezFCLProfile && !state.settingsManager.preferences
@@ -469,7 +469,7 @@ extension Home {
                                     Text("Max IOB: \(looseDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue * 0.0555 >= tightBandUpperLimitmgdL && latestGlucoseValue * 0.0555 <=
                                     looseBandUpperLimitmgdL && !state.settingsManager.preferences
                                     .moderateCarbezFCLProfile && !state.settingsManager.preferences
@@ -479,7 +479,7 @@ extension Home {
                                     Text("Max IOB: \(looseDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue >= 0 && state.settingsManager.preferences
                                     .sleepMode && state.settingsManager.settings.units == .mgdL
                                 {
@@ -487,7 +487,7 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue * 0.0555 >= 0 && state.settingsManager
                                     .preferences.sleepMode && state.settingsManager.settings.units == .mmolL
                                 {
@@ -495,7 +495,7 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue >= 0 && state.settingsManager.preferences
                                     .automaticSleepMode && state.settingsManager.settings.units == .mgdL
                                 {
@@ -503,7 +503,7 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else if latestGlucoseValue * 0.0555 >= 0 && state.settingsManager
                                     .preferences.automaticSleepMode && state.settingsManager.settings.units == .mmolL
                                 {
@@ -511,13 +511,13 @@ extension Home {
                                     Text("Max IOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 } else {
                                     // Display the default max IOB if not within any deadband range
                                     Text("Max IOB: \(defaultMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
-                                        .padding(.trailing, 20)
+                                        .padding(.trailing, 10)
                                 }
                             } else if state.settingsManager.preferences.maxIOB == 0 {
                                 // Display empty text if deadbands are disabled and maxIOB is 0
@@ -527,18 +527,18 @@ extension Home {
                                 Text("Max IOB: \(defaultMaxIOB)")
                                     .font(.callout)
                                     .foregroundColor(.orange)
-                                    .padding(.trailing, 20)
+                                    .padding(.trailing, 10)
                             }
                         } else {
                             Text("").font(.callout) // No recent glucose data available
                                 .foregroundColor(.orange)
-                                .padding(.trailing, 20)
+                                .padding(.trailing, 10)
                         }
                     }
                 } else {
                     Text("Invalid target BG").font(.callout)
                         .foregroundColor(.red)
-                        .padding(.trailing, 20)
+                        .padding(.trailing, 10)
                 }
 
 //                if let progress = state.bolusProgress {
