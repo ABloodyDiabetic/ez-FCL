@@ -88,7 +88,6 @@ struct BolusView: View {
         }
         .navigationTitle("Enact Bolus")
         .background(backgroundGradient) // Apply gradient to the entire VStack
-        .edgesIgnoringSafeArea(.all)
         .onAppear {
             steps = Double((state.bolusRecommended ?? 0) / (state.bolusIncrement ?? 0.1))
         }

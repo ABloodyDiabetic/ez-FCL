@@ -48,7 +48,6 @@ struct TempTargetsView: View {
         }
         .navigationTitle("Temp Targets")
         .background(backgroundGradient) 
-        .edgesIgnoringSafeArea(.all)
     }
 }
 

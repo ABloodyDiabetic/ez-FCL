@@ -47,7 +47,6 @@ struct CarbsView: View {
             buttonStack
         }
         .background(backgroundGradient) // Apply gradient to the entire VStack
-        .edgesIgnoringSafeArea(.all)
         .onAppear { carbAmount = Double(state.carbsRequired ?? 0) }
     }
 
