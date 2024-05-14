@@ -16,6 +16,18 @@ struct CarbsView: View {
     @State var proteinAmount = 0.0
     @State var colorOfselection: Color = .darkGray
     // @State var displayPresets: Bool = false
+    
+    private var backgroundGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color.bgDarkBlue,
+                Color.bgDarkerDarkBlue,
+                Color.bgDarkBlue
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
 
     var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -102,7 +114,7 @@ struct CarbsView: View {
         .onTapGesture {
             select(entry: .carbs)
         }
-        .background(selection == .carbs && state.displayFatAndProteinOnWatch ? colorOfselection : .black)
+        .background(backgroundGradient)
         .padding(.top)
     }
 
@@ -152,7 +164,7 @@ struct CarbsView: View {
         .onTapGesture {
             select(entry: .protein)
         }
-        .background(selection == .protein ? colorOfselection : .black)
+        .background(backgroundGradient)
     }
 
     var fat: some View {
@@ -202,7 +214,7 @@ struct CarbsView: View {
         .onTapGesture {
             select(entry: .fat)
         }
-        .background(selection == .fat ? colorOfselection : .black)
+        .background(backgroundGradient)
     }
 
     var buttonStack: some View {

@@ -59,13 +59,13 @@ struct MainView: View {
 
             if state.isConfirmationViewActive {
                 ConfirmationView(success: $state.confirmationSuccess)
-                    .background(Rectangle().fill(.black))
+                    .background(backgroundGradient)
             }
 
             if state.isConfirmationBolusViewActive {
                 BolusConfirmationView()
                     .environmentObject(state)
-                    .background(Rectangle().fill(.black))
+                    .background(backgroundGradient)
             }
         }
         .frame(maxHeight: .infinity)

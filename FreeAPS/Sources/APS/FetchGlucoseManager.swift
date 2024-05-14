@@ -73,52 +73,51 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable /*, TempTar
     }
 
     func processTempTargets() {
-        let cd = CoreDataStorage()
-        let tempTargetsArray = cd.fetchTempTargets()
-        let tempPresetsArray = tempTargetsStorage.presets()
-        debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets and \(tempPresetsArray.count) presets.")
+          let cd = CoreDataStorage()
+          let tempTargetsArray = cd.fetchTempTargets()
+          let tempPresetsArray = tempTargetsStorage.presets()
+          debug(.deviceManager, "Fetched \(tempTargetsArray.count) temp targets and \(tempPresetsArray.count) presets.")
 
-        let tempTargetActive = tempTargetsArray.first?.active ?? false
-        let presetActive = !tempPresetsArray.isEmpty
+          let tempTargetActive = tempTargetsArray.first?.active ?? false
+          let presetActive = !tempPresetsArray.isEmpty
 
-        debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
-        debug(.deviceManager, "Is any temp preset active? \(presetActive)")
+          debug(.deviceManager, "Is first temp target active? \(tempTargetActive)")
+          debug(.deviceManager, "Is any temp preset active? \(presetActive)")
 
-        let currentTime = Date()
+          let currentTime = Date()
 
-        if tempTargetActive || presetActive {
-            let duration = tempTargetsArray.first?.duration ?? 0
-            let startDate = tempTargetsArray.first?.startDate ?? currentTime
-            let durationPlusStart = startDate.addingTimeInterval(TimeInterval(Double(truncating: duration) * 60))
-            let timeRemaining = max(0, durationPlusStart.timeIntervalSinceNow / 60) // in minutes
+          if tempTargetActive || presetActive {
+              let duration = tempTargetsArray.first?.duration ?? 0
+              let startDate = tempTargetsArray.first?.startDate ?? currentTime
+              let durationPlusStart = startDate.addingTimeInterval(TimeInterval((duration as Decimal) * 60))
+              let timeRemaining = max(0, durationPlusStart.timeIntervalSinceNow / 60) // in minutes
 
-            var totalPresetTimeRemaining = 0.0
+              var totalPresetTimeRemaining = 0.0
 
-            for preset in tempPresetsArray {
-                let presetDuration = preset.duration // Directly use presetDuration as it is not optional.
-                if let presetStartDate = preset.startDate as? Date { // Check for optional startDate and cast to Date.
-                    let presetDurationPlusStart = presetStartDate.addingTimeInterval(TimeInterval(Double(truncating: presetDuration as NSNumber) * 60))
-                    let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
-                    totalPresetTimeRemaining += presetTimeRemaining
+              for preset in tempPresetsArray {
+                  let presetDuration = preset.duration
+                  let presetStartDate = preset.startDate ?? currentTime
+                  let presetDurationPlusStart = (presetStartDate as AnyObject).addingTimeInterval(TimeInterval(presetDuration * 60))
+                  let presetTimeRemaining = max(0, presetDurationPlusStart.timeIntervalSinceNow / 60) // in minutes
+                  totalPresetTimeRemaining += presetTimeRemaining
 
-                    debug(.deviceManager, "Preset \(String(describing: preset.name)) duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
-                }
-            }
+                  debug(.deviceManager, "Preset \(String(describing: preset.name)) duration: \(presetDuration) minutes, Start date: \(presetStartDate), Preset time remaining: \(presetTimeRemaining) minutes")
+              }
 
-            debug(.deviceManager, "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes")
-            debug(.deviceManager, "Total Preset time remaining: \(totalPresetTimeRemaining) minutes")
+              debug(.deviceManager, "Temp target duration: \(duration) minutes, Start date: \(startDate), Time remaining: \(timeRemaining) minutes")
+              debug(.deviceManager, "Total Preset time remaining: \(totalPresetTimeRemaining) minutes")
 
-            if timeRemaining > 0.1 || totalPresetTimeRemaining > 0.1 {
-                debug(.deviceManager, "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes or total Preset time remaining: \(totalPresetTimeRemaining) minutes")
-            } else {
-                settingsManager.setLowCarbProfileEnabled(true)
-                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target or Preset expired")
-            }
-        } else {
-            settingsManager.setLowCarbProfileEnabled(true)
-            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets or Presets are active")
-        }
-    }
+              if timeRemaining > 0.1 || totalPresetTimeRemaining > 0.1 {
+                  debug(.deviceManager, "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes or total Preset time remaining: \(totalPresetTimeRemaining) minutes")
+              } else {
+                  settingsManager.setLowCarbProfileEnabled(true)
+                  debug(.deviceManager, "Enabled Low Carb Profile because Temp Target or Preset expired")
+              }
+          } else {
+              settingsManager.setLowCarbProfileEnabled(true)
+              debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets or Presets are active")
+          }
+      }
 
     var glucoseSource: GlucoseSource!
 
