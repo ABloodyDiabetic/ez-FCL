@@ -1,10 +1,24 @@
 import SwiftUI
 
+private var backgroundGradient: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(colors: [
+            Color.bgDarkBlue,
+            Color.bgDarkerDarkBlue,
+            Color.bgDarkBlue
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+}
+
 struct ConfirmationView: View {
     @Binding var success: Bool?
 
     var body: some View {
         ZStack {
+            backgroundGradient
+                .edgesIgnoringSafeArea(.all)
             Group {
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()

@@ -246,7 +246,7 @@ struct MainView: View {
                 .overlay(
                     isf
                         .scaleEffect(1)
-                        .offset(x: 36, y: 50),
+                        .offset(x: 36, y: 49),
                     alignment: .center
                 )
                 .overlay(
@@ -258,7 +258,7 @@ struct MainView: View {
                 .overlay(
                     iob
                         .scaleEffect(1)
-                        .offset(x: -38, y: 50),
+                        .offset(x: -40, y: 49),
                     alignment: .center
                 )
         }

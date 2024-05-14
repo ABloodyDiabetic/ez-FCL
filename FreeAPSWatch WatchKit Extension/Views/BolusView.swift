@@ -1,5 +1,17 @@
 import SwiftUI
 
+private var backgroundGradient: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(colors: [
+            Color.bgDarkBlue,
+            Color.bgDarkerDarkBlue,
+            Color.bgDarkBlue
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+}
+
 struct BolusView: View {
     @EnvironmentObject var state: WatchStateModel
 
@@ -75,6 +87,8 @@ struct BolusView: View {
             }.frame(maxHeight: .infinity)
         }
         .navigationTitle("Enact Bolus")
+        .background(backgroundGradient) // Apply gradient to the entire VStack
+        .edgesIgnoringSafeArea(.all)
         .onAppear {
             steps = Double((state.bolusRecommended ?? 0) / (state.bolusIncrement ?? 0.1))
         }

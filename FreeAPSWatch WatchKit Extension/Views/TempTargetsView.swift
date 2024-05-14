@@ -1,5 +1,17 @@
 import SwiftUI
 
+private var backgroundGradient: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(colors: [
+            Color.bgDarkBlue,
+            Color.bgDarkerDarkBlue,
+            Color.bgDarkBlue
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+}
+
 struct TempTargetsView: View {
     @EnvironmentObject var state: WatchStateModel
 
@@ -35,6 +47,8 @@ struct TempTargetsView: View {
             }
         }
         .navigationTitle("Temp Targets")
+        .background(backgroundGradient) 
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

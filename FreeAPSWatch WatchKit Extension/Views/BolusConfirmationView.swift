@@ -1,6 +1,18 @@
 import Combine
 import SwiftUI
 
+private var backgroundGradient: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(colors: [
+            Color.bgDarkBlue,
+            Color.bgDarkerDarkBlue,
+            Color.bgDarkBlue
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+}
+
 struct BolusConfirmationView: View {
     @EnvironmentObject var state: WatchStateModel
 
@@ -80,6 +92,8 @@ struct BolusConfirmationView: View {
             isContinuous: false,
             isHapticFeedbackEnabled: true
         )
+        .background(backgroundGradient)
+        .edgesIgnoringSafeArea(.all)
         .onChange(of: crownProgress) { _ in
             guard !done else { return }
 
