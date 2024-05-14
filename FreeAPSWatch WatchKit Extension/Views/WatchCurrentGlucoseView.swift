@@ -56,7 +56,7 @@ struct CurrentGlucoseView: View {
 
     private func updateRotationBasedOnTrend(_ trend: String?) {
         let oldDegrees = rotationDegrees
-        switch trend {
+        switch state.trend {
         case "→":
             rotationDegrees = 0
         case "↗":

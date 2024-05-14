@@ -2,6 +2,7 @@ import Foundation
 import SwiftDate
 import Swinject
 import WatchConnectivity
+import CoreData
 
 protocol WatchManager {}
 
@@ -20,6 +21,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Injected() private var nightscout: NightscoutManager!
 
     let coreDataStorage = CoreDataStorage()
+    let coredataContext = CoreDataStack.shared.persistentContainer.viewContext
 
     private var lifetime = Lifetime()
 
@@ -228,11 +230,11 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
         let duration = targetFormatter.string(from: target.duration as NSNumber)!
         if let low = low {
             if low > 0 {
-                return "Target \(targetFormatter.string(from: low as NSNumber)!)," + " \(duration) minutes"
+                return "Target \(targetFormatter.string(from: low as NSNumber)!)," + " \(duration) minute duration"
             }
         }
 
-        return "Target unchanged, \(duration) minutes"
+        return "Target unchanged, \(duration) minute duration"
     }
 
     private func eventualBGString() -> String? {
@@ -456,6 +458,28 @@ extension BaseWatchManager: WCSessionDelegate {
                 settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
                 settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
                 settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+                
+                coredataContext.performAndWait {
+                    var tempTargetsArray = [TempTargets]()
+                    let requestTempTargets = TempTargets.fetchRequest() as NSFetchRequest<TempTargets>
+                    let sortTT = NSSortDescriptor(key: "date", ascending: false)
+                    requestTempTargets.sortDescriptors = [sortTT]
+                    try? tempTargetsArray = coredataContext.fetch(requestTempTargets)
+                    
+                    let whichID = tempTargetsArray.first(where: { $0.id == tempTargetID })
+
+                    if tempTargetID != nil {
+                        let saveToCoreData = TempTargets(context: self.coredataContext)
+                        saveToCoreData.active = true
+                        saveToCoreData.date = Date()
+                        saveToCoreData.startDate = Date()
+                        saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
+                        saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
+                        saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
+
+                        try? self.coredataContext.save()
+                    }
+                }
 
                 replyHandler(["confirmation": true])
                 return
