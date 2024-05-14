@@ -27,7 +27,7 @@ struct LoopView: View {
             ZStack {
                 if isLooping {
                     PulsatingCircleView(color: color)
-                    ProgressView()
+                   /* ProgressView() */
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4)
@@ -36,7 +36,9 @@ struct LoopView: View {
                 }
             }
             if isLooping {
-                Text("looping").font(.caption2)
+               /* Text("looping").font(.caption2) */
+                Text(timeString).font(.caption2)
+                    .foregroundColor(.secondary)
             } else if manualTempBasal {
                 Text("Manual").font(.caption2)
             } else if actualSuggestion?.timestamp != nil {
