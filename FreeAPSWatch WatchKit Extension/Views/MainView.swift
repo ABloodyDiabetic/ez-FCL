@@ -89,7 +89,7 @@ struct MainView: View {
         CurrentGlucoseView(
         )
     }
-    
+
     var eventualBG: some View {
         HStack(alignment: .lastTextBaseline) {
             if let eventualBG = state.eventualBG.nonEmpty {
@@ -113,7 +113,7 @@ struct MainView: View {
                         Text("❤️ \(pulse)")
                             .fontWeight(.regular)
                             .font(.custom("activated", size: 20))
-                            .scaledToFill()
+                            .frame(width: 60, alignment: .trailing)
                             .foregroundColor(.white)
                             .minimumScaleFactor(0.5)
                             .scaleEffect(isDetectingLongPress ? 3 : 1)
@@ -122,7 +122,7 @@ struct MainView: View {
                         Text("❤️ \(pulse)")
                             .fontWeight(.regular)
                             .font(.caption2)
-                            .scaledToFill()
+                            .frame(width: 60, alignment: .trailing)
                             .foregroundColor(.white)
                             .minimumScaleFactor(0.5)
                             .scaleEffect(isDetectingLongPress ? 3 : 1)
@@ -133,7 +133,7 @@ struct MainView: View {
                 if let eventualBG = state.eventualBG.nonEmpty {
                     Text(eventualBG)
                         .font(.caption2)
-                        .scaledToFill()
+                        .frame(width: 60, alignment: .trailing)
                         .foregroundColor(.secondary)
                         .minimumScaleFactor(0.5)
                 } else {
@@ -143,7 +143,7 @@ struct MainView: View {
                 Text("🦶 \(steps)")
                     .fontWeight(.regular)
                     .font(.caption2)
-                    .scaledToFill()
+                    .frame(width: 60, alignment: .trailing)
                     .foregroundColor(.white)
                     .minimumScaleFactor(0.5)
             case .isf:
@@ -215,7 +215,6 @@ struct MainView: View {
         }
     }
 
-
     var loopTime: some View {
         VStack {
             if state.lastLoopDate != nil {
@@ -223,7 +222,15 @@ struct MainView: View {
                 if minutesPassed > 5 {
                     Text(timeString).fontWeight(.semibold).font(.caption2)
                 } else {
-                    Text("").fontWeight(.semibold).font(.caption2)
+                    if let eventualBG = state.eventualBG.nonEmpty {
+                        Text(eventualBG)
+                            .font(.caption2)
+                            .scaledToFill()
+                            .foregroundColor(.secondary)
+                            .minimumScaleFactor(0.5)
+                    } else {
+                        EmptyView()
+                    }
                 }
             } else {
                 Text("--").fontWeight(.semibold).font(.caption2)
@@ -275,12 +282,12 @@ struct MainView: View {
                         .offset(x: -40, y: 49),
                     alignment: .center
                 )
-                .overlay(
-                    eventualBG
-                        .scaleEffect(1)
-                        .offset(x: 0, y: 10),
-                    alignment: .center
-                )
+            /* .overlay(
+                 eventualBG
+                     .scaleEffect(1)
+                     .offset(x: 0, y: 28),
+                 alignment: .center
+             ) */
         }
         .gesture(longPresBGs)
     }
@@ -353,7 +360,7 @@ struct MainView: View {
             }
         }
     }
-    
+
     var targetTimeRemaining: some View {
         HStack {
             if state.profilesOrTempTargets {
@@ -375,7 +382,6 @@ struct MainView: View {
             }
         }
     }
-
 
     var bolus: some View {
         NavigationLink(isActive: $state.isBolusViewActive) {

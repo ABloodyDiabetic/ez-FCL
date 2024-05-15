@@ -38,7 +38,7 @@ class WatchStateModel: NSObject, ObservableObject {
     @Published var displayFatAndProteinOnWatch = false
     @Published var confirmBolusFaster = false
     @Published var useNewCalc = false
-    @Published var eventualBG = ""
+    @Published var eventualBG = "⇢ ---"
     @Published var profilesOrTempTargets = true
     @Published var isConfirmationViewActive = false {
         didSet {

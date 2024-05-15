@@ -132,18 +132,17 @@ struct PulsatingCircleView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(backgroundGradient)
-                .frame(width: 16, height: 16)
-                .scaleEffect(animate ? 1.0 : 0.0)
+                .fill(color)
+                .frame(width: 24, height: 24)
+                .scaleEffect(animate ? 1.2 : 0.6)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
                 )
-            
             Circle()
-                .fill(color)
-                .frame(width: 24, height: 24)
-                .scaleEffect(animate ? 1.2 : 0.6)
+                .fill(backgroundGradient)
+                .frame(width: 16, height: 16)
+                .scaleEffect(animate ? 1.2 : 0.0)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
