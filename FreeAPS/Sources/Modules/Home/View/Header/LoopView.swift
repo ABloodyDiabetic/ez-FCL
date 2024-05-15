@@ -124,16 +124,14 @@ struct LoopView: View {
     }
 } */
 
-import SwiftUI
-
 struct PulsatingCircleView: View {
-    var size: CGFloat = 20.0
+    var size: CGFloat = 30.0
     @State private var animate = false
 
     private let maxScale: CGFloat = 1.0
     private let minScale: CGFloat = 0.5
 
-    private let startColor = Color.loopGreen
+    private let startColor = Color.green // Assume loopGreen is green
     private let middleColor = Color(red: 0.6235294118, green: 0.4235294118, blue: 0.9803921569)
     private let endColor = Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902)
 
@@ -141,15 +139,15 @@ struct PulsatingCircleView: View {
         ZStack {
             Circle()
                 .fill(interpolatedColor(for: animate ? minScale : maxScale))
-                .frame(width: 30, height: 30)
+                .frame(width: size, height: size)
                 .scaleEffect(animate ? minScale : maxScale)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
                 )
             Circle()
-                .fill(backgroundGradient)
-                .frame(width: 20, height: 20)
+                .fill(Color.white.opacity(0.1)) // Temporary background gradient replacement
+                .frame(width: size - 10, height: size - 10)
                 .scaleEffect(animate ? 0.0 : 1.0)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
