@@ -40,6 +40,7 @@ struct CurrentGlucoseView: View {
                         Text("min  ")
                         Text(state.delta)
                         Text(state.trend)
+                            .offset(x: 0, y: -1.75)
                     }
                 }
             }

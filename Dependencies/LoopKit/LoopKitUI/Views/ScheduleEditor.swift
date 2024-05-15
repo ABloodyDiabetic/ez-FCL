@@ -333,8 +333,11 @@ struct ScheduleEditor<Value: Equatable, ValueContent: View, ValuePicker: View, A
                     .frame(width: 12, height: 20)
                 Text(backButtonTitle)
                     .fontWeight(.regular)
+                Spacer()
             }
-            .offset(x: -6, y: 0)
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .contentShape(Rectangle()) // Ensures the entire area is tappable
         }
     }
 

@@ -38,7 +38,7 @@ struct LoopView: View {
         VStack(alignment: .center) {
             ZStack {
                 if isLooping {
-                    PulsatingCircleView()
+                    PulsatingCircleView(color: color)
                    /* ProgressView() */
                 } else {
                     Circle()
@@ -125,30 +125,24 @@ struct LoopView: View {
 } */
 
 struct PulsatingCircleView: View {
-    var size: CGFloat = 30.0
+    var color: Color
+    var size: CGFloat = 20.0
     @State private var animate = false
-
-    private let maxScale: CGFloat = 1.0
-    private let minScale: CGFloat = 0.5
-
-    private let startColor = Color.green // Assume loopGreen is green
-    private let middleColor = Color(red: 0.6235294118, green: 0.4235294118, blue: 0.9803921569)
-    private let endColor = Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902)
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(interpolatedColor(for: animate ? minScale : maxScale))
-                .frame(width: size, height: size)
-                .scaleEffect(animate ? minScale : maxScale)
+                .fill(color)
+                .frame(width: 24, height: 24)
+                .scaleEffect(animate ? 0.6 : 1.2)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
                 )
             Circle()
-                .fill(Color.white.opacity(0.1)) // Temporary background gradient replacement
-                .frame(width: size - 10, height: size - 10)
-                .scaleEffect(animate ? 0.0 : 1.0)
+                .fill(backgroundGradient)
+                .frame(width: 16, height: 16)
+                .scaleEffect(animate ? 0.0 : 1.2)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
@@ -158,52 +152,4 @@ struct PulsatingCircleView: View {
             self.animate = true
         }
     }
-
-    private func interpolatedColor(for scale: CGFloat) -> Color {
-        // Normalize the scale to a range between 0 and 1
-        let normalizedScale = (scale - minScale) / (maxScale - minScale)
-
-        // Calculate the interpolation factor
-        if normalizedScale <= 0.5 {
-            // Interpolate between startColor and middleColor
-            let factor = normalizedScale / 0.5
-            return Color(
-                red: (1 - factor) * startColor.components.red + factor * middleColor.components.red,
-                green: (1 - factor) * startColor.components.green + factor * middleColor.components.green,
-                blue: (1 - factor) * startColor.components.blue + factor * middleColor.components.blue
-            )
-        } else {
-            // Interpolate between middleColor and endColor
-            let factor = (normalizedScale - 0.5) / 0.5
-            return Color(
-                red: (1 - factor) * middleColor.components.red + factor * endColor.components.red,
-                green: (1 - factor) * middleColor.components.green + factor * endColor.components.green,
-                blue: (1 - factor) * middleColor.components.blue + factor * endColor.components.blue
-            )
-        }
-    }
 }
-
-extension Color {
-    struct ColorComponents {
-        let red: CGFloat
-        let green: CGFloat
-        let blue: CGFloat
-    }
-
-    var components: ColorComponents {
-        let scanner = Scanner(string: self.description.trimmingCharacters(in: CharacterSet.alphanumerics.inverted))
-        var hexNumber: UInt64 = 0
-        let result = scanner.scanHexInt64(&hexNumber)
-        let r, g, b: CGFloat
-        if result {
-            r = CGFloat((hexNumber & 0xff0000) >> 16) / 255
-            g = CGFloat((hexNumber & 0x00ff00) >> 8) / 255
-            b = CGFloat(hexNumber & 0x0000ff) / 255
-            return ColorComponents(red: r, green: g, blue: b)
-        } else {
-            return ColorComponents(red: 0, green: 0, blue: 0)
-        }
-    }
-}
-

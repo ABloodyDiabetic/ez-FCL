@@ -37,6 +37,14 @@ struct MainView: View {
         )
     }
 
+    private var screenWidth: CGFloat {
+        WKInterfaceDevice.current().screenBounds.width
+    }
+
+    private var scalingFactor: CGFloat {
+        screenWidth / 40.0 // Assuming 40mm is the base size
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             if !completedLongPressOfBG {
@@ -69,7 +77,7 @@ struct MainView: View {
             }
         }
         .frame(maxHeight: .infinity)
-        .padding()
+        .padding(scalingFactor)
         .onReceive(state.timer) { date in
             state.timerDate = date
             state.requestState()
@@ -81,13 +89,13 @@ struct MainView: View {
         }
         .overlay(
             loopTime
-                .offset(x: 0, y: -3)
+                .offset(x: 0 * scalingFactor, y: -3 * scalingFactor)
         )
+       /* .scaleEffect(scalingFactor) // Apply scaling factor */
     }
 
     var glucoseView: some View {
-        CurrentGlucoseView(
-        )
+        CurrentGlucoseView()
     }
 
     var eventualBG: some View {
@@ -160,7 +168,7 @@ struct MainView: View {
                         .resizable()
                         .frame(width: 13, height: 13)
                         .foregroundColor(.white)
-                        .offset(x: 1, y: 2)
+                        .offset(x: 1 * scalingFactor, y: 2 * scalingFactor)
                 }
             }
         }
@@ -173,7 +181,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.loopYellow)
-                .offset(x: 1, y: 1)
+                .offset(x: 1 * scalingFactor, y: 1 * scalingFactor)
             Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -190,7 +198,7 @@ struct MainView: View {
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.insulin)
-                .offset(x: 1, y: 2)
+                .offset(x: 1 * scalingFactor, y: 2 * scalingFactor)
             Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
@@ -228,6 +236,7 @@ struct MainView: View {
                             .scaledToFill()
                             .foregroundColor(.secondary)
                             .minimumScaleFactor(0.5)
+                            .offset(x: -2 * scalingFactor, y: 0 * scalingFactor)
                     } else {
                         EmptyView()
                     }
@@ -246,56 +255,49 @@ struct MainView: View {
                 .onAppear(perform: start)
                 .overlay(
                     glucoseView
-                        .scaleEffect(0.75) // Adjust the scaling factor as needed
-                        .offset(x: 0, y: -5), // Start with centered, adjust as needed
+                        .scaleEffect(0.75 * scalingFactor ) // Adjust the scaling factor as needed
+                        .offset(x: 0 * scalingFactor, y: -5 * scalingFactor), // Start with centered, adjust as needed
                     alignment: .center // Ensures that the overlay is centered in the VStack
                 )
-                /* .overlay(
-                     Circle()
-                         .fill(color)
-                         .frame(width: 11, height: 11)
-                         .scaleEffect(1)
-                         .offset(x: 0, y: -37),
-                     alignment: .center
-                 ) */
                 .overlay(
                     blinkyView
-                        .scaleEffect(1)
-                        .offset(x: 0, y: -37),
+                        .scaleEffect(scalingFactor)
+                        .offset(x: 0 * scalingFactor, y: -37 * scalingFactor),
                     alignment: .center
                 )
                 .overlay(
                     isf
-                        .scaleEffect(1)
-                        .offset(x: 36, y: 49),
+                        .scaleEffect(scalingFactor)
+                        .offset(x: 36 * scalingFactor, y: 49 * scalingFactor),
                     alignment: .center
                 )
                 .overlay(
                     cob
-                        .scaleEffect(1)
-                        .offset(x: -36, y: -59),
+                        .scaleEffect(scalingFactor)
+                        .offset(x: -36 * scalingFactor, y: -59 * scalingFactor),
                     alignment: .center
                 )
                 .overlay(
                     iob
-                        .scaleEffect(1)
-                        .offset(x: -40, y: 49),
+                        .scaleEffect(scalingFactor)
+                        .offset(x: -40 * scalingFactor, y: 49 * scalingFactor),
                     alignment: .center
                 )
             /* .overlay(
                  eventualBG
-                     .scaleEffect(1)
-                     .offset(x: 0, y: 28),
+                     .scaleEffect(scalingFactor)
+                     .offset(x: 0 * scalingFactor, y: 28 * scalingFactor),
                  alignment: .center
              ) */
         }
         .gesture(longPresBGs)
+       /* .scaleEffect(scalingFactor) */
     }
 
     var bigHeader: some View {
         VStack(alignment: .center) {
             HStack {
-                Text(state.glucose).font(.custom("Big BG", size: 55))
+                Text(state.glucose).font(.custom("Big BG", size: 55 /* * scalingFactor */))
                     .minimumScaleFactor(1) // Allows the text size to adjust to fit the space
                     .lineLimit(1) // Ensures the text does not wrap
                     .frame(minWidth: 0, maxWidth: .infinity) // Adjust maxWidth as needed
@@ -351,11 +353,11 @@ struct MainView: View {
                     TempTargetsView()
                         .environmentObject(state)
                 } label: {
-                        Image("target1", bundle: nil)
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(.white)
+                    Image("target1", bundle: nil)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.white)
                 }
             }
         }
@@ -404,46 +406,46 @@ struct MainView: View {
                     .frame(height: geometry.size.height / 1.875)
                     .cornerRadius(15)
                     .shadow(color: Color.black.opacity(0.75), radius: 5)
-                    .padding([.leading, .trailing], 3.25)
+                    .padding([.leading, .trailing], 3.25 * scalingFactor)
             }
             .overlay(
                 carbs
-                    .scaleEffect(1)
-                    .offset(x: -42.5, y: 0),
+                    .scaleEffect(scalingFactor)
+                    .offset(x: -42.5 * scalingFactor, y: 0 * scalingFactor),
                 alignment: .center
             )
             .overlay(
                 targetTimeRemaining
-                    .scaleEffect(1)
-                    .offset(x: 1.5, y: -29),
+                    .scaleEffect(scalingFactor)
+                    .offset(x: 1.5 * scalingFactor, y: -29 * scalingFactor),
                 alignment: .center
             )
             .overlay(
                 target
-                    .scaleEffect(1)
-                    .offset(x: 1.5, y: 0),
+                    .scaleEffect(scalingFactor)
+                    .offset(x: 1.5 * scalingFactor, y: 0 * scalingFactor),
                 alignment: .center
             )
             .overlay(
                 bolus
-                    .scaleEffect(1)
-                    .offset(x: 42.5, y: 0),
+                    .scaleEffect(scalingFactor)
+                    .offset(x: 42.5 * scalingFactor, y: 0 * scalingFactor),
                 alignment: .center
             )
             .buttonStyle(PlainButtonStyle())
             .frame(height: geometry.size.height)
-            .scaleEffect(1.0625)
-            .offset(x: 0, y: 20)
+            .scaleEffect(1.0625 * scalingFactor)
+            .offset(x: 0 * scalingFactor, y: 20 * scalingFactor)
         }
     }
 
     func start() {
-        autorizeHealthKit()
+        authorizeHealthKit()
         startHeartRateQuery(quantityTypeIdentifier: .heartRate)
         startStepsQuery(quantityTypeIdentifier: .stepCount)
     }
 
-    func autorizeHealthKit() {
+    func authorizeHealthKit() {
         let healthKitTypes: Set = [
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
@@ -565,14 +567,13 @@ struct ContentView_Previews: PreviewProvider {
         state.iob = 100.38
         state.cob = 112.123
         state.lastLoopDate = Date().addingTimeInterval(-200)
-        state
-            .tempTargets =
-            [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
+        state.tempTargets = [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
 
         return Group {
             MainView()
             MainView().previewDevice("Apple Watch Series 5 - 40mm")
             MainView().previewDevice("Apple Watch Series 3 - 38mm")
+            MainView().previewDevice("Apple Watch Ultra 2 - 49mm")
         }.environmentObject(state)
     }
 }
