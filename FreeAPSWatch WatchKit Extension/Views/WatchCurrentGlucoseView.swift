@@ -16,6 +16,43 @@ struct CurrentGlucoseView: View {
 
     @Environment(\.colorScheme) var colorScheme
 
+    private enum Config {
+        static let lag: TimeInterval = 30
+    }
+
+    private var timeString: String {
+        let minAgo = Int((Date().timeIntervalSince(state.lastLoopDate ?? .distantPast) - Config.lag) / 60) + 1
+        if minAgo > 1440 {
+            return "--"
+        }
+        return "\(minAgo) " + NSLocalizedString("min", comment: "Minutes ago since last loop")
+    }
+
+    var loopTime: some View {
+        VStack {
+            if state.lastLoopDate != nil {
+                let minutesPassed = Int(timeString) ?? 0
+                if minutesPassed > 5 {
+                    Text(timeString).fontWeight(.semibold).font(.caption2)
+                } else {
+                    Text("").fontWeight(.semibold).font(.caption2)
+                    if let eventualBG = state.eventualBG.nonEmpty {
+                        Text(eventualBG)
+                            .font(.caption2)
+                            .scaledToFill()
+                            .foregroundColor(.secondary)
+                            .minimumScaleFactor(0.5)
+                            .offset(x: -2, y: 0)
+                    } else {
+                        EmptyView()
+                    }
+                }
+            } else {
+                Text("--").fontWeight(.semibold).font(.caption2)
+            }
+        }
+    }
+
     var body: some View {
         let triangleColor = Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902)
 
@@ -25,11 +62,12 @@ struct CurrentGlucoseView: View {
 
             VStack(alignment: .center) {
                 let minutesAgo: TimeInterval = -1 * (state.glucoseDate ?? .distantPast).timeIntervalSinceNow / 60
-                let minuteString = minutesAgo > 99 ? "--" : minutesAgo.formatted(.number.grouping(.never).rounded().precision(.fractionLength(0)))
+                let minuteString = minutesAgo > 99 ? "--" : minutesAgo
+                    .formatted(.number.grouping(.never).rounded().precision(.fractionLength(0)))
                 HStack {
                     Text(state.glucose)
                         .font(.system(size: 40, weight: .bold))
-                        /* .foregroundColor(alarm == nil ? colourGlucoseText : .loopRed) */
+                    /* .foregroundColor(alarm == nil ? colourGlucoseText : .loopRed) */
                 }
                 HStack {
                     if minutesAgo > 0 {
@@ -44,6 +82,8 @@ struct CurrentGlucoseView: View {
                     }
                 }
             }
+            loopTime
+                .offset(x: 0, y: 43)
         }
         .onAppear {
             updateRotationBasedOnTrend(state.trend)

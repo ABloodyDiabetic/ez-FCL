@@ -42,7 +42,7 @@ struct MainView: View {
     }
 
     private var scalingFactor: CGFloat {
-        screenWidth / 40.0 // Assuming 40mm is the base size
+        screenWidth / 170
     }
 
     var body: some View {
@@ -77,7 +77,7 @@ struct MainView: View {
             }
         }
         .frame(maxHeight: .infinity)
-        .padding(scalingFactor)
+        .padding()
         .onReceive(state.timer) { date in
             state.timerDate = date
             state.requestState()
@@ -87,11 +87,11 @@ struct MainView: View {
         .onAppear {
             state.requestState()
         }
-        .overlay(
-            loopTime
-                .offset(x: 0 * scalingFactor, y: -3 * scalingFactor)
-        )
-       /* .scaleEffect(scalingFactor) // Apply scaling factor */
+        /*  .overlay(
+             loopTime
+                 .offset(x: 0 * scalingFactor, y: -3 * scalingFactor)
+         ) */
+        /* .scaleEffect(scalingFactor) // Apply scaling factor */
     }
 
     var glucoseView: some View {
@@ -230,16 +230,17 @@ struct MainView: View {
                 if minutesPassed > 5 {
                     Text(timeString).fontWeight(.semibold).font(.caption2)
                 } else {
-                    if let eventualBG = state.eventualBG.nonEmpty {
-                        Text(eventualBG)
-                            .font(.caption2)
-                            .scaledToFill()
-                            .foregroundColor(.secondary)
-                            .minimumScaleFactor(0.5)
-                            .offset(x: -2 * scalingFactor, y: 0 * scalingFactor)
-                    } else {
-                        EmptyView()
-                    }
+                    Text("").fontWeight(.semibold).font(.caption2)
+                    /* if let eventualBG = state.eventualBG.nonEmpty {
+                         Text(eventualBG)
+                             .font(.caption2)
+                             .scaledToFill()
+                             .foregroundColor(.secondary)
+                             .minimumScaleFactor(0.5)
+                             .offset(x: -2 * scalingFactor, y: 0 * scalingFactor)
+                     } else {
+                         EmptyView()
+                     } */
                 }
             } else {
                 Text("--").fontWeight(.semibold).font(.caption2)
@@ -255,8 +256,9 @@ struct MainView: View {
                 .onAppear(perform: start)
                 .overlay(
                     glucoseView
-                        .scaleEffect(0.75 * scalingFactor ) // Adjust the scaling factor as needed
-                        .offset(x: 0 * scalingFactor, y: -5 * scalingFactor), // Start with centered, adjust as needed
+                        .scaleEffect(0.75 * scalingFactor) // Adjust the scaling factor as needed
+                        .offset(x: 0 * scalingFactor, y: -5 * scalingFactor),
+                    // Start with centered, adjust as needed
                     alignment: .center // Ensures that the overlay is centered in the VStack
                 )
                 .overlay(
@@ -291,13 +293,13 @@ struct MainView: View {
              ) */
         }
         .gesture(longPresBGs)
-       /* .scaleEffect(scalingFactor) */
+        /* .scaleEffect(scalingFactor) */
     }
 
     var bigHeader: some View {
         VStack(alignment: .center) {
             HStack {
-                Text(state.glucose).font(.custom("Big BG", size: 55 /* * scalingFactor */))
+                Text(state.glucose).font(.custom("Big BG", size: 55 /* * scalingFactor */ ))
                     .minimumScaleFactor(1) // Allows the text size to adjust to fit the space
                     .lineLimit(1) // Ensures the text does not wrap
                     .frame(minWidth: 0, maxWidth: .infinity) // Adjust maxWidth as needed
@@ -370,15 +372,15 @@ struct MainView: View {
                     TempTargetsView()
                         .environmentObject(state)
                 } label: {
-                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                            Text(until, style: .timer)
-                                .scaledToFill()
-                                .font(.system(size: 12))
-                                /*.fontWeight(.regular)
-                                .font(.caption2)
-                                .scaledToFill()
-                                .foregroundColor(.white)
-                                .minimumScaleFactor(0.375)*/
+                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                        Text(until, style: .timer)
+                            .scaledToFill()
+                            .font(.system(size: 12))
+                        /* .fontWeight(.regular)
+                         .font(.caption2)
+                         .scaledToFill()
+                         .foregroundColor(.white)
+                         .minimumScaleFactor(0.375) */
                     }
                 }
             }
@@ -434,7 +436,7 @@ struct MainView: View {
             )
             .buttonStyle(PlainButtonStyle())
             .frame(height: geometry.size.height)
-            .scaleEffect(1.0625 * scalingFactor)
+            .scaleEffect(1.0625)
             .offset(x: 0 * scalingFactor, y: 20 * scalingFactor)
         }
     }
@@ -567,7 +569,9 @@ struct ContentView_Previews: PreviewProvider {
         state.iob = 100.38
         state.cob = 112.123
         state.lastLoopDate = Date().addingTimeInterval(-200)
-        state.tempTargets = [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
+        state
+            .tempTargets =
+            [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
 
         return Group {
             MainView()
