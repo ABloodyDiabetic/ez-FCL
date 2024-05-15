@@ -42,8 +42,8 @@ struct LoopView: View {
                    /* ProgressView() */
                 } else {
                     Circle()
-                        .strokeBorder(color, lineWidth: 5)
-                        .frame(width: 30, height: 30)
+                        .strokeBorder(color, lineWidth: 4.5)
+                        .frame(width: 27, height: 27)
                         .scaleEffect(1)
                 }
             }
@@ -133,7 +133,7 @@ struct PulsatingCircleView: View {
         ZStack {
             Circle()
                 .fill(color)
-                .frame(width: 24, height: 24)
+                .frame(width: 27, height: 27)
                 .scaleEffect(animate ? 0.6 : 1.2)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
@@ -141,7 +141,7 @@ struct PulsatingCircleView: View {
                 )
             Circle()
                 .fill(backgroundGradient)
-                .frame(width: 16, height: 16)
+                .frame(width: 18, height: 18)
                 .scaleEffect(animate ? 0.0 : 1.2)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
