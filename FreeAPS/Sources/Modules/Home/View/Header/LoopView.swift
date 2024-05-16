@@ -23,38 +23,20 @@ struct LoopView: View {
         formatter.timeStyle = .short
         return formatter
     }
-
-    private var backgroundGradient: LinearGradient {
-        colorScheme == .dark ? LinearGradient(
-            gradient: Gradient(colors: [
-                Color.bgDarkBlue,
-                Color.bgDarkerDarkBlue,
-                Color.bgDarkBlue
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        :
-        LinearGradient(
-            gradient: Gradient(colors: [Color.gray.opacity(0.1)]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
     
-    private let rect = CGRect(x: 0, y: 0, width: 33, height: 33)
+    private let rect = CGRect(x: 0, y: 0, width: 40, height: 40) // Adjust rect size to ensure it accommodates the scaling
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
                 if isLooping {
                     PulsatingCircleView(color: color)
-                        .frame(width: 27, height: 27, alignment: .center)
+                        .frame(width: rect.width, height: rect.height, alignment: .center)
                         .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                    /* ProgressView() */
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4.5)
-                        .frame(width: 27, height: 27, alignment: .center)
+                        .frame(width: rect.width, height: rect.height, alignment: .center)
                         .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                 }
             }
@@ -119,22 +101,6 @@ struct LoopView: View {
     }
 }
 
-/* extension View {
-    func animateForever(
-        using animation: Animation = Animation.easeInOut(duration: 1),
-        autoreverses: Bool = false,
-        _ action: @escaping () -> Void
-    ) -> some View {
-        let repeated = animation.repeatForever(autoreverses: autoreverses)
-
-        return onAppear {
-            withAnimation(repeated) {
-                action()
-            }
-        }
-    }
-} */
-
 struct PulsatingCircleView: View {
     var color: Color
     var size: CGFloat = 27.0
@@ -165,6 +131,7 @@ struct PulsatingCircleView: View {
                     }
                 )
         }
+        .compositingGroup() // Ensure proper rendering of the blend mode
         .onAppear {
             self.animate = true
         }

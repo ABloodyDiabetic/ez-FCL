@@ -41,7 +41,7 @@ struct CurrentGlucoseView: View {
                             .font(.caption2)
                             .scaledToFill()
                             .foregroundColor(.secondary)
-                            .minimumScaleFactor(0.75)
+                            .minimumScaleFactor(1)
                             .offset(x: 0, y: 0)
                     } else {
                         EmptyView()
@@ -83,7 +83,8 @@ struct CurrentGlucoseView: View {
                 }
             }
             loopTime
-                .offset(x: 0, y: 43)
+                .scaleEffect(1.333)
+                .offset(x: 0, y: 39)
         }
         .onAppear {
             updateRotationBasedOnTrend(state.trend)
