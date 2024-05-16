@@ -208,6 +208,23 @@ struct MainView: View {
         }
     }
 
+    var SMBratio: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Image(systemName: "bolus")
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 14, height: 14)
+                .foregroundColor(.insulin)
+                .offset(x: 1 * scalingFactor, y: 2 * scalingFactor)
+            Text(iobFormatter.string(from: (state.SMBratio ?? 0) as NSNumber)!)
+                .fontWeight(.semibold)
+                .font(.caption2)
+                .frame(width: 60, alignment: .leading)
+                .foregroundColor(Color.white)
+                .minimumScaleFactor(0.5)
+        }
+    }
+    
     var blinkyView: some View {
         ZStack {
             if !completedLongPressOfBG {
@@ -283,6 +300,12 @@ struct MainView: View {
                     iob
                         .scaleEffect(scalingFactor)
                         .offset(x: -40 * scalingFactor, y: 49 * scalingFactor),
+                    alignment: .center
+                )
+                .overlay(
+                    SMBratio
+                        .scaleEffect(scalingFactor)
+                        .offset(x: 0 * scalingFactor, y: -63.5 * scalingFactor),
                     alignment: .center
                 )
             /* .overlay(

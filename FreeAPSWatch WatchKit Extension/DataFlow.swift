@@ -14,6 +14,7 @@ struct WatchState: Codable {
     var maxBolus: Decimal?
     var carbsRequired: Decimal?
     var bolusRecommended: Decimal?
+    var SMBratio: Decimal?
     var iob: Decimal?
     var cob: Decimal?
     var tempTargets: [TempTargetWatchPreset] = []
