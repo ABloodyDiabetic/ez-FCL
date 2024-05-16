@@ -118,8 +118,8 @@ struct PulsatingCircleView: View {
                 )
                 .mask(
                     ZStack {
-                       /* Circle()
-                            .frame(width: size, height: size) */
+                        Circle()
+                            .frame(width: size, height: size)
                         Circle()
                             .frame(width: size - 9, height: size - 9) // Adjust size to create cutaway effect
                             .scaleEffect(animate ? 0.0 : 1.0)
