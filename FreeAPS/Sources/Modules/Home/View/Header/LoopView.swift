@@ -24,8 +24,7 @@ struct LoopView: View {
         return formatter
     }
     
-    private let rect = CGRect(x: 0, y: 0, width: 40, height: 40) // Adjust rect size to ensure it accommodates the scaling
-    private let rect2 = CGRect(x: 0, y: 0, width: 27, height: 27)
+    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27) // Adjust rect size to ensure it accommodates the scaling
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
@@ -37,8 +36,8 @@ struct LoopView: View {
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4.5)
-                        .frame(width: rect2.width, height: rect2.height, alignment: .center)
-                        .mask(mask(in: rect2).fill(style: FillStyle(eoFill: true)))
+                        .frame(width: rect.width, height: rect.height, alignment: .center)
+                        .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                 }
             }
             if isLooping {
@@ -112,18 +111,18 @@ struct PulsatingCircleView: View {
             Circle()
                 .fill(color)
                 .frame(width: size, height: size)
-                .scaleEffect(animate ? 0.6 : 1.2)
+                .scaleEffect(animate ? 0.5 : 1.0)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
                 )
                 .mask(
                     ZStack {
-                        Circle()
-                            .frame(width: size, height: size)
+                       /* Circle()
+                            .frame(width: size, height: size) */
                         Circle()
                             .frame(width: size - 9, height: size - 9) // Adjust size to create cutaway effect
-                            .scaleEffect(animate ? 0.0 : 1.2)
+                            .scaleEffect(animate ? 0.0 : 1.0)
                             .animation(
                                 Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                                 value: animate

@@ -79,12 +79,12 @@ struct CurrentGlucoseView: View {
                         Text(state.delta)
                        /* Text(state.trend) */
                             .scaleEffect(1)
-                            .offset(x: 0, y: 0)
+                            .offset(x: 0, y: -1)
                     }
                 }
             }
             loopTime
-                .scaleEffect(1.25)
+                .scaleEffect(1.28)
                 .offset(x: 0, y: 36)
         }
         .onAppear {
