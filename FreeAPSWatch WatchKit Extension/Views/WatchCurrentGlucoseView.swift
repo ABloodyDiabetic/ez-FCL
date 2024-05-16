@@ -41,8 +41,8 @@ struct CurrentGlucoseView: View {
                             .font(.caption2)
                             .scaledToFill()
                             .foregroundColor(.secondary)
-                            .minimumScaleFactor(0.5)
-                            .offset(x: -2, y: 0)
+                            .minimumScaleFactor(0.75)
+                            .offset(x: 0, y: 0)
                     } else {
                         EmptyView()
                     }

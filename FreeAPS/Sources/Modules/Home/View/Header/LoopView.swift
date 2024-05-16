@@ -42,19 +42,19 @@ struct LoopView: View {
         )
     }
     
-    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27)
+    private let rect = CGRect(x: 0, y: 0, width: 33, height: 33)
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
                 if isLooping {
-                    PulsatingCircleView(color: color, backgroundGradient: backgroundGradient)
-                        .frame(width: rect.width, height: rect.height, alignment: .center)
+                    PulsatingCircleView(color: color)
+                        .frame(width: 27, height: 27, alignment: .center)
                         .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                    /* ProgressView() */
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4.5)
-                        .frame(width: rect.width, height: rect.height, alignment: .center)
+                        .frame(width: 27, height: 27, alignment: .center)
                         .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                 }
             }
@@ -137,27 +137,32 @@ struct LoopView: View {
 
 struct PulsatingCircleView: View {
     var color: Color
-    var backgroundGradient: LinearGradient
-    var size: CGFloat = 20.0
+    var size: CGFloat = 27.0
     @State private var animate = false
 
     var body: some View {
         ZStack {
             Circle()
                 .fill(color)
-                .frame(width: 27, height: 27)
+                .frame(width: size, height: size)
                 .scaleEffect(animate ? 0.6 : 1.2)
                 .animation(
                     Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
                     value: animate
                 )
-            Circle()
-                .fill(backgroundGradient)
-                .frame(width: 18, height: 18)
-                .scaleEffect(animate ? 0.0 : 1.2)
-                .animation(
-                    Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                    value: animate
+                .mask(
+                    ZStack {
+                        Circle()
+                            .frame(width: size, height: size)
+                        Circle()
+                            .frame(width: size - 9, height: size - 9) // Adjust size to create cutaway effect
+                            .scaleEffect(animate ? 0.0 : 1.2)
+                            .animation(
+                                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
+                                value: animate
+                            )
+                            .blendMode(.destinationOut) // This will cut out the shape from the layer below
+                    }
                 )
         }
         .onAppear {
