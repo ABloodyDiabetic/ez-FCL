@@ -75,11 +75,15 @@ struct CurrentGlucoseView: View {
                          Text("min ")
                          Text(state.delta) */
                         Text(minuteString)
+                            .scaleEffect(1)
+                            .offset(x: 0, y: -4)
                         Text("min  ")
+                            .scaleEffect(1)
+                            .offset(x: 0, y: -4)
                         Text(state.delta)
                        /* Text(state.trend) */
                             .scaleEffect(1)
-                            .offset(x: 0, y: -1)
+                            .offset(x: 0, y: -4)
                     }
                 }
             }

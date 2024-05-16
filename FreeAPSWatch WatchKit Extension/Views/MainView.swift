@@ -208,15 +208,21 @@ struct MainView: View {
         }
     }
 
-    var SMBratio: some View {
+    var smb: some View {
         HStack(alignment: .firstTextBaseline) {
-            Image(systemName: "bolus")
+            Image("bolus", bundle: nil)
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.insulin)
                 .offset(x: 1 * scalingFactor, y: 2 * scalingFactor)
-            Text(iobFormatter.string(from: (state.SMBratio ?? 0) as NSNumber)!)
+           /* Image(systemName: "drop.circle")
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 14, height: 14)
+                .foregroundColor(.insulin)
+                .offset(x: 1 * scalingFactor, y: 2 * scalingFactor) */
+            Text(iobFormatter.string(from: (state.smb ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
                 .frame(width: 60, alignment: .leading)
@@ -303,9 +309,9 @@ struct MainView: View {
                     alignment: .center
                 )
                 .overlay(
-                    SMBratio
+                    smb
                         .scaleEffect(scalingFactor)
-                        .offset(x: 0 * scalingFactor, y: -63.5 * scalingFactor),
+                        .offset(x: 0 * scalingFactor, y: -69 * scalingFactor),
                     alignment: .center
                 )
             /* .overlay(

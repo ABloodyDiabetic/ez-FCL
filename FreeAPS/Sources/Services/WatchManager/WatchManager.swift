@@ -110,7 +110,6 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
                     .roundBolus(amount: max(recommended, 0))
             }
 
-            self.state.SMBratio = self.suggestion?.SMBratio
             self.state.iob = self.suggestion?.iob
             self.state.cob = self.suggestion?.cob
             self.state.tempTargets = self.tempTargetsStorage.presets()
@@ -290,7 +289,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
         let carbratio = suggestion?.carbRatio ?? 0
         let bg = delta.first?.glucose ?? 0
         let cob = state.cob ?? 0
-        let smb = state.SMBratio ?? 0
+        let smb = state.smb ?? 0
         let iob = state.iob ?? 0
         let useFattyMealCorrectionFactor = settingsManager.settings.fattyMeals
         let fattyMealFactor = settingsManager.settings.fattyMealFactor
