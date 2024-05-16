@@ -179,7 +179,24 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
                 self.state.override = "100 %"
             }
 
+            // Fetch and set SMB value
+            self.state.smb = Decimal(self.fetchLatestSMB())
+
             self.sendState()
+        }
+    }
+
+    private func fetchLatestSMB() -> Int {
+        let request: NSFetchRequest<AutoISF> = AutoISF.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        request.fetchLimit = 1
+
+        do {
+            let results = try coredataContext.fetch(request)
+            return Int(truncating: results.first?.smb ?? 0)
+        } catch {
+            print("Fetch error: \(error.localizedDescription)")
+            return 0
         }
     }
 
@@ -289,7 +306,6 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
         let carbratio = suggestion?.carbRatio ?? 0
         let bg = delta.first?.glucose ?? 0
         let cob = state.cob ?? 0
-        let smb = state.smb ?? 0
         let iob = state.iob ?? 0
         let useFattyMealCorrectionFactor = settingsManager.settings.fattyMeals
         let fattyMealFactor = settingsManager.settings.fattyMealFactor

@@ -209,7 +209,7 @@ struct MainView: View {
     }
 
     var smb: some View {
-        HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .center) {
             Image("bolus", bundle: nil)
                 .renderingMode(.template)
                 .resizable()
@@ -225,7 +225,7 @@ struct MainView: View {
             Text(iobFormatter.string(from: (state.smb ?? 0) as NSNumber)!)
                 .fontWeight(.semibold)
                 .font(.caption2)
-                .frame(width: 60, alignment: .leading)
+                .frame(width: 60, alignment: .center)
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
@@ -311,7 +311,7 @@ struct MainView: View {
                 .overlay(
                     smb
                         .scaleEffect(scalingFactor)
-                        .offset(x: 0 * scalingFactor, y: -69 * scalingFactor),
+                        .offset(x: 0 * scalingFactor, y: -67 * scalingFactor),
                     alignment: .center
                 )
             /* .overlay(
