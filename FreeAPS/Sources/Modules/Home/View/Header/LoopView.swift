@@ -2,22 +2,12 @@ import SwiftDate
 import SwiftUI
 import UIKit
 
-private var backgroundGradient: LinearGradient {
-    LinearGradient(
-        gradient: Gradient(colors: [
-            Color.bgDarkBlue,
-            Color.bgDarkerDarkBlue,
-            Color.bgDarkBlue
-        ]),
-        startPoint: .top,
-        endPoint: .bottom
-    )
-}
-
 struct LoopView: View {
     private enum Config {
         static let lag: TimeInterval = 30
     }
+
+    @Environment(\.colorScheme) var colorScheme
 
     @Binding var suggestion: Suggestion?
     @Binding var enactedSuggestion: Suggestion?
@@ -34,17 +24,38 @@ struct LoopView: View {
         return formatter
     }
 
+    private var backgroundGradient: LinearGradient {
+        colorScheme == .dark ? LinearGradient(
+            gradient: Gradient(colors: [
+                Color.bgDarkBlue,
+                Color.bgDarkerDarkBlue,
+                Color.bgDarkBlue
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        :
+        LinearGradient(
+            gradient: Gradient(colors: [Color.gray.opacity(0.1)]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+    
+    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27)
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
                 if isLooping {
-                    PulsatingCircleView(color: color)
+                    PulsatingCircleView(color: color, backgroundGradient: backgroundGradient)
+                        .frame(width: rect.width, height: rect.height, alignment: .center)
+                        .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                    /* ProgressView() */
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4.5)
-                        .frame(width: 27, height: 27)
-                        .scaleEffect(1)
+                        .frame(width: rect.width, height: rect.height, alignment: .center)
+                        .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                 }
             }
             if isLooping {
@@ -126,6 +137,7 @@ struct LoopView: View {
 
 struct PulsatingCircleView: View {
     var color: Color
+    var backgroundGradient: LinearGradient
     var size: CGFloat = 20.0
     @State private var animate = false
 
