@@ -25,6 +25,7 @@ struct LoopView: View {
     }
     
     private let rect = CGRect(x: 0, y: 0, width: 40, height: 40) // Adjust rect size to ensure it accommodates the scaling
+    private let rect2 = CGRect(x: 0, y: 0, width: 27, height: 27)
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
@@ -36,8 +37,8 @@ struct LoopView: View {
                 } else {
                     Circle()
                         .strokeBorder(color, lineWidth: 4.5)
-                        .frame(width: rect.width, height: rect.height, alignment: .center)
-                        .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
+                        .frame(width: rect2.width, height: rect2.height, alignment: .center)
+                        .mask(mask(in: rect2).fill(style: FillStyle(eoFill: true)))
                 }
             }
             if isLooping {

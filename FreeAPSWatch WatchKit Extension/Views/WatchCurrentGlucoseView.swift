@@ -77,14 +77,15 @@ struct CurrentGlucoseView: View {
                         Text(minuteString)
                         Text("min  ")
                         Text(state.delta)
-                        Text(state.trend)
-                            .offset(x: 0, y: -1.75)
+                       /* Text(state.trend) */
+                            .scaleEffect(1)
+                            .offset(x: 0, y: 0)
                     }
                 }
             }
             loopTime
-                .scaleEffect(1.333)
-                .offset(x: 0, y: 39)
+                .scaleEffect(1.25)
+                .offset(x: 0, y: 36)
         }
         .onAppear {
             updateRotationBasedOnTrend(state.trend)
