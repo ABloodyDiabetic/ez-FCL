@@ -101,37 +101,31 @@ struct CurrentGlucoseView: View {
         }
     }
 
-    private func updateRotationBasedOnTrend(_ trend: String?) {
+    private func updateRotationBasedOnTrend(_ trendRaw: String?) {
         let oldDegrees = rotationDegrees
-        switch trend {
-        case "→":
-            rotationDegrees = 45
-        case "↗":
-            rotationDegrees = 45
+        switch trendRaw {
+        case "↑↑↑":
+            rotationDegrees = -90
+        case "↑↑":
+            rotationDegrees = -90
         case "↑":
-            rotationDegrees = 45
+            rotationDegrees = -90
+        case "↗":
+            rotationDegrees = -45
+        case "→":
+            rotationDegrees = 0
         case "↘":
             rotationDegrees = 45
         case "↓":
-            rotationDegrees = 45
+            rotationDegrees = 90
+        case "↓↓":
+            rotationDegrees = 90
+        case "↓↓↓":
+            rotationDegrees = 90
         default:
-            rotationDegrees = 45
-            
-      /*         case "→":
-       rotationDegrees = 0
-   case "↗":
-       rotationDegrees = -45
-   case "↑":
-       rotationDegrees = -90
-   case "↘":
-       rotationDegrees = 45
-   case "↓":
-       rotationDegrees = 90
-   default:
-       rotationDegrees = 0*/
-            
+            rotationDegrees = -180
         }
-        print("Updated rotation from \(oldDegrees) to \(rotationDegrees) for trend \(trend ?? "unknown")")
+        print("Updated rotation from \(oldDegrees) to \(rotationDegrees) for trend \(trendRaw ?? "unknown")")
     }
 }
 
