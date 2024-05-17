@@ -213,7 +213,7 @@ struct MainView: View {
             Image("bolus", bundle: nil)
                 .renderingMode(.template)
                 .resizable()
-                .frame(width: 14, height: 14)
+                .frame(width: 14, height: 14, alignment: .center)
                 .foregroundColor(.insulin)
                 .offset(x: 1 * scalingFactor, y: 2 * scalingFactor)
            /* Image(systemName: "drop.circle")

@@ -179,24 +179,23 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
                 self.state.override = "100 %"
             }
 
-            // Fetch and set SMB value
-            self.state.smb = Decimal(self.fetchLatestSMB())
+            let fetchRequest: NSFetchRequest<AutoISF> = AutoISF.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+            fetchRequest.fetchLimit = 1
 
+            do {
+                let autoISFResults = try self.coredataContext.fetch(fetchRequest)
+                if let latestAutoISF = autoISFResults.first, let smbValue = latestAutoISF.smb as Decimal? {
+                    self.state.smb = smbValue
+                } else {
+                    self.state.smb = nil
+                }
+            } catch {
+                print("Fetch error: \(error.localizedDescription)")
+                self.state.smb = nil
+            }
+            
             self.sendState()
-        }
-    }
-
-    private func fetchLatestSMB() -> Int {
-        let request: NSFetchRequest<AutoISF> = AutoISF.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        request.fetchLimit = 1
-
-        do {
-            let results = try coredataContext.fetch(request)
-            return Int(truncating: results.first?.smb ?? 0)
-        } catch {
-            print("Fetch error: \(error.localizedDescription)")
-            return 0
         }
     }
 

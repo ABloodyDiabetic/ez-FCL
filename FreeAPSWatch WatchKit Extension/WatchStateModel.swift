@@ -25,7 +25,7 @@ class WatchStateModel: NSObject, ObservableObject {
     @Published var maxBolus: Decimal?
     @Published var bolusRecommended: Decimal?
     @Published var carbsRequired: Decimal?
-    @Published var smb: Decimal?
+    @Published var smb: NSDecimalNumber?
     @Published var iob: Decimal?
     @Published var cob: Decimal?
     @Published var tempTargets: [TempTargetWatchPreset] = []
