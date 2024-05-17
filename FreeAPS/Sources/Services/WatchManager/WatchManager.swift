@@ -25,6 +25,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Published var lowCarbProfile: Bool = false
     @Published var mediumCarbProfile: Bool = false
     @Published var highCarbProfile: Bool = false
+    @Published var recentGlucose: BloodGlucose?
 
     let coreDataStorage = CoreDataStorage()
     let coredataContext = CoreDataStack.shared.persistentContainer.viewContext
@@ -177,22 +178,6 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
                 self.state.override = percentString
             } else {
                 self.state.override = "100 %"
-            }
-
-            let fetchRequest: NSFetchRequest<AutoISF> = AutoISF.fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-            fetchRequest.fetchLimit = 1
-
-            do {
-                let autoISFResults = try self.coredataContext.fetch(fetchRequest)
-                if let latestAutoISF = autoISFResults.first, let smbValue = latestAutoISF.smb as Decimal? {
-                    self.state.smb = smbValue
-                } else {
-                    self.state.smb = nil
-                }
-            } catch {
-                print("Fetch error: \(error.localizedDescription)")
-                self.state.smb = nil
             }
             
             self.sendState()

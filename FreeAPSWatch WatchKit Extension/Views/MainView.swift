@@ -208,7 +208,7 @@ struct MainView: View {
         }
     }
 
-    var smb: some View {
+/*    var smb: some View {
         HStack(alignment: .center) {
             Image("bolus", bundle: nil)
                 .renderingMode(.template)
@@ -229,7 +229,7 @@ struct MainView: View {
                 .foregroundColor(Color.white)
                 .minimumScaleFactor(0.5)
         }
-    }
+    } */
     
     var blinkyView: some View {
         ZStack {
@@ -308,12 +308,12 @@ struct MainView: View {
                         .offset(x: -40 * scalingFactor, y: 49 * scalingFactor),
                     alignment: .center
                 )
-                .overlay(
+               /* .overlay(
                     smb
                         .scaleEffect(scalingFactor)
                         .offset(x: 0 * scalingFactor, y: -67 * scalingFactor),
                     alignment: .center
-                )
+                ) */
             /* .overlay(
                  eventualBG
                      .scaleEffect(scalingFactor)
