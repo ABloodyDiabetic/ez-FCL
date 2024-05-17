@@ -23,7 +23,7 @@ extension Home {
         }
 
         @State var timeButtons: [Buttons] = [
-            Buttons(label: "6h", number: "6", active: false, hours: 6),
+           /* Buttons(label: "6h", number: "6", active: false, hours: 6), */
             Buttons(label: "7h", number: "7", active: false, hours: 7),
             Buttons(label: "8h", number: "8", active: false, hours: 8),
             Buttons(label: "15h", number: "15", active: false, hours: 15),
@@ -568,7 +568,8 @@ extension Home {
                     Text("ytd.").foregroundColor(.insulin).padding(.leading, 4)
                     Text(numberFormatter.string(from: (state.suggestion?.tddytd ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
-                    Text("Ø7d").foregroundColor(.insulin).padding(.leading, 4)
+                    /* "Ø7d" */
+                    Text("7d").foregroundColor(.insulin).padding(.leading, 4)
                     Text(numberFormatter.string(from: (state.suggestion?.tdd7d ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                 }.font(.system(size: 12, weight: .regular)).foregroundColor(.insulin)
