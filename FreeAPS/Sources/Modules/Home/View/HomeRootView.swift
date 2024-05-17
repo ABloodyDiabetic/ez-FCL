@@ -569,31 +569,49 @@ extension Home {
                     Text(numberFormatter.string(from: (state.suggestion?.tddytd ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                     /* "Ø7d" */
-                    Text("7d").foregroundColor(.insulin).padding(.leading, 4)
+                    Text("Ø7d").foregroundColor(.insulin).padding(.leading, 4)
                     Text(numberFormatter.string(from: (state.suggestion?.tdd7d ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                 }.font(.system(size: 12, weight: .regular)).foregroundColor(.insulin)
-                Text(" | ")
+               /* Text(" | ")
                     .foregroundColor(.secondary)
                     .font(.system(size: 12, weight: .light))
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 8) */
                 ForEach(timeButtons) { button in
-                    Text(button.active ? NSLocalizedString(button.label, comment: "") : button.number).onTapGesture {
-                        state.hours = button.hours
-                    }
-                    .foregroundStyle(button.active ? (colorScheme == .dark ? Color.white : Color.black).opacity(0.9) : .secondary)
-                    .frame(maxHeight: 20).padding(.horizontal, 6)
-                    .background(
-                        button.active ?
-                            // RGB(30, 60, 95)
-                            (
-                                colorScheme == .dark ? Color(red: 0.1176470588, green: 0.2352941176, blue: 0.3725490196) :
-                                    Color.white
-                            ) :
-                            Color
-                            .clear
-                    )
-                    .cornerRadius(4)
+                    Text(button.active ? NSLocalizedString(button.label, comment: "") : button.number)
+                        .onTapGesture {
+                            state.hours = button.hours
+                        }
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    // Check if the drag is within the bounds of the button
+                                    if let index = timeButtons.firstIndex(where: { $0.id == button.id }) {
+                                        let frame = CGRect(
+                                            x: CGFloat(index) * (UIScreen.main.bounds.width / CGFloat(timeButtons.count)),
+                                            y: 0,
+                                            width: UIScreen.main.bounds.width / CGFloat(timeButtons.count),
+                                            height: 20
+                                        )
+                                        if frame.contains(value.location) {
+                                            state.hours = button.hours
+                                        }
+                                    }
+                                }
+                        )
+                        .foregroundStyle(button.active ? (colorScheme == .dark ? Color.white : Color.black).opacity(0.9) : .secondary)
+                        .frame(maxHeight: 20).padding(.horizontal, 6)
+                        .background(
+                            button.active ?
+                                // RGB(30, 60, 95)
+                                (
+                                    colorScheme == .dark ? Color(red: 0.1176470588, green: 0.2352941176, blue: 0.3725490196) :
+                                        Color.white
+                                ) :
+                                Color
+                                .clear
+                        )
+                        .cornerRadius(4)
                 }
                 .shadow(
                     color: Color.black.opacity(colorScheme == .dark ? 0.75 : 0.33),
