@@ -573,10 +573,10 @@ extension Home {
                     Text(numberFormatter.string(from: (state.suggestion?.tdd7d ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                 }.font(.system(size: 12, weight: .regular)).foregroundColor(.insulin)
-               /* Text(" | ")
+                Text(" | ")
                     .foregroundColor(.secondary)
                     .font(.system(size: 12, weight: .light))
-                    .padding(.horizontal, 8) */
+                    .padding(.horizontal, 8)
                 ForEach(timeButtons) { button in
                     Text(button.active ? NSLocalizedString(button.label, comment: "") : button.number)
                         .onTapGesture {

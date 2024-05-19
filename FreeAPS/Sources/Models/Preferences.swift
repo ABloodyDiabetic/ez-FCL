@@ -1,6 +1,8 @@
 import Foundation
 
 struct Preferences: JSON {
+    var isfSlope: Decimal = -1.987
+    var isfIntercept: Decimal = 184.87
     var basalSlope: Decimal = 0.0041
     var basalIntercept: Decimal = 0.2593
     var sevenDayTDDPlaceholder: Decimal = 20
@@ -125,6 +127,8 @@ struct Preferences: JSON {
 
 extension Preferences {
     private enum CodingKeys: String, CodingKey {
+        case isfSlope
+        case isfIntercept
         case basalSlope
         case basalIntercept
         case sevenDayTDDPlaceholder

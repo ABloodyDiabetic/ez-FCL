@@ -33,26 +33,26 @@ extension PreferencesEditor {
 //                )
 //            ]
 
-//            let glucoseFields = [
+            let glucoseFields = [
 //                Field(
 //                    displayName: "Flat Glucose Check",
 //                    type: .boolean(keypath: \.flatGlucoseCheck),
 //                    infoText: "Defaults to true. When true, if glucose values are too flat, ezFCL does not loop and eventually reverts back to the profile basal if glucose readings are flat for too long. When false, flat glucose values will not trigger the cessation of loops. You should set this to false when you are using a software calibrated CGM or when you are using a Calibration Slope and Intercept value other than 1 and 0 respectively. This helps to mitigate the risk of going low when a sensor's minimum glucose value boundary has been elevated due to software based calibration. Example: if the lowest value your software calibrated sensor will read is 90 (after calibration), and your glucose gets pegged at that value (because your actual glucose value is still falling), ezFCL will continue to assume that your glucose is trending down, and will maintain a 0 temp basal until the glucose level rises back above 90. You may need to restart the app for the change to apply.",
 //                    settable: self
 //                ),
-//                Field(
-//                    displayName: "NS Glucose Calibration Slope",
-//                    type: .decimal(keypath: \.glucoseCalibrationSlope),
-//                    infoText: "1 = No Change. The slope value used to calibrate glucose readings. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
-//                    settable: self
-//                ),
-//                Field(
-//                    displayName: "NS Glucose Calibration Intercept",
-//                    type: .decimal(keypath: \.glucoseCalibrationIntercept),
-//                    infoText: "0 = No Change. The intercept value used to calibrate glucose readings. Negative values must be entered into the preferences.json. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
-//                    settable: self
-//                )
-//            ]
+                Field(
+                    displayName: "NS Glucose Calibration Slope",
+                    type: .decimal(keypath: \.glucoseCalibrationSlope),
+                    infoText: "1 = No Change. The slope value used to calibrate glucose readings. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
+                    settable: self
+                ),
+                Field(
+                    displayName: "NS Glucose Calibration Intercept",
+                    type: .decimal(keypath: \.glucoseCalibrationIntercept),
+                    infoText: "0 = No Change. The intercept value used to calibrate glucose readings. Negative values must be entered into the preferences.json. For use with Nightscout as a glucose source with glucose values brodcast from xDrip or similar app which provides Slope and Intercept values based on it's calibration but doesn't send calibrated values over to NS. You must restart the app for changes to apply. It is suggested to set a Temp Basal Rate with an odd target so that SMBs are disabled to protect against overdelivery from a calibration spike.",
+                    settable: self
+                )
+            ]
 
             let quickPrefs = [
                 Field(
@@ -91,7 +91,7 @@ extension PreferencesEditor {
                     ),
                     settable: self
                 ),
-                Field(
+               /* Field(
                     displayName: "Sleep Detection (Enable Sleep Mode Automatically)",
                     type: .boolean(keypath: \.automaticSleepMode),
                     infoText: NSLocalizedString(
@@ -99,7 +99,7 @@ extension PreferencesEditor {
                         comment: "Enable Sleep Mode Automatically"
                     ),
                     settable: self
-                ),
+                ), */
                 Field(
                     displayName: "Exercise Mode",
                     type: .boolean(keypath: \.exerciseMode),
@@ -140,7 +140,7 @@ extension PreferencesEditor {
                         ),
                         settable: self
                     ),
-                Field(
+               /* Field(
                     displayName: "TDD ISF Adjustment Factor",
                     type: .decimal(keypath: \.calculateIsfFromTddNumeratorDivisor),
                     infoText: NSLocalizedString(
@@ -148,13 +148,31 @@ extension PreferencesEditor {
                         comment: "Calculate ISF From TDD Numerator Divisor"
                     ),
                     settable: self
-                ),
-                Field(
+                ), */
+               /* Field(
                     displayName: "Basal Multiplier",
                     type: .decimal(keypath: \.basalMultiplier),
                     infoText: NSLocalizedString(
                         "Increase or decrese basal rates relative to the TDD ISF to improve alignment.",
                         comment: "Basal Multiplier"
+                    ),
+                    settable: self
+                ), */
+                Field(
+                    displayName: "ISF Slope",
+                    type: .decimal(keypath: \.isfSlope),
+                    infoText: NSLocalizedString(
+                        "Increase or decrese ISF rates relative to a slope value.",
+                        comment: "ISF Slope"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "ISF Intercept",
+                    type: .decimal(keypath: \.isfIntercept),
+                    infoText: NSLocalizedString(
+                        "Increase or decrese ISF rates relative to an intercept value.",
+                        comment: "ISF Intercept"
                     ),
                     settable: self
                 ),
