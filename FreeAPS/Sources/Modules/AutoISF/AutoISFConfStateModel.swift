@@ -607,10 +607,10 @@ extension AutoISFConf {
                     displayName: NSLocalizedString("B30 settings", comment: "AIMI B30  settings"),
                     fields: xpmB30
                 ),*/
-                FieldSection(
+               /* FieldSection(
                     displayName: NSLocalizedString("Profile Control", comment: "AutoISF control via Targets"),
                     fields: profileControls
-                )
+                ) */
             ]
         }
 

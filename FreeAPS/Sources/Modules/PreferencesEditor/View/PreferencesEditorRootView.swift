@@ -98,7 +98,7 @@ extension PreferencesEditor {
             .onAppear(perform: configureView)
             .navigationTitle("Preferences")
             .navigationBarTitleDisplayMode(.automatic)
-            .navigationBarItems(
+           /* .navigationBarItems(
                 trailing:
                 Button {
                     let lang = Locale.current.languageCode ?? "en"
@@ -121,7 +121,7 @@ extension PreferencesEditor {
                     }
                 }
                 label: { Image(systemName: "questionmark.circle") }
-            )
+            ) */
             .alert(item: $infoButtonPressed) { infoButton in
                 Alert(
                     title: Text("\(infoButton.oref0Variable)"),

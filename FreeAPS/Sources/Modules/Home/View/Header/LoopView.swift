@@ -31,7 +31,6 @@ struct LoopView: View {
                 if isLooping {
                     PulsatingCircleView(color: color)
                         .frame(width: rect.width, height: rect.height, alignment: .center)
-                        .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                    /* ProgressView() */
                 } else {
                     Circle()
@@ -129,11 +128,18 @@ struct PulsatingCircleView: View {
                             )
                             .blendMode(.destinationOut) // This will cut out the shape from the layer below
                     }
+                    .mask(mask(in: CGRect(x: 0, y: 0, width: size, height: size)).fill(style: FillStyle(eoFill: true)))
                 )
         }
         .compositingGroup() // Ensure proper rendering of the blend mode
         .onAppear {
             self.animate = true
         }
+    }
+
+    func mask(in rect: CGRect) -> Path {
+        var path = Rectangle().path(in: rect)
+        path.addPath(Rectangle().path(in: CGRect(x: rect.minX, y: rect.midY - 5, width: rect.width, height: 10)))
+        return path
     }
 }

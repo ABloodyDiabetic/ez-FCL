@@ -117,7 +117,7 @@ extension AutoISFConf {
                             )
                         }
                     }
-                } header: { Text("Enable") }
+                } header: { Text("") }
                 if state.autoisf {
                     ForEach(state.sections.indexed(), id: \.1.id) { sectionIndex, section in
                         Section(header: Text(section.displayName)) {

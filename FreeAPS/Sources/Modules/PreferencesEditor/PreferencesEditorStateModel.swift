@@ -73,7 +73,7 @@ extension PreferencesEditor {
 //                    ),
 //                    settable: self
 //                ),
-                Field(
+               /* Field(
                     displayName: "Enable Max IOB Deadbands",
                     type: .boolean(keypath: \.enableMaxIobDeadbands),
                     infoText: NSLocalizedString(
@@ -81,7 +81,7 @@ extension PreferencesEditor {
                         comment: "Enable Max IOB Deadbands"
                     ),
                     settable: self
-                ),
+                ), */
                 Field(
                     displayName: "Enable Sleep Mode",
                     type: .boolean(keypath: \.sleepMode),
@@ -100,7 +100,7 @@ extension PreferencesEditor {
                     ),
                     settable: self
                 ), */
-                Field(
+               /* Field(
                     displayName: "Exercise Mode",
                     type: .boolean(keypath: \.exerciseMode),
                     infoText: NSLocalizedString(
@@ -108,8 +108,8 @@ extension PreferencesEditor {
                         comment: "Exercise Mode"
                     ),
                     settable: self
-                ),
-                Field(
+                ), */
+               /* Field(
                     displayName: NSLocalizedString("Half Basal Exercise Target", comment: "Half Basal Exercise Target") +
                         " (mg/dL)",
                     type: .decimal(keypath: \.halfBasalExerciseTarget),
@@ -118,7 +118,7 @@ extension PreferencesEditor {
                         comment: "Half Basal Exercise Target"
                     ),
                     settable: self
-                )
+                ) */
             ]
 
             let tddFields = [
@@ -195,7 +195,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Use TDD ISF to Calculate Sensitivity and Basal Rate",
+                    displayName: "Use TDD to Calculate Sensitivity and Basal Rate",
                     type: .boolean(keypath: \.useAutosensIsfToCalculateAutoIsfSens),
                     infoText: "Defaults to true. When true, the TDD ISF is used to calculate Sensitivity and Basal Rates instead of using the profile ISF. The hypothesis is that this makes ezFCL far more adaptable to large swings in sensitivity that take place over several hours or days. This should make transitioning back and forth between fasting and gorging much easier by taking away some of the cognitive load required to manually adjust sensitivity settings up or down with a dynamic lifestyle.This also adjusts the ‘Max Daily Safety Multiplier’ and the ‘Current Basal Safety Multiplier’ up or down as necessary relative to the TDD ISF.",
                     settable: self
@@ -313,7 +313,7 @@ extension PreferencesEditor {
 //                    ),
 //                    settable: self
 //                )
-                Field(
+               /* Field(
                     displayName: NSLocalizedString("Enable Autosens", comment: "Enable Autosens"),
                     type: .boolean(keypath: \.enableAutosens),
                     infoText: NSLocalizedString(
@@ -339,7 +339,7 @@ extension PreferencesEditor {
                         comment: "Autosens Min"
                     ),
                     settable: self
-                )
+                ) */
             ]
 
             let smbFields = [
@@ -560,12 +560,12 @@ extension PreferencesEditor {
                     ),
                     settable: self
                 ),
-                Field(
+               /* Field(
                     displayName: "Flat Glucose Check",
                     type: .boolean(keypath: \.flatGlucoseCheck),
                     infoText: "Defaults to true. When true, if glucose values are too flat, ezFCL does not loop and eventually reverts back to the profile basal if glucose readings are flat for too long. When false, flat glucose values will not trigger the cessation of loops. You should set this to false when you are using a software calibrated CGM or when you are using a Calibration Slope and Intercept value other than 1 and 0 respectively. This helps to mitigate the risk of going low when a sensor's minimum glucose value boundary has been elevated due to software based calibration. Example: if the lowest value your software calibrated sensor will read is 90 (after calibration), and your glucose gets pegged at that value (because your actual glucose value is still falling), ezFCL will continue to assume that your glucose is trending down, and will maintain a 0 temp basal until the glucose level rises back above 90. You may need to restart the app for the change to apply.",
                     settable: self
-                )
+                ) */
 //                Field(
 //                    displayName: NSLocalizedString("Min 5m Carbimpact", comment: "Min 5m Carbimpact"),
 //                    type: .decimal(keypath: \.min5mCarbimpact),
@@ -630,7 +630,7 @@ extension PreferencesEditor {
                     fields: quickPrefs
                 ),
                 FieldSection(
-                    displayName: NSLocalizedString("TDD Calculates ISF and Basal", comment: "TDD Calculates ISF and Basal"),
+                    displayName: NSLocalizedString("TDD Adjusts ISF and Basal", comment: "TDD Adjusts ISF and Basal"),
                     fields: tddFields
                 ),
                 FieldSection(
@@ -641,10 +641,10 @@ extension PreferencesEditor {
                     displayName: NSLocalizedString("OpenAPS SMB settings", comment: "OpenAPS main settings"),
                     fields: smbFields
                 ),
-                FieldSection(
+               /* FieldSection(
                     displayName: NSLocalizedString("OpenAPS targets settings", comment: "OpenAPS targets settings"),
                     fields: targetSettings
-                ),
+                ), */
 
                 FieldSection(
                     displayName: NSLocalizedString("OpenAPS other settings", comment: "OpenAPS other settings"),

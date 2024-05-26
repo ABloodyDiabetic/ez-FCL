@@ -93,7 +93,7 @@ struct Preferences: JSON {
     var highCarbezFCLProfileMultiplier: Decimal = 1
     var floatingcarbs: Bool = true
     var autoisf: Bool = true
-    var autoISFmax: Decimal = 8
+    var autoISFmax: Decimal = 6.5
     var autoISFmin: Decimal = 0.65
     var smbMaxRangeExtension: Decimal = 3.5
     var smbThresholdRatio: Decimal = 0.75
