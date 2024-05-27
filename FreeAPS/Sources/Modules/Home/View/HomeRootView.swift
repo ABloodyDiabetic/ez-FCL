@@ -576,7 +576,7 @@ extension Home {
                 Text(" | ")
                     .foregroundColor(.secondary)
                     .font(.system(size: 12, weight: .light))
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 6)
                 ForEach(timeButtons) { button in
                     Text(button.active ? NSLocalizedString(button.label, comment: "") : button.number)
                         .onTapGesture {
