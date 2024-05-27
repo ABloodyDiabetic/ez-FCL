@@ -45,7 +45,7 @@ extension AddTempTarget {
 
         func applyCarbProfileSetting() {
             switch carbProfileSelection {
-            case "Conservative":
+            case "Safed":
                 settingsManager.setLowCarbProfileEnabled(true)
                 settingsManager.setSleepModeEnabled(true)
             case "Low":
@@ -66,7 +66,7 @@ extension AddTempTarget {
             guard duration > 0 else {
                 return
             }
-            if carbProfileSelection == "Conservative" {
+            if carbProfileSelection == "Safed" {
                 settingsManager.setSleepModeEnabled(true)
                 settingsManager.setLowCarbProfileEnabled(true)
                 lowCarbProfile = true
@@ -189,7 +189,7 @@ extension AddTempTarget {
             }
             let highTarget = lowTarget
 
-            if carbProfileSelection == "Conservative" {
+            if carbProfileSelection == "Safed" {
                 lowCarbProfile = true
                 mediumCarbProfile = false
                 highCarbProfile = false

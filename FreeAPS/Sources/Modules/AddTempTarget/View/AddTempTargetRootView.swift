@@ -118,7 +118,7 @@ extension AddTempTarget {
 
                 // Carb profile selection
                 if state.tempSleepModeEnabled {
-                    state.carbProfileSelection = "Conservative"
+                    state.carbProfileSelection = "Safed"
                 } else if state.tempLowCarbProfileEnabled {
                     state.carbProfileSelection = "Low"
                 } else if state.tempMediumCarbProfileEnabled {
@@ -190,7 +190,7 @@ extension AddTempTarget {
                 VStack {
                     Text("Carb Profile")
                     Picker("", selection: $state.carbProfileSelection) {
-                        Text("Conservative").tag("Conservative")
+                        Text("Safed").tag("Safed")
                         Text("Low").tag("Low")
                         Text("Medium").tag("Medium")
                         Text("High").tag("High")
@@ -276,13 +276,13 @@ extension AddTempTarget {
                                 .font(.caption)
                         } else {
                             Text(
-                                "Target \(formatter.string(from: (low ?? 0) as NSNumber)!)," // - \(formatter.string(from: (high ?? 0) as NSNumber)!)"
+                                "Target \(formatter.string(from: (low ?? 0) as NSNumber)!) \(state.units.rawValue)," // - \(formatter.string(from: (high ?? 0) as NSNumber)!)"
                             )
                             .foregroundColor(.secondary)
                             .font(.caption)
-                            Text(state.units.rawValue)
+                           /* Text(state.units.rawValue)
                                 .foregroundColor(.secondary)
-                                .font(.caption)
+                                .font(.caption) */
                             /* Text("for")
                                 .foregroundColor(.secondary)
                                 .font(.caption) */
