@@ -13,6 +13,7 @@ extension AddTempTarget {
         @State private var tempHighCarbProfileEnabled: Bool = false
         @State private var tempMediumCarbProfileEnabled: Bool = false
         @State private var tempLowCarbProfileEnabled: Bool = false
+        @State private var tempSleepModeEnabled: Bool = false
         @Injected() private var storage: FileStorage!
 
         @FetchRequest(
@@ -116,7 +117,9 @@ extension AddTempTarget {
                 state.low = Decimal(Double(truncating: tempTargetsArray.first?.low ?? 0)) // Assuming 'low' is a Double or similar
 
                 // Carb profile selection
-                if state.tempLowCarbProfileEnabled {
+                if state.tempSleepModeEnabled {
+                    state.carbProfileSelection = "Conservative"
+                } else if state.tempLowCarbProfileEnabled {
                     state.carbProfileSelection = "Low"
                 } else if state.tempMediumCarbProfileEnabled {
                     state.carbProfileSelection = "Medium"

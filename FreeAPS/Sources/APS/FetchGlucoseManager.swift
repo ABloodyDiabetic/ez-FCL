@@ -94,12 +94,14 @@ final class BaseFetchGlucoseManager: FetchGlucoseManager, Injectable {
                     "No change back to default carb profile due to active Temp Target with \(timeRemaining) minutes remaining"
                 )
             } else {
+                settingsManager.setSleepModeEnabled(false)
                 settingsManager.setLowCarbProfileEnabled(true)
-                debug(.deviceManager, "Enabled Low Carb Profile because Temp Target expired")
+                debug(.deviceManager, "Enabled Low Carb Profile and disabled Sleep Mode because Temp Target expired")
             }
         } else {
+            settingsManager.setSleepModeEnabled(false)
             settingsManager.setLowCarbProfileEnabled(true)
-            debug(.deviceManager, "Enabled Low Carb Profile as no Temp Targets are active")
+            debug(.deviceManager, "Enabled Low Carb Profile and disabled Sleep Mode as no Temp Targets are active")
         }
     }
 

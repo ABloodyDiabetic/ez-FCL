@@ -175,6 +175,7 @@
         <attribute name="low" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="lowCarbProfile" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="mediumCarbProfile" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="sleepMode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="TempTargetsSlider" representedClassName="TempTargetsSlider" syncable="YES" codeGenerationType="class">

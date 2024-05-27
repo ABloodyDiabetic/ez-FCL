@@ -444,7 +444,7 @@ extension Home {
                                     .settingsManager.settings.units == .mgdL
                                 {
                                     // Display max_iob_tight_deadband if within tight deadband range and units = mgdL
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -456,7 +456,7 @@ extension Home {
                                     .settingsManager.settings.units == .mmolL
                                 {
                                     // Display max_iob_tight_deadband if within tight deadband range and units = mmol
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -466,7 +466,7 @@ extension Home {
                                     .highCarbezFCLProfile && state.settingsManager.settings.units == .mgdL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
-                                    Text("Max IOB: \(looseDeadbandMaxIOB)")
+                                    Text("maxIOB: \(looseDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -476,7 +476,7 @@ extension Home {
                                     .highCarbezFCLProfile && state.settingsManager.settings.units == .mmolL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mmol
-                                    Text("Max IOB: \(looseDeadbandMaxIOB)")
+                                    Text("maxIOB: \(looseDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -484,7 +484,7 @@ extension Home {
                                     .sleepMode && state.settingsManager.settings.units == .mgdL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -492,7 +492,7 @@ extension Home {
                                     .preferences.sleepMode && state.settingsManager.settings.units == .mmolL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mmol
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -500,7 +500,7 @@ extension Home {
                                     .automaticSleepMode && state.settingsManager.settings.units == .mgdL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mgdL
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -508,13 +508,13 @@ extension Home {
                                     .preferences.automaticSleepMode && state.settingsManager.settings.units == .mmolL
                                 {
                                     // Display max_iob_loose_deadband if within loose deadband range and units = mmol
-                                    Text("Max IOB: \(tightDeadbandMaxIOB)")
+                                    Text("maxIOB: \(tightDeadbandMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
                                 } else {
                                     // Display the default max IOB if not within any deadband range
-                                    Text("Max IOB: \(defaultMaxIOB)")
+                                    Text("maxIOB: \(defaultMaxIOB)")
                                         .font(.callout)
                                         .foregroundColor(.orange)
                                         .padding(.trailing, 10)
@@ -524,7 +524,7 @@ extension Home {
                                 Text(" ")
                             } else {
                                 // Display the default max IOB when deadbands are disabled
-                                Text("Max IOB: \(defaultMaxIOB)")
+                                Text("maxIOB: \(defaultMaxIOB)")
                                     .font(.callout)
                                     .foregroundColor(.orange)
                                     .padding(.trailing, 10)
@@ -569,7 +569,7 @@ extension Home {
                     Text(numberFormatter.string(from: (state.suggestion?.tddytd ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                     /* "Ø7d" */
-                    Text("Ø7d").foregroundColor(.insulin).padding(.leading, 4)
+                    Text("7d").foregroundColor(.insulin).padding(.leading, 4)
                     Text(numberFormatter.string(from: (state.suggestion?.tdd7d ?? 0) as NSNumber) ?? "0")
                         .foregroundColor(.primary)
                 }.font(.system(size: 12, weight: .regular)).foregroundColor(.insulin)

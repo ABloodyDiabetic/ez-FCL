@@ -120,7 +120,8 @@ import Foundation
             reason: TempTarget.custom,
             lowCarbProfile: true,
             mediumCarbProfile: false,
-            highCarbProfile: false
+            highCarbProfile: false,
+            sleepMode: false
         )
         storage.storeTempTargets([entry])
         return entry

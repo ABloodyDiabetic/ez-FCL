@@ -7,10 +7,10 @@ protocol SettingsManager: AnyObject {
     var preferences: Preferences { get }
     var pumpSettings: PumpSettings { get }
     func updateInsulinCurve(_ insulinType: InsulinType?)
+    func setSleepModeEnabled(_ isEnabled: Bool)
     func setHighCarbProfileEnabled(_ isEnabled: Bool)
     func setMediumCarbProfileEnabled(_ isEnabled: Bool)
     func setLowCarbProfileEnabled(_ isEnabled: Bool)
-    func setCarbProfileDuration(newDuration: Decimal)
 }
 
 protocol SettingsObserver {
@@ -76,13 +76,15 @@ final class BaseSettingsManager: SettingsManager, Injectable {
         }
         storage.save(prefs, as: OpenAPS.Settings.preferences)
     }
+    
+    func setSleepModeEnabled(_ isEnabled: Bool) {
+        var prefs = preferences
 
-    func setCarbProfileDuration(newDuration: Decimal) {
-        var prefs = preferences // Retrieve the current preferences
-        prefs.carbProfileDuration = newDuration // Assign the new duration value
+        prefs.sleepMode = isEnabled
 
-        // Save the updated preferences
+        // Save the updated preferences back to storage
         storage.save(prefs, as: OpenAPS.Settings.preferences)
+        print("Sleep Mode set to: \(isEnabled)")
     }
 
     func setHighCarbProfileEnabled(_ isEnabled: Bool) {
@@ -100,18 +102,6 @@ final class BaseSettingsManager: SettingsManager, Injectable {
         // Save the updated preferences back to storage
         storage.save(prefs, as: OpenAPS.Settings.preferences)
         print("High Carb Profile set to: \(isEnabled)")
-
-//        func resetCarbProfileToDefault() {
-//            var prefs = preferences // Retrieve the current preferences
-
-        // Reset to default settings
-//            prefs.highCarbezFCLProfile = false
-//            prefs.moderateCarbezFCLProfile = false
-//            prefs.lowCarbezFCLProfile = true // Set the low carb profile as the default
-
-        // Save the updated preferences back to storage
-//            storage.save(prefs, as: OpenAPS.Settings.preferences)
-//        }
     }
 
     func setMediumCarbProfileEnabled(_ isEnabled: Bool) {
@@ -129,18 +119,6 @@ final class BaseSettingsManager: SettingsManager, Injectable {
         // Save the updated preferences back to storage
         storage.save(prefs, as: OpenAPS.Settings.preferences)
         print("Medium Carb Profile set to: \(isEnabled)")
-
-//        func resetCarbProfileToDefault() {
-//            var prefs = preferences // Retrieve the current preferences
-
-        // Reset to default settings
-//            prefs.highCarbezFCLProfile = false
-//            prefs.moderateCarbezFCLProfile = false
-//            prefs.lowCarbezFCLProfile = true // Set the low carb profile as the default
-
-        // Save the updated preferences back to storage
-//            storage.save(prefs, as: OpenAPS.Settings.preferences)
-//        }
     }
 
     func setLowCarbProfileEnabled(_ isEnabled: Bool) {
@@ -158,17 +136,5 @@ final class BaseSettingsManager: SettingsManager, Injectable {
         // Save the updated preferences back to storage
         storage.save(prefs, as: OpenAPS.Settings.preferences)
         print("Low Carb Profile set to: \(isEnabled)")
-
-//        func resetCarbProfileToDefault() {
-//            var prefs = preferences // Retrieve the current preferences
-
-        // Reset to default settings
-//            prefs.highCarbezFCLProfile = false
-//            prefs.moderateCarbezFCLProfile = false
-//            prefs.lowCarbezFCLProfile = true // Set the low carb profile as the default
-
-        // Save the updated preferences back to storage
-//            storage.save(prefs, as: OpenAPS.Settings.preferences)
-//        }
     }
 }

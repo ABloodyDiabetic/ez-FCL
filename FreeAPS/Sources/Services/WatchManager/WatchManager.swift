@@ -22,6 +22,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
     @Injected() var deviceDataManager: DeviceDataManager!
     @Published var low: Decimal = 0
     @Published var presets: [TempTarget] = []
+    @Published var sleepMode: Bool = false
     @Published var lowCarbProfile: Bool = false
     @Published var mediumCarbProfile: Bool = false
     @Published var highCarbProfile: Bool = false
@@ -476,7 +477,8 @@ extension BaseWatchManager: WCSessionDelegate {
                     reason: TempTarget.cancel,
                     lowCarbProfile: true,
                     mediumCarbProfile: false,
-                    highCarbProfile: false
+                    highCarbProfile: false,
+                    sleepMode: false
                 )
                 settingsManager.setLowCarbProfileEnabled(true)
                 tempTargetsStorage.storeTempTargets([entry]) */
@@ -498,6 +500,7 @@ extension BaseWatchManager: WCSessionDelegate {
                 settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
                 settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
                 settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+                settingsManager.setSleepModeEnabled(preset.sleepMode ?? false)
 
                 coredataContext.performAndWait {
                     debug(.deviceManager, "Fetching TempTargets from Core Data")
@@ -524,6 +527,7 @@ extension BaseWatchManager: WCSessionDelegate {
                         saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
                         saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
                         saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
+                        saveToCoreData.sleepMode = preset.sleepMode ?? false
 
                         debug(.deviceManager, "Saving new temp target to Core Data: \(saveToCoreData)")
 
@@ -545,10 +549,12 @@ extension BaseWatchManager: WCSessionDelegate {
         func cancel() {
             tempTargetsStorage.storeTempTargets([TempTarget.cancel(at: Date())])
 
+            settingsManager.setSleepModeEnabled(false)
             settingsManager.setLowCarbProfileEnabled(true)
             lowCarbProfile = true
             mediumCarbProfile = false
             highCarbProfile = false
+            sleepMode = false
 
             coredataContext.performAndWait {
                 let saveToCoreData = TempTargets(context: self.coredataContext)
@@ -557,6 +563,7 @@ extension BaseWatchManager: WCSessionDelegate {
                 saveToCoreData.lowCarbProfile = lowCarbProfile
                 saveToCoreData.mediumCarbProfile = mediumCarbProfile
                 saveToCoreData.highCarbProfile = highCarbProfile
+                saveToCoreData.sleepMode = sleepMode
                 try? self.coredataContext.save()
             }
         }

@@ -27,9 +27,11 @@ extension AddTempTarget {
         @Published var tempLowCarbProfileEnabled: Bool = false
         @Published var tempMediumCarbProfileEnabled: Bool = false
         @Published var tempHighCarbProfileEnabled: Bool = false
+        @Published var tempSleepModeEnabled: Bool = false
         @Published var lowCarbProfile: Bool = false
         @Published var mediumCarbProfile: Bool = false
         @Published var highCarbProfile: Bool = false
+        @Published var sleepMode: Bool = false
 
         private(set) var units: GlucoseUnits = .mmolL
 
@@ -43,12 +45,18 @@ extension AddTempTarget {
 
         func applyCarbProfileSetting() {
             switch carbProfileSelection {
+            case "Conservative":
+                settingsManager.setLowCarbProfileEnabled(true)
+                settingsManager.setSleepModeEnabled(true)
             case "Low":
                 settingsManager.setLowCarbProfileEnabled(true)
+                settingsManager.setSleepModeEnabled(false)
             case "Medium":
                 settingsManager.setMediumCarbProfileEnabled(true)
+                settingsManager.setSleepModeEnabled(false)
             case "High":
                 settingsManager.setHighCarbProfileEnabled(true)
+                settingsManager.setSleepModeEnabled(false)
             default:
                 break
             }
@@ -58,23 +66,37 @@ extension AddTempTarget {
             guard duration > 0 else {
                 return
             }
-            if carbProfileSelection == "Low" {
+            if carbProfileSelection == "Conservative" {
+                settingsManager.setSleepModeEnabled(true)
                 settingsManager.setLowCarbProfileEnabled(true)
                 lowCarbProfile = true
                 mediumCarbProfile = false
                 highCarbProfile = false
+                sleepMode = true
+            }
+            if carbProfileSelection == "Low" {
+                settingsManager.setSleepModeEnabled(false)
+                settingsManager.setLowCarbProfileEnabled(true)
+                lowCarbProfile = true
+                mediumCarbProfile = false
+                highCarbProfile = false
+                sleepMode = false
             }
             if carbProfileSelection == "Medium" {
+                settingsManager.setSleepModeEnabled(false)
                 settingsManager.setMediumCarbProfileEnabled(true)
                 lowCarbProfile = false
                 mediumCarbProfile = true
                 highCarbProfile = false
+                sleepMode = false
             }
             if carbProfileSelection == "High" {
+                settingsManager.setSleepModeEnabled(false)
                 settingsManager.setHighCarbProfileEnabled(true)
                 lowCarbProfile = false
                 mediumCarbProfile = false
                 highCarbProfile = true
+                sleepMode = false
             }
 
             var lowTarget = low
@@ -107,6 +129,7 @@ extension AddTempTarget {
                     saveToCoreData.lowCarbProfile = lowCarbProfile
                     saveToCoreData.mediumCarbProfile = mediumCarbProfile
                     saveToCoreData.highCarbProfile = highCarbProfile
+                    saveToCoreData.sleepMode = sleepMode
                     try? coredataContext.save()
                 }
             }
@@ -121,7 +144,8 @@ extension AddTempTarget {
                 reason: TempTarget.custom,
                 lowCarbProfile: lowCarbProfile,
                 mediumCarbProfile: mediumCarbProfile,
-                highCarbProfile: highCarbProfile
+                highCarbProfile: highCarbProfile,
+                sleepMode: sleepMode
             )
             storage.storeTempTargets([entry])
             showModal(for: nil)
@@ -131,10 +155,12 @@ extension AddTempTarget {
             storage.storeTempTargets([TempTarget.cancel(at: Date())])
             showModal(for: nil)
 
+            settingsManager.setSleepModeEnabled(false)
             settingsManager.setLowCarbProfileEnabled(true)
             lowCarbProfile = true
             mediumCarbProfile = false
             highCarbProfile = false
+            sleepMode = false
 
             coredataContext.performAndWait {
                 let saveToCoreData = TempTargets(context: self.coredataContext)
@@ -143,6 +169,7 @@ extension AddTempTarget {
                 saveToCoreData.lowCarbProfile = lowCarbProfile
                 saveToCoreData.mediumCarbProfile = mediumCarbProfile
                 saveToCoreData.highCarbProfile = highCarbProfile
+                saveToCoreData.sleepMode = sleepMode
                 try? self.coredataContext.save()
 
 //                let setHBT = TempTargetsSlider(context: self.coredataContext)
@@ -162,20 +189,29 @@ extension AddTempTarget {
             }
             let highTarget = lowTarget
 
+            if carbProfileSelection == "Conservative" {
+                lowCarbProfile = true
+                mediumCarbProfile = false
+                highCarbProfile = false
+                sleepMode = true
+            }
             if carbProfileSelection == "Low" {
                 lowCarbProfile = true
                 mediumCarbProfile = false
                 highCarbProfile = false
+                sleepMode = false
             }
             if carbProfileSelection == "Medium" {
                 lowCarbProfile = false
                 mediumCarbProfile = true
                 highCarbProfile = false
+                sleepMode = false
             }
             if carbProfileSelection == "High" {
                 lowCarbProfile = false
                 mediumCarbProfile = false
                 highCarbProfile = true
+                sleepMode = false
             }
 
 //            if viewPercantage {
@@ -193,7 +229,8 @@ extension AddTempTarget {
                 reason: newPresetName.isEmpty ? TempTarget.custom : newPresetName,
                 lowCarbProfile: lowCarbProfile,
                 mediumCarbProfile: mediumCarbProfile,
-                highCarbProfile: highCarbProfile
+                highCarbProfile: highCarbProfile,
+                sleepMode: sleepMode
             )
             presets.append(entry)
             storage.storePresets(presets)
@@ -225,6 +262,7 @@ extension AddTempTarget {
                     saveToCoreData.lowCarbProfile = lowCarbProfile
                     saveToCoreData.mediumCarbProfile = mediumCarbProfile
                     saveToCoreData.highCarbProfile = highCarbProfile
+                    saveToCoreData.sleepMode = sleepMode
                     try? coredataContext.save()
                 }
             }
@@ -239,6 +277,7 @@ extension AddTempTarget {
                 settingsManager.setLowCarbProfileEnabled(preset.lowCarbProfile ?? true)
                 settingsManager.setMediumCarbProfileEnabled(preset.mediumCarbProfile ?? false)
                 settingsManager.setHighCarbProfileEnabled(preset.highCarbProfile ?? false)
+                settingsManager.setSleepModeEnabled(preset.sleepMode ?? false)
 
                 coredataContext.performAndWait {
                     var tempTargetsArray = [TempTargets]()
@@ -261,6 +300,7 @@ extension AddTempTarget {
                         saveToCoreData.lowCarbProfile = preset.lowCarbProfile ?? true
                         saveToCoreData.mediumCarbProfile = preset.mediumCarbProfile ?? false
                         saveToCoreData.highCarbProfile = preset.highCarbProfile ?? false
+                        saveToCoreData.sleepMode = preset.sleepMode ?? false
 
                         try? self.coredataContext.save()
                     }

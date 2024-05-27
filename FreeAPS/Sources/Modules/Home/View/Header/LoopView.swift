@@ -7,8 +7,6 @@ struct LoopView: View {
         static let lag: TimeInterval = 30
     }
 
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var suggestion: Suggestion?
     @Binding var enactedSuggestion: Suggestion?
     @Binding var closedLoop: Bool
@@ -23,24 +21,24 @@ struct LoopView: View {
         formatter.timeStyle = .short
         return formatter
     }
-    
-    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27) // Adjust rect size to ensure it accommodates the scaling
+
+    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27)
+
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
                 if isLooping {
-                    PulsatingCircleView(color: color)
-                        .frame(width: rect.width, height: rect.height, alignment: .center)
-                   /* ProgressView() */
+                    CircleProgress()
                 } else {
                     Circle()
-                        .strokeBorder(color, lineWidth: 4.5)
+                        .strokeBorder(color, lineWidth: 5)
                         .frame(width: rect.width, height: rect.height, alignment: .center)
+                        .scaleEffect(1)
                         .mask(mask(in: rect).fill(style: FillStyle(eoFill: true)))
                 }
             }
             if isLooping {
-               /* Text("looping").font(.caption2) */
+                /* Text("looping").font(.caption2) */
                 Text(timeString).font(.caption2)
                     .foregroundColor(.secondary)
             } else if manualTempBasal {
@@ -100,46 +98,55 @@ struct LoopView: View {
     }
 }
 
-struct PulsatingCircleView: View {
-    var color: Color
-    var size: CGFloat = 27.0
-    @State private var animate = false
+struct CircleProgress: View {
+    @State private var rotationAngle = 0.0
+    @State private var pulse = false
+
+    private let rect = CGRect(x: 0, y: 0, width: 27, height: 27)
+    private var backgroundGradient: AngularGradient {
+        AngularGradient(
+            gradient: Gradient(colors: [
+                Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902),
+                Color(red: 0.3411764706, green: 0.6666666667, blue: 0.9254901961),
+                Color(red: 0.4862745098, green: 0.5450980392, blue: 0.9529411765),
+                Color(red: 0.6235294118, green: 0.4235294118, blue: 0.9803921569),
+                Color(red: 0.7215686275, green: 0.3411764706, blue: 1),
+                Color(red: 0.6235294118, green: 0.4235294118, blue: 0.9803921569),
+                Color(red: 0.4862745098, green: 0.5450980392, blue: 0.9529411765),
+                Color(red: 0.3411764706, green: 0.6666666667, blue: 0.9254901961),
+                Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902)
+            ]),
+            center: .center,
+            startAngle: .degrees(rotationAngle),
+            endAngle: .degrees(rotationAngle + 360)
+        )
+    }
+
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(color)
-                .frame(width: size, height: size)
-                .scaleEffect(animate ? 0.5 : 1.0)
+                .trim(from: 0, to: 1)
+                .stroke(backgroundGradient, style: StrokeStyle(lineWidth: pulse ? 10 : 5))
+                .scaleEffect(pulse ? 0.7 : 1)
                 .animation(
-                    Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                    value: animate
+                    Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true),
+                    value: pulse
                 )
-                .mask(
-                    ZStack {
-                        Circle()
-                            .frame(width: size, height: size)
-                        Circle()
-                            .frame(width: size - 9, height: size - 9) // Adjust size to create cutaway effect
-                            .scaleEffect(animate ? 0.0 : 1.0)
-                            .animation(
-                                Animation.easeInOut(duration: 1).repeatForever(autoreverses: true),
-                                value: animate
-                            )
-                            .blendMode(.destinationOut) // This will cut out the shape from the layer below
-                    }
-                    .mask(mask(in: CGRect(x: 0, y: 0, width: size, height: size)).fill(style: FillStyle(eoFill: true)))
-                )
+                .onReceive(timer) { _ in
+                    rotationAngle = (rotationAngle + 24).truncatingRemainder(dividingBy: 360)
+                }
+                .onAppear {
+                    self.pulse = true
+                }
         }
-        .compositingGroup() // Ensure proper rendering of the blend mode
-        .onAppear {
-            self.animate = true
-        }
+        .frame(width: rect.width, height: rect.height, alignment: .center)
     }
+}
 
-    func mask(in rect: CGRect) -> Path {
-        var path = Rectangle().path(in: rect)
-        path.addPath(Rectangle().path(in: CGRect(x: rect.minX, y: rect.midY - 5, width: rect.width, height: 10)))
-        return path
+struct CircleProgress_Previews: PreviewProvider {
+    static var previews: some View {
+        CircleProgress()
     }
 }

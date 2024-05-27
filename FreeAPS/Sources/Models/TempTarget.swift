@@ -12,6 +12,7 @@ struct TempTarget: JSON, Identifiable, Equatable, Hashable {
     let lowCarbProfile: Bool?
     let mediumCarbProfile: Bool?
     let highCarbProfile: Bool?
+    let sleepMode: Bool?
 
     static let manual = "ezFCL"
     static let custom = "Temp Profile"
@@ -40,7 +41,8 @@ struct TempTarget: JSON, Identifiable, Equatable, Hashable {
             reason: TempTarget.cancel,
             lowCarbProfile: true,
             mediumCarbProfile: false,
-            highCarbProfile: false
+            highCarbProfile: false,
+            sleepMode: false
         )
     }
 }
@@ -58,5 +60,6 @@ extension TempTarget {
         case lowCarbProfile
         case mediumCarbProfile
         case highCarbProfile
+        case sleepMode
     }
 }
