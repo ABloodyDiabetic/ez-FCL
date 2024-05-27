@@ -190,6 +190,7 @@ extension AddTempTarget {
                 VStack {
                     Text("Carb Profile")
                     Picker("", selection: $state.carbProfileSelection) {
+                        Text("Conservative").tag("Conservative")
                         Text("Low").tag("Low")
                         Text("Medium").tag("Medium")
                         Text("High").tag("High")
