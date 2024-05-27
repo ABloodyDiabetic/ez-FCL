@@ -13,13 +13,13 @@ struct CurrentGlucoseView: View {
         Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902),
         Color(red: 0.7215686275, green: 0.3411764706, blue: 1)
     ], center: .center, startAngle: .degrees(270), endAngle: .degrees(-90))
-
+    
     @Environment(\.colorScheme) var colorScheme
-
+    
     private enum Config {
         static let lag: TimeInterval = 30
     }
-
+    
     private var timeString: String {
         let minAgo = Int((Date().timeIntervalSince(state.lastLoopDate ?? .distantPast) - Config.lag) / 60) + 1
         if minAgo > 1440 {
@@ -27,7 +27,7 @@ struct CurrentGlucoseView: View {
         }
         return "\(minAgo) " + NSLocalizedString("min", comment: "Minutes ago since last loop")
     }
-
+    
     var loopTime: some View {
         VStack {
             if state.lastLoopDate != nil {
@@ -52,14 +52,14 @@ struct CurrentGlucoseView: View {
             }
         }
     }
-
+    
     var body: some View {
         let triangleColor = Color(red: 0.262745098, green: 0.7333333333, blue: 0.9137254902)
-
+        
         ZStack {
             TrendShape(gradient: angularGradient, color: triangleColor)
                 .rotationEffect(.degrees(rotationDegrees))
-
+            
             VStack(alignment: .center) {
                 let minutesAgo: TimeInterval = -1 * (state.glucoseDate ?? .distantPast).timeIntervalSinceNow / 60
                 let minuteString = minutesAgo > 99 ? "--" : minutesAgo
@@ -81,7 +81,7 @@ struct CurrentGlucoseView: View {
                             .scaleEffect(1)
                             .offset(x: 0, y: -2.5)
                         Text(state.delta)
-                       /* Text(state.trend) */
+                        /* Text(state.trend) */
                             .scaleEffect(1)
                             .offset(x: 0, y: -2.5)
                     }
@@ -100,10 +100,12 @@ struct CurrentGlucoseView: View {
             }
         }
     }
-
-    private func updateRotationBasedOnTrend(_ trendRaw: String?) {
+    
+    private func updateRotationBasedOnTrend(_ trend: String?) {
         let oldDegrees = rotationDegrees
-        switch trendRaw {
+        var isTrendRecognized = true
+        
+        switch state.trend {
         case "↑↑↑":
             rotationDegrees = -90
         case "↑↑":
@@ -123,9 +125,26 @@ struct CurrentGlucoseView: View {
         case "↓↓↓":
             rotationDegrees = 90
         default:
-            rotationDegrees = -180
+            isTrendRecognized = false
         }
-        print("Updated rotation from \(oldDegrees) to \(rotationDegrees) for trend \(trendRaw ?? "unknown")")
+        
+        // If the trend is unrecognized, set the rotationDegrees based on state.delta
+        if !isTrendRecognized {
+            if let deltaValue = Double(state.delta) {
+                if deltaValue > 0 {
+                    rotationDegrees = -45
+                } else if deltaValue < 0 {
+                    rotationDegrees = 45
+                } else {
+                    rotationDegrees = 0
+                }
+            } else {
+                // Handle the case where state.delta is not a valid number
+                rotationDegrees = 0
+            }
+        }
+        
+        print("Updated rotation from \(oldDegrees) to \(rotationDegrees) for trend \(trend ?? "unknown")")
     }
 }
 
