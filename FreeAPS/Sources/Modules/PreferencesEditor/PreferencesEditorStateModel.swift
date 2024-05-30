@@ -621,10 +621,10 @@ extension PreferencesEditor {
 //                    displayName: NSLocalizedString("", comment: ""),
 //                    fields: firstSMBToggle
 //                ),
-//                FieldSection(
-//                    displayName: NSLocalizedString("Glucose Related Settings", comment: "Glucose Related Settings"),
-//                    fields: glucoseFields
-//                ),
+                FieldSection(
+                    displayName: NSLocalizedString("Glucose Related Settings", comment: "Glucose Related Settings"),
+                    fields: glucoseFields
+                ),
                 FieldSection(
                     displayName: NSLocalizedString("Quick Preferences", comment: "Quick Preferences"),
                     fields: quickPrefs
